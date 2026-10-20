@@ -1,4 +1,4 @@
-// ae_sharp_preflight.jsx — защита от «мыла» (SABRMOTION, 2026-10-19)
+﻿// ae_sharp_preflight.jsx — защита от «мыла» (SABRMOTION, 2026-10-19)
 // Запуск: AfterFX.exe -r "...\vault\_tools\ae_sharp_preflight.jsx" (через ae\run.ps1) ПЕРЕД стиль-фреймами и ПЕРЕД рендером.
 // Что делает: (1) чинит безопасное автоматически (разрешение Full, качество слоёв Best, бикубика);
 // (2) находит причины мыла и пишет отчёт ae\logs\sharp_preflight.txt. Если есть FAIL — фреймы/рендер не показывать.
@@ -44,7 +44,7 @@
             var L = comp.layer(li);
             if (!(L instanceof AVLayer || L instanceof TextLayer || L instanceof ShapeLayer)) continue;
             if (!L.enabled) continue;
-            try { if (L.quality != LayerQuality.BEST) { L.quality = LayerQuality.BEST; log("FIX ", comp.name + " › " + L.name + ": качество слоя → Best"); } } catch (e) {}
+            try { if (L.quality != LayerQuality.BEST) { L.quality = LayerQuality.BEST; log("FIX ", comp.name + " > " + L.name + ": качество слоя → Best"); } } catch (e) {}
             try { if (L.samplingQuality != LayerSamplingQuality.BICUBIC) { L.samplingQuality = LayerSamplingQuality.BICUBIC; } } catch (e) {}
 
             var raster = isRaster(L);
@@ -59,13 +59,13 @@
                 if (BLUR_MATCH[e.matchName]) blurs.push(e);
                 if (NOISE_MATCH[e.matchName]) noisy = true;
             }
-            if (noisy || /зерно|grain|noise|шум|фактур|texture/i.test(L.name)) {
-                // 2026-10-19 22:37: пользователь видит зерно/шум как «мыло», даже на фоне — по умолчанию запрещено везде
+            if (noisy || /зерн|grain|noise|шум|фактур|texture/i.test(L.name)) {
+                // 2026-10-19 22:37: любое видимое зерно/шум = мыло, даже под контентом
                 var op = val(tr(L, "ADBE Opacity"), t0);
-                if (op === null || op > 0) log("FAIL", comp.name + " › " + L.name + ": зерно/шум в кадре (opacity " + op + "%) — фон должен быть чистым; оставить только если фактура прямо есть в брифе");
+                if (op === null || op > 0) log("FAIL", comp.name + " > " + L.name + ": зерно/шум в кадре — фон должен быть чистым; оставить только если фактура прямо есть в брифе");
             }
             if (L instanceof TextLayer) for (var b = 0; b < blurs.length; b++) if (blurs[b].matchName == "ADBE Glo2")
-                log("WARN", comp.name + " › " + L.name + ": Glow на тексте — допустим только на входе, в покое выключить");
+                log("WARN", comp.name + " > " + L.name + ": Glow на тексте — допустим только на входе, в покое выключить");
 
             for (var t = t0; t < t1; t += fd * STEP) {
                 var cur = [];
@@ -75,7 +75,7 @@
                 prev = cur;
                 var sc = cur[1] || [100, 100];
                 if (raster && !upscaleReported && (Math.abs(sc[0]) > 100.5 || Math.abs(sc[1]) > 100.5) && !(L.source instanceof CompItem)) {
-                    log("FAIL", comp.name + " › " + L.name + ": растр увеличен до " + sc[0].toFixed(1) + "% в " + tc(comp, t) + " — заменить исходник большего размера"); upscaleReported = true;
+                    log("FAIL", comp.name + " > " + L.name + ": растр увеличен до " + sc[0].toFixed(1) + "% в " + tc(comp, t) + " — заменить исходник большего размера"); upscaleReported = true;
                 }
                 if (!rest) continue;
                 // в покое: размытие должно быть ровно 0
@@ -83,15 +83,20 @@
                     var p1 = blurs[bb].property(1); var bv = val(p1, t);
                     var amount = (typeof bv == "number") ? bv : 0;
                     if (blurs[bb].matchName == "ADBE Glo2") continue;
-                    if (amount > 0.01) { log("FAIL", comp.name + " › " + L.name + ": «" + blurs[bb].name + "» = " + amount.toFixed(2) + " на неподвижном слое в " + tc(comp, t) + " — вход должен заканчиваться ровно на 0"); restBlurReported = true; }
+                    // 2026-10-20: blur that is still animating (defocus transition / entry) is motion, not rest
+                    var bPrev = val(p1, t - fd * STEP);
+                    if (typeof bPrev == "number" && Math.abs(bPrev - amount) > 0.01) continue;
+                    // 2026-10-20: a designed defocused background (own frame extending the letterbox, name starts «ФОН-РАСШИРЕНИЕ») is not content → WARN, not FAIL
+                    if (amount > 0.01 && /^ФОН-РАСШИРЕНИЕ/.test(L.name)) { log("WARN", comp.name + " > " + L.name + ": намеренно размытый фон-продолжение (не контент), blur " + amount.toFixed(0)); restBlurReported = true; continue; }
+                    if (amount > 0.01) { log("FAIL", comp.name + " > " + L.name + ": «" + blurs[bb].name + "» = " + amount.toFixed(2) + " на неподвижном слое в " + tc(comp, t) + " — вход должен заканчиваться ровно на 0"); restBlurReported = true; }
                 }
                 // в покое: растр/прекомп только на ровном масштабе и целых пикселях
                 if (raster && !restScaleReported && (Math.abs(sc[0] - Math.round(sc[0])) > 0.01 || (Math.abs(sc[0] - 100) > 0.01 && L.source instanceof CompItem))) {
-                    log("FAIL", comp.name + " › " + L.name + ": в покое масштаб " + sc[0].toFixed(3) + "% (не ровно) в " + tc(comp, t) + " — bounce/expression не дотягивает до значения → пересэмплинг"); restScaleReported = true;
+                    log("FAIL", comp.name + " > " + L.name + ": в покое масштаб " + sc[0].toFixed(3) + "% (не ровно) в " + tc(comp, t) + " — bounce/expression не дотягивает до значения → пересэмплинг"); restScaleReported = true;
                 }
                 var pos = cur[0];
                 if (raster && !restPosReported && pos && (Math.abs(pos[0] - Math.round(pos[0])) > 0.01 || Math.abs(pos[1] - Math.round(pos[1])) > 0.01) && Math.abs(sc[0] - 100) < 0.01) {
-                    log("WARN", comp.name + " › " + L.name + ": в покое позиция не на целом пикселе (" + pos[0].toFixed(2) + ", " + pos[1].toFixed(2) + ") — округлить"); restPosReported = true;
+                    log("WARN", comp.name + " > " + L.name + ": в покое позиция не на целом пикселе (" + pos[0].toFixed(2) + ", " + pos[1].toFixed(2) + ") — округлить"); restPosReported = true;
                 }
             }
         }

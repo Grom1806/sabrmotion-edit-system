@@ -1,1 +1,6 @@
-{ "newFileLocation": "folder", "newFileFolderPath": "04-lessons/reels", "attachmentFolderPath": "_attachments", "useMarkdownLinks": false }
+{
+  "newFileLocation": "folder",
+  "newFileFolderPath": "04-lessons/reels",
+  "attachmentFolderPath": "_attachments",
+  "useMarkdownLinks": false
+}
