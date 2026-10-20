@@ -30,21 +30,29 @@ source: пользователь 2026-10-19 («сделай красивую н�
 | script | ready, theses, frommedia, write |
 | brand | sabrmotion, perset, ummah, none |
 | direction | D0–D6, до 2 |
+| blogstyle | A журнальный, B неоновый капс, C диорамы, D кино-слово; до 2; для говорящей головы ([[ref-blog-beforeafter-2026-10-20]]) |
+| textlevels | u1–u5 = уровни У1–У5 из [[talking-head-pro-guide]] (2–3 на ролик, ротация) |
+| recipes | R1,R3–R11,R13,R14 из [[ref-blog-beforeafter-2026-10-20]]; Y1–Y5,Y7–Y10 и ST (стаккато) из [[ref-blog-shot-by-shot-2026-10-20]] |
+| broll | reshoot, photos, stock, 3d, ai — источники перебивок; перед монтажом шот-лист «слово → кадр → источник» |
+| fonts | fA Segoe+Georgia Italic, fB Montserrat ExtraBold+Georgia Italic, fC Segoe, brand |
 | tier | min, std, power, ultra |
 | live | cuts, framings, jl, broll, behind, pointing, split, rehook ([[live-editing-v3]]); для talking/beforeafter или source=talking |
 | entrances | expand, grow, blurrise, bounce, stagger, chars, bento, mask, corner, counter, draw, rig ([[motion-v3]], [[animation-techniques-2026-10-19]]) |
 | transitions | morph, cut, square, grid, wipe, match, mix |
-| captions | phrases, kinetic, word, accents, none |
+| captions | phrases, wordswitch (по слову, шрифт меняется каждые 0.25–0.4 с), hero (слово-герой на груди), neon2 (две строки, вторая светится), kinetic, word, accents, none |
 | infographics | max, mid, low |
-| sound | sfx_many, sfx_few, nasheed (тихий нашид на фоне; старое значение ambience читать как nasheed), silence, voice_own, voice_clone |
+| sound | sfx_many, sfx_few, sfx_human (жесты/смена плана/наезд), sfx_material (бумага/стекло/стол), nasheed (тихий нашид на фоне; старое значение ambience читать как nasheed), silence, voice_own, voice_clone |
 | color | main, B1, B2, B3, B10, B11, light ([[color-palettes-research]]) |
 | grade | L1, L2, L3, L4, L9 (для живой съёмки: type talking/beforeafter/demo или source с видео) |
 | face | 100, 70, 40, 0 |
 | format | v, h, s, p |
 | length | 15, 30, 60, 90 |
+| finale | loop (затемнение + знак бренда, последнее слово тает), textlogo, loopstart |
 | proof | frames, animatic, direct |
 
-На пульте закреплены постоянные правила: без музыки, без звуков природы, оригинальный фон, всё появляется с анимацией, никого не критикуем; камера разрешена плавно ([[camera-allowed]]).
+На пульте закреплены постоянные правила: без музыки, без звуков природы, оригинальный фон, всё появляется с анимацией, никого не критикуем; камера разрешена плавно ([[camera-allowed]]); лицо по центру кадра, грейд не темнит исходник, картинка под слово, а не под тему (уроки теста блога 2026-10-20, [[talking-head-anti-ai]]).
+
+Пресет «Блог как у профи» (2026-10-20): стиль A, У1–У3, R3/R4/R5/Y1/Y7, досъёмка + 3D, субтитры wordswitch, SFX человека и материала, шрифты fA, финал-луп.
 
 ## Исходное видео (с 2026-10-20)
 Пользователь: «при каждом новом монтаже нужно сделать пульт с выбором стилей, есть ли исходное видео и другое». Вопрос `source` задаётся для **каждого** ролика сразу после типа. Если на пульте его нет, это первая карточка `ask_decision`.

@@ -1,0 +1,426 @@
+<title>Пульт идей Умма Линк</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Pacifico&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: одна колонка-«свиток»; сверху числа Корана как приборная строка, ниже карточки фактов, затем вопросы стиля и бар сохранения */
+/* Layout: свиток-пульт; сверху «закладка» бренда, затем лента карточек идей, вопросы монтажа и бар сохранения */
+:root{
+  --bg:#FDF7E8;--panel:#FFFFFF;--ink:#173F29;--muted:#5E6F62;--line:#DFE8DC;
+  --accent:#2F6B3A;--accent-ink:#FFFFFF;--soft:#E8F1E6;--gold:#8D7427;--chip:#F2ECDE;--warn:#A33A2B;--warn-soft:#F8E6E2;
+  --shadow:0 1px 2px rgba(28,76,43,.06),0 10px 28px rgba(28,76,43,.08);
+  --f-display:"Montserrat",system-ui,sans-serif;
+  --f-body:"Montserrat",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-ar:"Amiri","Noto Naskh Arabic","Geeza Pro",serif;
+  --f-num:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1A13;--panel:#14241A;--ink:#EEF3EC;--muted:#9AAE9F;--line:#24392B;
+  --accent:#6BAF76;--accent-ink:#0B1A10;--soft:#173322;--gold:#E2C45F;--chip:#1A2C20;--warn:#FF8A75;--warn-soft:#3A1C17;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A13;--panel:#14241A;--ink:#EEF3EC;--muted:#9AAE9F;--line:#24392B;
+  --accent:#6BAF76;--accent-ink:#0B1A10;--soft:#173322;--gold:#E2C45F;--chip:#1A2C20;--warn:#FF8A75;--warn-soft:#3A1C17;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding-block:36px 190px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wm{font:400 clamp(28px,5vw,40px)/1.2 "Pacifico",cursive;color:var(--accent);margin:0 0 6px}
+.basm{font:700 clamp(26px,5vw,40px)/1.6 var(--f-ar);color:var(--gold);direction:rtl;text-align:right;margin:0 0 4px}
+h1{font:700 clamp(30px,6vw,54px)/1.05 var(--f-display);letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.lead{color:var(--muted);margin:0;max-width:640px;font-size:17px}
+.meter{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:26px 0 8px}
+.meter div{background:var(--panel);padding:14px 16px}
+.meter b{display:block;font:500 clamp(24px,4vw,32px)/1.1 var(--f-num);font-variant-numeric:tabular-nums;color:var(--ink)}
+.meter span{font-size:12.5px;color:var(--muted)}
+.src{font-size:12.5px;color:var(--muted);margin:6px 2px 0}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.rule{font-size:13px;padding:6px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.rule b{color:var(--ink);font-weight:600}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 4px;align-items:center}
+.btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;padding:9px 14px;font:inherit;font-weight:500;cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),border-color .2s}
+.btn:hover{border-color:var(--muted)}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible,.opt:focus-visible,.fact:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent}
+.part{font:600 12px/1 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:40px 4px 4px}
+.q{background:var(--panel);border-radius:22px;padding:22px 22px 18px;margin:14px 0;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes rise{from{opacity:.001;transform:translateY(12px)}to{opacity:1;transform:none}}
+.q-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.q-num{font:500 13px var(--f-num);color:var(--accent)}
+.q h2{font:650 20px/1.25 var(--f-body);letter-spacing:-.01em;margin:0}
+.q-mode{font-size:12px;color:var(--muted);margin-left:auto}
+.q-hint{color:var(--muted);font-size:14px;margin:6px 0 14px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.opt{position:relative;text-align:left;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:16px;padding:12px 14px;cursor:pointer;font:inherit;transition:border-color .25s,background .25s,transform .25s cubic-bezier(.34,1.56,.64,1)}
+.opt:hover{border-color:var(--muted)}
+.opt:active{transform:scale(.97)}
+.opt .t{font-weight:600;display:block;padding-right:22px}
+.opt .d{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.rec{display:inline-block;font-size:11px;font-weight:600;color:var(--accent);margin-top:6px}
+.mark{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.opt[aria-pressed="true"],.fact[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
+.opt[aria-pressed="true"] .mark,.fact[aria-pressed="true"] .mark{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--soft)}
+.opt.auto{border-style:dashed}
+/* карточки фактов */
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.fact{position:relative;text-align:left;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:18px;padding:16px 16px 14px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:6px;min-width:0;transition:border-color .25s,background .25s,transform .25s cubic-bezier(.34,1.56,.64,1)}
+.fact:hover{border-color:var(--muted)}
+.fact:active{transform:scale(.98)}
+.fact .big{font:700 clamp(30px,5vw,40px)/1 var(--f-display);letter-spacing:-.02em;color:var(--accent);padding-right:26px}
+.fact .name{font-weight:650;font-size:16px}
+.fact .ar{font:400 22px/1.7 var(--f-ar);direction:rtl;text-align:right;color:var(--gold)}
+.fact .body{color:var(--muted);font-size:13.5px}
+.fact .how{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:2px}
+.fact .how b{color:var(--ink);font-weight:600}
+.tag{align-self:flex-start;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;background:var(--soft);color:var(--accent)}
+.tag.care{background:var(--warn-soft);color:var(--warn)}
+details.no{margin-top:14px;border:1.5px dashed var(--line);border-radius:16px;padding:12px 14px}
+details.no summary{cursor:pointer;font-weight:600}
+details.no ul{margin:10px 0 2px;padding-left:18px;color:var(--muted);font-size:14px}
+details.no li{margin:6px 0}
+details.no li b{color:var(--warn)}
+textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:14px;background:transparent;color:var(--ink);font:inherit;padding:12px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:saturate(1.5) blur(18px);-webkit-backdrop-filter:saturate(1.5) blur(18px);border-top:1px solid var(--line);z-index:5}
+.bar-in{max-width:980px;margin:0 auto;padding-block:12px calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.progress{flex:1 1 220px;min-width:0}
+.progress .lbl{font-size:13px;color:var(--muted)}
+.track{height:6px;border-radius:6px;background:var(--chip);overflow:hidden;margin-top:6px}
+.fill{height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.status{font-size:13px;color:var(--muted);width:100%}
+.status.ok{color:var(--accent)}
+.summary{white-space:pre-wrap;font:13px/1.55 var(--f-num);background:var(--chip);border-radius:14px;padding:14px;margin-top:10px;overflow-wrap:anywhere}
+.history h3{font-size:17px;margin:30px 0 10px}
+.hist{background:var(--panel);border-radius:16px;padding:12px 14px;margin:8px 0;box-shadow:var(--shadow);font-size:14px;cursor:pointer}
+.hist .when{color:var(--muted);font-size:12px}
+@media (max-width:520px){.opts{grid-template-columns:1fr 1fr}.opt{padding:10px 12px}.opt .d{font-size:12px}.q{padding:18px 14px 14px;border-radius:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.kind{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.fact .big{font-weight:700;letter-spacing:-.04em}
+.field{width:100%;border:1.5px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);font:inherit;padding:10px 12px;margin-top:12px}
+.field:focus{outline:none;border-color:var(--accent)}
+.used{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.used span{font-size:12.5px;padding:4px 9px;border-radius:999px;border:1px dashed var(--line);color:var(--muted)}
+
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="basm" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+    <p class="wm">Ummah Link</p>
+    <h1>Идеи для канала</h1>
+    <p class="lead">Пульт следующего рилса для Instagram Умма Линк. Ролик про само знание: хадис, аят, практику, историю. Сайт упоминаем только в финале. Выбери до трёх идей, потом стиль монтажа. Где не хочешь решать, жми «Реши сам». В конце «Сохранить для Claude».</p>
+    <div class="rules">
+      <span class="rule"><b>Всегда:</b> без музыки, фон только тихий нашид или тишина</span>
+      <span class="rule"><b>Всегда:</b> источник хадиса или аята на экране</span>
+      <span class="rule"><b>Всегда:</b> под чтением Корана тишина</span>
+      <span class="rule"><b>Всегда:</b> без изображений людей и животных</span>
+      <span class="rule"><b>Всегда:</b> никого не критикуем</span>
+      <span class="rule"><b>Всегда:</b> резко, без зерна, мелкий текст без блюра</span>
+      <span class="rule"><b>Можно:</b> плавная камера и ракурсы</span>
+    </div>
+    <div class="presets" id="presets"></div>
+  </header>
+
+  <div class="part">Часть 1 · Идея</div>
+  <section class="q">
+    <div class="q-head"><span class="q-num">01</span><h2>О чём ролик</h2><span class="q-mode">до 3 карточек</span></div>
+    <p class="q-hint">Одна карточка = ролик глубоко про одно. Две-три = серия или подборка. Источники я проверял по сборникам; карточки «осторожно» требуют аккуратной подачи.</p>
+    <div class="facts" id="facts"></div>
+    <details class="no">
+      <summary>Что уже было на канале и пока не повторяем</summary>
+      <div class="used">
+        <span>114 сур и 6236 аятов</span><span>«115 = 115» дунья и ахира</span><span>«День 90» и 557 коммитов</span><span>Ибн Баттута</span><span>Аят аль-Курси (остановлен, вернёмся после изучения)</span>
+      </div>
+      <ul>
+        <li><b>Не берём:</b> «научные чудеса» на подогнанных подсчётах и хадисы со спорной оценкой без пометки.</li>
+      </ul>
+    </details>
+  </section>
+
+  <main id="qs"></main>
+
+  <section class="q">
+    <div class="q-head"><span class="q-num">Своими словами</span><h2>Что ещё важно?</h2></div>
+    <p class="q-hint">Своя тема, свой хук, к какому дню приурочить, что точно должно быть.</p>
+    <textarea id="note" placeholder="Например: сделай серию из трёх роликов, первый к пятнице"></textarea>
+  </section>
+  <section class="q">
+    <div class="q-head"><span class="q-num">Итог</span><h2>Бриф текстом</h2></div>
+    <p class="q-hint">Это получит Claude. Можно скопировать и вставить в чат.</p>
+    <div class="summary" id="summary"></div>
+  </section>
+  <section class="history"><h3>Сохранённые брифы</h3><div id="history"><p class="q-hint">Пока пусто. Нажми «Сохранить для Claude», и бриф появится здесь.</p></div></section>
+</div>
+
+<div class="bar"><div class="bar-in">
+  <div class="progress"><div class="lbl" id="plbl">Выбрано 0</div><div class="track"><div class="fill" id="pfill"></div></div></div>
+  <button class="btn ghost" id="copyBtn" type="button">Скопировать</button>
+  <button class="btn ghost" id="resetBtn" type="button">Сброс</button>
+  <button class="btn primary" id="saveBtn" type="button">Сохранить для Claude</button>
+  <div class="status" id="status" role="status"></div>
+</div></div>
+
+<script>
+const AUTO="__auto";
+const FACTS=[
+ {id:"bukhari",kind:"Хадис",big:"1 → 7563",name:"Первый и последний хадис аль-Бухари",ar:"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+  body:"Сахих открывается хадисом «Дела оцениваются только по намерениям», а закрывается хадисом о двух словах, лёгких на языке и тяжёлых на весах. Книга начинается с намерения и заканчивается весами.",
+  how:"<b>Источник:</b> аль-Бухари 1 и 7563, Муслим 1907 и 2694",tag:"проверено"},
+ {id:"five",kind:"Хадис",big:"5 до 5",name:"Воспользуйся пятью до пяти",ar:"اغْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ",
+  body:"Молодостью до старости, здоровьем до болезни, богатством до бедности, досугом до занятости, жизнью до смерти. Пять пар легко превратить в пять предметов, которые меняются на глазах.",
+  how:"<b>Источник:</b> аль-Хаким, аль-Мустадрак 7846; аль-Альбани: достоверный (Сахих аль-Джами 1077)",tag:"проверено"},
+ {id:"sleep",kind:"Тело и сунна",big:"→ правый бок",name:"Сунна перед сном",ar:"اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ",
+  body:"Пророк ﷺ учил: соверши омовение, ляг на правый бок и скажи дуа «О Аллах, я предал себя Тебе…». Ролик-инструкция на вечер: три шага, которые успеваешь повторить.",
+  how:"<b>Источник:</b> аль-Бухари 247, Муслим 2710 (хадис аль-Бара ибн Азиба)",tag:"проверено"},
+ {id:"anxiety",kind:"Из твоих лекций",big:"дуа",name:"Лекарство от тревоги",ar:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+  body:"Дуа от тревоги и печали плюс короткая мысль из лекции Абдурраззака аль-Бадра, которую ты прислал (5 минут). Самый человечный ролик в списке: спокойный, на голосе.",
+  how:"<b>Источник:</b> аль-Бухари 6369. Лекция лежит в _inbox\\2026-10-20; фрагмент сверю дословно",tag:"проверено"},
+ {id:"ikhlas",kind:"Коран",big:"⅓",name:"Сура аль-Ихлас равна трети Корана",ar:"قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+  body:"Четыре аята, которые Пророк ﷺ назвал равными трети Корана. Визуально: 4 короткие строки против огромного массива текста, который они «уравновешивают».",
+  how:"<b>Источник:</b> аль-Бухари 5013, Муслим 811",tag:"проверено"},
+ {id:"rakat",kind:"Практика в цифрах",big:"17",name:"17 ракаатов в день",ar:"ٱلصَّلَاة",
+  body:"Фаджр 2, зухр 4, аср 4, магриб 3, иша 4. Это 17 обязательных ракаатов и почти 118 тысяч за 19 лет, с 15 до 34 лет. Данные как предмет: каждый ракаат становится кирпичиком.",
+  how:"<b>Источник:</b> общеизвестно по сунне; пересчёт 17 × 365 × 19 = 117 895, в ролике говорим «больше 100 тысяч»",tag:"проверено"},
+ {id:"hijri",kind:"Природа и время",big:"354",name:"Почему Рамадан «гуляет» по году",ar:"شَهْرُ رَمَضَانَ",
+  body:"Лунный год около 354 дней, на 11 дней короче солнечного. Поэтому Рамадан сдвигается каждый год и примерно за 33 года проходит через все сезоны: зиму, весну, лето, осень.",
+  how:"<b>Источник:</b> астрономия: 12 синодических месяцев ≈ 354,37 дня; 365,24 ÷ 10,9 ≈ 33",tag:"проверено"},
+ {id:"khwarizmi",kind:"История",big:"≈ 820",name:"Алгоритм назван в честь аль-Хорезми",ar:"الخوارزمي",
+  body:"Учёный Дома мудрости в Багдаде написал «Книгу о восполнении и противопоставлении». Из её названия выросло слово «алгебра», а из латинского имени автора, Algoritmi, слово «алгоритм».",
+  how:"<b>Источник:</b> энциклопедии (Britannica, MacTutor); дату даём как «около 820 года»",tag:"проверено"},
+ {id:"qarawiyyin",kind:"История",big:"859",name:"Самый старый университет основала женщина",ar:"جامعة القرويين",
+  body:"Фатима аль-Фихрия основала в Фесе мечеть-университет аль-Карауийин. ЮНЕСКО и Книга рекордов Гиннесса называют его старейшим действующим учебным заведением, выдающим степени.",
+  how:"<b>Источник:</b> ЮНЕСКО (медина Феса), Guinness World Records; год 859 по традиции",tag:"проверено"},
+ {id:"bee",kind:"Природа",big:"16:69",name:"Пчела и мёд в Коране",ar:"فِيهِ شِفَآءٌ لِّلنَّاسِ",
+  body:"Сура 16 называется «Пчёлы». В 16:68–69 сказано, что из их чрев выходит питьё разных цветов, в котором исцеление для людей. Можно показать реальные цвета мёда: от почти белого до тёмного.",
+  how:"<b>Подаём как смысл аята,</b> без «научного чуда». Пчёл показываем 3D-соты и капли, без насекомых в кадре",tag:"осторожно",care:true},
+ {id:"smile",kind:"Хадис",big:"0 ₽",name:"Улыбка тоже садака",ar:"تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ لَكَ صَدَقَةٌ",
+  body:"Улыбка брату, добрый совет, убрать камень с дороги, налить воды тому, кто просит. Список садаки, которая не стоит денег.",
+  how:"<b>Источник:</b> ат-Тирмизи 1956, хадис хасан",tag:"проверено"}
+];
+const Q=[
+ {id:"framing",part:"Идея",title:"Как подавать",hint:"Тон закадрового текста.",mode:"single",opts:[
+  ["practice","Практика на сегодня","знание + что сделать уже вечером",true],
+  ["wonder","Удивление","«а вы знали?», факт и источник"],
+  ["story","Через историю","человек, место, год"],
+  ["series","Серия","часть 1 из 3, финал зовёт на следующую"]]},
+ {id:"hook",part:"Идея",title:"Хук на первые 2 секунды",hint:"",mode:"single",opts:[
+  ["number","Число на весь экран","«17», «354», «859» вырастает из точки",true],
+  ["question","Вопрос","«Почему Рамадан каждый год раньше?»"],
+  ["arabic","Арабская фраза","каллиграфия проявляется штрихом"],
+  ["object","Предмет","крупный 3D-предмет, который потом станет сценой"]]},
+ {id:"type",part:"Исходник",title:"Какой ролик",hint:"",mode:"single",opts:[
+  ["islamic","Исламское знание","аят или хадис в центре, сайт только в финале",true],
+  ["voice","Озвучка с графикой","голос, на экране инфографика"],
+  ["talking","Говорящая голова","ты в кадре, графика вокруг"]]},
+ {id:"source",part:"Исходник",title:"Есть ли исходное видео",hint:"Обязательный вопрос. Если исходник есть, напиши ниже, где он лежит.",mode:"multi",field:"srcwhere",opts:[
+  ["none","Нет, с нуля","всё собираю сам: моушн, 3D, ассеты",true],
+  ["audio","Только голос","озвучка клоном или твоя запись"],
+  ["talking","Говорящая голова","ты снимаешь себя"],
+  ["broll","B-roll","мечеть, книги, руки, природа"],
+  ["screen","Запись экрана","сайт Умма Линк"],
+  ["photos","Фото","свои или из библиотеки"]]},
+ {id:"build",part:"Исходник",title:"Из чего собирать картинку",hint:"Если исходника нет или только голос.",mode:"multi",opts:[
+  ["motion","Моушн в After Effects","типографика, формы, камера",true],
+  ["infog","Инфографика","шаблоны и данные как предмет",true],
+  ["3d","3D в Blender","предметы, соты, книги, архитектура"],
+  ["library","Библиотека ассетов","фото CC0, карты, узоры, иконки"],
+  ["ai","ИИ-видео Higgsfield","только предметы, природа, архитектура, без людей и животных"],
+  ["ui","Скрины сайта","только в финале"]]},
+ {id:"script",part:"Исходник",title:"Сценарий",hint:"",mode:"single",opts:[
+  ["write","Напиши с нуля","пришлю на одобрение до монтажа",true],
+  ["theses","У меня тезисы","впишу их в поле «Своими словами»"],
+  ["ready","Готовый текст","вставлю в поле ниже"]]},
+ {id:"site",part:"Исходник",title:"Упоминание сайта",hint:"",mode:"single",opts:[
+  ["finale","Одна фраза в финале","«ещё больше такого на сайте Умма Линк»",true],
+  ["none","Без упоминания","чистое знание"]]},
+ {id:"direction",part:"Стиль",title:"Направление стиля",hint:"До двух: основное и полировка. Коллаж и бумага уже были, лучше что-то новое.",mode:"multi",max:2,opts:[
+  ["D6","D6 Данные как предмет","число становится физической формой",true],
+  ["D0","D0 Apple","чистый холст, крупная типографика, один акцент",true],
+  ["D5","D5 Швейцарская сетка","видимая сетка, контраст кеглей"],
+  ["GEO","Геометрия орнамента","линии собираются в 8-лучевую звезду и гирих"],
+  ["D4","D4 Тактильный","настоящие предметы, руки, мусхаф"],
+  ["D3","D3 Рисунок поверх","обводки и стрелки рисуются от руки"],
+  ["D2","D2 Ризо-плакат","две краски бренда, печать"],
+  ["UI","UI-карточка","линия → карточка, станции камеры"]]},
+ {id:"tier",part:"Стиль",title:"Сколько движения",hint:"",mode:"single",opts:[
+  ["std","Стандарт","спокойно, мысль успевает дойти"],
+  ["power","Мощный","событие каждую секунду",true],
+  ["ultra","Ультра","событие каждые 0.4–0.8 с"]]},
+ {id:"camera",part:"Стиль",title:"Камера",hint:"Плавно, с моушн-блюром, в конце ровно 100 %.",mode:"multi",opts:[
+  ["push","Наезд и отъезд","медленный push-in на главном",true],
+  ["stations","Станции","камера переезжает между блоками",true],
+  ["parallax","Параллакс","слои на разной глубине"],
+  ["3d","3D-ракурс","наклон и облёт предмета"],
+  ["static","Без камеры","двигаются только элементы"]]},
+ {id:"entrances",part:"Стиль",title:"Анимации появления",hint:"В ролике минимум 3 разных входа.",mode:"multi",opts:[
+  ["linecard","Линия → карточка","контейнер растёт вместе с текстом",true],
+  ["counter","Счётчик","цифры бегут до значения",true],
+  ["draw","Обводка","каллиграфия и линии рисуются сами",true],
+  ["defocus","Расфокус вместо склейки","сцена уходит в глубину"],
+  ["stagger","Каскад","десятки элементов волной"],
+  ["blurwave","Буквы из размытия","только крупные заголовки"],
+  ["mask","Маска-шторка","текст открывается шторкой"],
+  ["rig","Риг и Puppet","предмет оживает на костях"]]},
+ {id:"transitions",part:"Стиль",title:"Переходы",hint:"",mode:"multi",opts:[
+  ["match","Совпадение по форме","круг в круг, строка в строку",true],
+  ["morph","Морф","одна форма перетекает в другую"],
+  ["square","Блок → сцена","элемент вырастает в новый фон"],
+  ["cut","Рез в ритм","на ударе слова"],
+  ["mix","Смешанно","разные на разных битах"]]},
+ {id:"captions",part:"Стиль",title:"Субтитры",hint:"",mode:"single",opts:[
+  ["phrases","Фразами","3–6 слов, Montserrat SemiBold",true],
+  ["kinetic","Кинетика","ключевые слова крупно"],
+  ["accents","Только акценты","числа и главные фразы"],
+  ["none","Без субтитров",""]]},
+ {id:"sound",part:"Звук",title:"Звук",hint:"Музыки и природных подложек нет никогда.",mode:"multi",opts:[
+  ["voice_clone","Мой клон ElevenLabs","озвучка твоим голосом",true],
+  ["sfx_many","Выразительные SFX","тик на каждую букву, звук на каждый объект",true],
+  ["sfx_material","Звуки материала","бумага, стекло, дерево, ткань"],
+  ["nasheed","Тихий нашид","только голос, без инструментов, на 18–24 дБ тише"],
+  ["recite","Короткое чтение","2–4 с аята, под ним тишина"],
+  ["lecture","Фрагмент лекции","голос аль-Бадра из твоего файла"],
+  ["voice_own","Мой голос из записи","чёткий, «остренький»"]]},
+ {id:"color",part:"Стиль",title:"Цвет",hint:"По умолчанию основные цвета Умма Линк.",mode:"single",opts:[
+  ["main","Основные цвета","крем, тёмно-зелёный, одно золото",true],
+  ["night","Ночная версия","тёмно-зелёный фон, золотые числа"],
+  ["B11","Darjeeling Saffron","шафран и бордо"],
+  ["B3","Midnight Teal","тёмная бирюза (было часто, лучше реже)"]]},
+ {id:"face",part:"Стиль",title:"Сколько лица в кадре",hint:"",mode:"single",opts:[
+  ["0","Только голос","лица нет",true],["40","30–50 %","больше графики"],["70","60–80 %","графика иногда перекрывает"]]},
+ {id:"format",part:"Стиль",title:"Формат",hint:"",mode:"multi",opts:[
+  ["v","9:16","1080×1920, Reels",true],["p","4:5","лента Instagram"],["h","16:9","YouTube"]]},
+ {id:"length",part:"Стиль",title:"Длина",hint:"",mode:"single",opts:[
+  ["15","до 15 с","одна мысль"],["30","20–35 с","одна идея глубоко",true],["60","45–60 с","2–3 идеи"]]},
+ {id:"finale",part:"Стиль",title:"Финал",hint:"",mode:"single",opts:[
+  ["loop","Петля","последний кадр переходит в первый",true],
+  ["textlogo","Фраза + знак","«ещё больше на сайте» и вордмарк"],
+  ["dot","Сжатие в точку","вся сцена собирается в точку-логотип"]]},
+ {id:"proof",part:"Стиль",title:"Что показать перед финалом",hint:"",mode:"multi",opts:[
+  ["script","Сценарий с источниками","каждая цифра и хадис со ссылкой",true],
+  ["frames","3 стиль-фрейма","картинки до анимации",true],
+  ["animatic","Черновой аниматик",""],["direct","Сразу финал",""]]}
+];
+const PRESETS=[
+ ["Видео с нуля",{facts:["hijri"],framing:"wonder",hook:"question",type:"voice",source:["none"],build:["motion","infog","3d"],script:"write",site:"finale",direction:["D6","D0"],tier:"power",camera:["push","stations"],entrances:["counter","linecard","draw"],transitions:["match"],sound:["voice_clone","sfx_many"],length:"30",face:"0",finale:"loop"}],
+ ["Хадис глубоко",{facts:["five"],framing:"practice",hook:"number",type:"islamic",source:["audio"],build:["motion","3d"],direction:["D4","D0"],tier:"std",camera:["push","parallax"],entrances:["draw","defocus","rig"],transitions:["match","morph"],sound:["voice_clone","sfx_material","nasheed"],length:"30",face:"0",finale:"textlogo"}],
+ ["История науки",{facts:["khwarizmi","qarawiyyin"],framing:"story",hook:"number",type:"voice",source:["none"],build:["motion","library","ai"],direction:["D5","GEO"],tier:"power",camera:["stations","3d"],entrances:["counter","stagger","mask"],transitions:["square","cut"],sound:["voice_clone","sfx_many"],length:"60",face:"0",finale:"dot"}],
+ ["Тихий вечер",{facts:["anxiety"],framing:"practice",hook:"arabic",type:"islamic",source:["audio"],build:["motion"],direction:["GEO","D0"],tier:"std",camera:["push"],entrances:["draw","blurwave","defocus"],transitions:["match"],sound:["lecture","nasheed","sfx_material"],color:"night",length:"30",face:"0",finale:"loop"}]
+];
+let state={};
+const LS="pult-ummah-ideas";
+try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(d&&d.state)state=d.state}catch(e){}
+const $=id=>document.getElementById(id);
+let fieldVals={};
+try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(d&&d.fields)fieldVals=d.fields}catch(e){}
+
+function renderFacts(){
+  const box=$("facts");box.innerHTML="";
+  const sel=state.facts||[];
+  [...FACTS,{id:AUTO,big:"?",name:"Реши сам",body:"Выберу идею, которая сильнее всего отличается от прошлых роликов канала.",how:"",tag:""}].forEach(f=>{
+    const b=document.createElement("button");b.type="button";b.className="fact"+(f.id===AUTO?" opt auto":"");
+    b.setAttribute("aria-pressed",sel.includes(f.id)?"true":"false");
+    b.innerHTML=`<span class="mark"></span>${f.kind?'<span class="kind"></span>':""}<span class="big"></span><span class="name"></span>${f.ar?'<span class="ar" lang="ar"></span>':""}<span class="body"></span>${f.how?'<span class="how"></span>':""}${f.tag?`<span class="tag${f.care?" care":""}"></span>`:""}`;
+    if(f.kind)b.querySelector(".kind").textContent=f.kind;
+    if(f.tag)b.querySelector(".tag").textContent=f.tag;
+    b.querySelector(".big").textContent=f.big;b.querySelector(".name").textContent=f.name;
+    if(f.ar)b.querySelector(".ar").textContent=f.ar;
+    b.querySelector(".body").textContent=f.body;
+    if(f.how)b.querySelector(".how").innerHTML=f.how;
+    b.onclick=()=>{let a=[...(state.facts||[])];
+      if(f.id===AUTO)a=a.includes(AUTO)?[]:[AUTO];
+      else{a=a.filter(x=>x!==AUTO);a=a.includes(f.id)?a.filter(x=>x!==f.id):[...a,f.id];if(a.length>3)a=a.slice(-3)}
+      state.facts=a.length?a:undefined;renderAll();saveDraft()};
+    box.appendChild(b);
+  });
+}
+const PART_NAMES={"Исходник":"Часть 2 · Исходник и сценарий","Стиль":"Часть 3 · Стиль монтажа","Звук":"Часть 4 · Звук"};
+function renderQs(){
+  const qs=$("qs");qs.innerHTML="";let lastPart="Идея";
+  Q.forEach((q,i)=>{
+    if(q.part!==lastPart&&PART_NAMES[q.part]){const p=document.createElement("div");p.className="part";p.textContent=PART_NAMES[q.part];qs.appendChild(p)}
+    lastPart=q.part;
+    const sec=document.createElement("section");sec.className="q";sec.style.animationDelay=(i*0.03)+"s";
+    const sel=state[q.id];
+    sec.innerHTML=`<div class="q-head"><span class="q-num">${String(i+2).padStart(2,"0")}</span><h2></h2><span class="q-mode">${q.mode==="multi"?(q.max?"до "+q.max:"можно несколько"):"один вариант"}</span></div>${q.hint?'<p class="q-hint"></p>':'<div style="height:12px"></div>'}<div class="opts"></div>`;
+    sec.querySelector("h2").textContent=q.title;if(q.hint)sec.querySelector(".q-hint").textContent=q.hint;
+    const box=sec.querySelector(".opts");
+    [...q.opts,[AUTO,"Реши сам","выберу свежую комбинацию"]].forEach(([v,t,d,rec])=>{
+      const b=document.createElement("button");b.type="button";b.className="opt"+(v===AUTO?" auto":"");
+      b.setAttribute("aria-pressed",(Array.isArray(sel)?sel.includes(v):sel===v)?"true":"false");
+      b.innerHTML=`<span class="mark"></span><span class="t"></span>${d?'<span class="d"></span>':""}${rec?'<span class="rec">рекомендую</span>':""}`;
+      b.querySelector(".t").textContent=t;if(d)b.querySelector(".d").textContent=d;
+      b.onclick=()=>pick(q,v);box.appendChild(b);
+    });
+    if(q.field){const inp=document.createElement("input");inp.className="field";inp.id=q.field;inp.type="text";
+      inp.placeholder="Где лежит исходник: папка на ПК, ссылка или «скину в тред»";inp.value=fieldVals[q.field]||"";
+      inp.addEventListener("input",()=>{fieldVals[q.field]=inp.value;update();saveDraft()});sec.appendChild(inp)}
+    qs.appendChild(sec);
+  });
+}
+function renderAll(){renderFacts();renderQs();update()}
+function pick(q,v){
+  if(q.mode==="single")state[q.id]=state[q.id]===v?undefined:v;
+  else{let a=Array.isArray(state[q.id])?[...state[q.id]]:[];
+    if(v===AUTO)a=a.includes(AUTO)?[]:[AUTO];
+    else{a=a.filter(x=>x!==AUTO);a=a.includes(v)?a.filter(x=>x!==v):[...a,v];if(q.max&&a.length>q.max)a=a.slice(-q.max)}
+    state[q.id]=a.length?a:undefined}
+  renderAll();saveDraft();
+}
+function labelOf(q,v){if(v===AUTO)return"реши сам";const o=q.opts.find(o=>o[0]===v);return o?o[1]:v}
+function summaryText(){
+  const L=["Бренд: Ummah Link (светлая тема сайта)"];const f=state.facts;
+  L.push("Идеи: "+(!f||!f.length?"реши сам (не выбрано)":f.map(id=>id===AUTO?"реши сам":(FACTS.find(x=>x.id===id)||{}).name).join("; ")));
+  Q.forEach(q=>{const s=state[q.id];
+    const val=s===undefined||(Array.isArray(s)&&!s.length)?"реши сам (не выбрано)":Array.isArray(s)?s.map(v=>labelOf(q,v)).join(", "):labelOf(q,s);
+    L.push(`${q.title}: ${val}`);
+    if(q.field&&(fieldVals[q.field]||"").trim())L.push("Где лежит исходник: "+fieldVals[q.field].trim())});
+  const n=$("note").value.trim();if(n)L.push("Своими словами: "+n);
+  L.push("Всегда: без музыки и природных звуков, источник на экране, под чтением Корана тишина, без людей и животных, никого не критикуем.");
+  return L.join("\n");
+}
+function update(){
+  const total=Q.length+1;const done=[{id:"facts"},...Q].filter(q=>{const s=state[q.id];return s!==undefined&&!(Array.isArray(s)&&!s.length)}).length;
+  $("plbl").textContent=`Выбрано ${done} из ${total}, остальное решу сам`;
+  $("pfill").style.width=(done/total*100)+"%";
+  $("summary").textContent=summaryText();
+}
+function saveDraft(){try{localStorage.setItem(LS,JSON.stringify({state,note:$("note").value,fields:fieldVals}))}catch(e){}}
+try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(d&&d.note)$("note").value=d.note}catch(e){}
+$("note").addEventListener("input",()=>{update();saveDraft()});
+function setStatus(t,ok){const s=$("status");s.textContent=t;s.className="status"+(ok?" ok":"")}
+const pr=$("presets");const lab=document.createElement("span");lab.className="q-hint";lab.style.margin="0 4px 0 0";lab.textContent="Быстрый старт:";pr.appendChild(lab);
+PRESETS.forEach(([name,p])=>{const b=document.createElement("button");b.type="button";b.className="btn";b.textContent=name;b.onclick=()=>{state=JSON.parse(JSON.stringify(p));renderAll();saveDraft();setStatus("Загружен набор «"+name+"», можно менять")};pr.appendChild(b)});
+$("resetBtn").onclick=()=>{state={};fieldVals={};$("note").value="";renderAll();saveDraft();setStatus("Всё сброшено")};
+$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(summaryText());setStatus("Бриф скопирован, вставь его в чат",true)}catch(e){setStatus("Не получилось скопировать: выдели текст в блоке «Бриф текстом»")}};
+function clean(o){const r={};for(const k in o){const v=o[k];if(v!==undefined&&!(Array.isArray(v)&&!v.length))r[k]=v}return r}
+function fmt(ts){try{return new Date(ts).toLocaleString("ru-RU",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
+let db=null,me="";
+$("saveBtn").onclick=async()=>{
+  if(!db){setStatus("Сохранение недоступно в этом просмотре. Нажми «Скопировать» и вставь бриф в чат.");return}
+  const choices=clean(state);if((fieldVals.srcwhere||"").trim())choices.srcwhere=fieldVals.srcwhere.trim();choices.brand="ummah";
+  const rec={choices,note:$("note").value.trim(),summary:summaryText(),createdAt:Date.now(),by:me};
+  const btn=$("saveBtn");btn.disabled=true;setStatus("Сохраняю…");
+  try{await db.doc("state/current").set(rec);await db.collection("briefs").add(rec);setStatus("Сохранено. Напиши в треде «бриф готов», и я пришлю сценарий.",true)}
+  catch(e){setStatus("Не сохранилось ("+(e&&e.code||"ошибка")+"). Скопируй бриф и вставь в чат.")}
+  finally{btn.disabled=false}
+};
+(async()=>{
+  try{const u=await claude.use("user");if(u){try{me=await u.id()}catch(e){}}}catch(e){}
+  try{db=await claude.use("db")}catch(e){db=null}
+  if(!db)return;
+  try{db.collection("briefs").orderBy("createdAt","desc").limit(5).onSnapshot(snap=>{
+    const h=$("history");const docs=snap.docs||[];h.innerHTML="";
+    if(!docs.length){h.innerHTML='<p class="q-hint">Пока пусто. Нажми «Сохранить для Claude», и бриф появится здесь.</p>';return}
+    docs.forEach(d=>{const x=d.data()||{};const el=document.createElement("div");el.className="hist";el.tabIndex=0;
+      const w=document.createElement("div");w.className="when";w.textContent=fmt(x.createdAt);
+      const t=document.createElement("div");t.textContent=String(x.summary||"").split("\n").slice(1,3).join(" · ");
+      el.append(w,t);el.title="Загрузить этот бриф";
+      el.onclick=()=>{const c=JSON.parse(JSON.stringify(x.choices||{}));fieldVals={srcwhere:c.srcwhere||""};delete c.srcwhere;delete c.brand;state=c;$("note").value=x.note||"";renderAll();saveDraft();setStatus("Загружен бриф от "+fmt(x.createdAt))};
+      h.appendChild(el)});
+  },()=>{})}catch(e){}
+})();
+renderAll();
+</script>
