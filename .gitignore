@@ -1,0 +1,7 @@
+# Obsidian: локальное состояние окна и сторонние плагины (ставятся заново из Obsidian)
+vault/.obsidian/workspace*.json
+vault/.obsidian/plugins/
+vault/.smart-env/
+.DS_Store
+Thumbs.db
+dist/

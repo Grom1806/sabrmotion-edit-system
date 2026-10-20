@@ -1,0 +1,149 @@
+---
+title: INDEX
+type: moc
+tags: [moc]
+summary: Карта всех заметок с одной строкой о каждой (генерируется скриптом)
+---
+
+# INDEX — карта vault
+
+Генерируется `python _scripts/build_index.py`. Не править руками.
+
+## Старт и система v2 (читать первым)
+
+- [[reading-time]] (1 KB) [rule, rhythm, readability] — С 2026-10-20 текст держится на экране минимум 1.2 с + 0.3 с/слово после полного появления; удлинять паузы, не замедлять анимации
+- [[ref-ui-card-build]] (6 KB) [research, reference, motion, ui, camera, typography] — Разбор моушена «UI-карточка услуг» 2026-10-20: 16 техник (линия→карточка, расфокус-переход, камера по станциям, побуквенная волна блюра, заглушка-предвестник, финал в точку) + рецепты AE
+- [[camera-allowed]] (1.2 KB) [rule, camera, motion, system-v3] — С 2026-10-20 виртуальная камера и ракурсы разрешены (проезды, зумы, панорамы, параллакс, 3D-ракурсы); старый запрет «кадр не двигается» отменён
+- [[START]] (4.6 KB) [moc, workflow] — Протокол загрузки знаний перед монтажом (экономия токенов), правило синхронизации и как добавлять новое
+- [[SYSTEM]] (13.3 KB) [moc, workflow, system-v2, system-v3, rule] — Главный документ (v3 с 2026-10-19 вечер): бриф с Пульта монтажа → идея → направление D0–D6 стиль-фреймами → сборка в ОТКРЫТОМ таймлайне After Effects → плотность Мощный, инфографика на реальных данных, резкость, анти-ИИ проверка; Apple снова D0; анимация motion-v3; живая съёмка live-editing-v3
+
+## Система монтажа v2 (читать перед каждым роликом)
+
+- [[ae-pipeline]] (13.4 KB) [tool, system-v2, after-effects, pipeline, blender] — Мастер-проект с LIB-прекомпами, timeline.json → один build.jsx, aerender в фоне, шаблоны вывода, что не скриптуется и чем заменить (маттинг, трекинг), Blender, первичная настройка и типичные сбои
+- [[ambience-library]] (3.8 KB) [rule, audio, nasheed, ambience, system-v3] — С 2026-10-19 23:23 природные звуки и атмосферы на фоне запрещены навсегда; фон под голосом — тихий спокойный нашид (только голос, без инструментов) из assets\nasheed\ или ничего; звуки, которые присылает пользователь, сохранять в assets\from-user\
+- [[anti-ai-qa]] (5.3 KB) [rule, qa, system-v2] — Чек-лист из 19 пунктов: идея одной фразой, отличие от прошлого ролика, нет запрещённых шаблонов, доказательства вместо дублирования, паузы, реальный материал, асимметрия, кривые и motion blur, субтитры, SFX-счёт, без тональных звуков, грейд по скоупам
+- [[captions-v2]] (4.1 KB) [technique, system-v2, captions, typography] — Два слоя (спокойные субтитры фразами + редкие типографские моменты), нормы читаемости, safe zones Reels, правила акцента, шрифты с кириллицей и что запрещено (капс пословно с красным словом)
+- [[concept-first]] (3.1 KB) [technique, system-v2, concept, storyboard, workflow] — Перед монтажом: одна фраза «мир ролика», сквозной объект, раскадровка «что звучит → что видно (доказательство, не то же слово)», карта волн и пауз, система субтитров, звуковая подпись; шаблон брифа
+- [[control-panel]] (3.8 KB) [workflow, system-v3, questions, rule] — Артефакт «Пульт монтажа» (https://claude.ai/artifact/9KKFp4QoCgF5JJLVcrLSA3) — пользователь выбирает тип, бренд, направление D0–D6, уровень, живой монтаж, анимации, переходы, субтитры, инфографику, звук, цвет, грейд, лицо, формат, длину, показы; Claude читает сохранённый бриф через ArtifactData
+- [[directions-v3]] (7.8 KB) [technique, system-v3, style, anti-ai, directions] — D0 Apple снова в меню (2026-10-19 21:51) + 6 «ручных» направлений (коллаж, ризо-плакат, draw-over, тактильный документ, редакционная сетка, данные-как-предмет) + как выбирать; Apple-сдержанность только как приём; инфографика на реальных данных в каждом бите
+- [[live-editing-v3]] (4.8 KB) [technique, system-v3, talking-head, live, editing, rule] — Как монтировать живое видео пользователя в 2026 («raw-premium»): плотные резы без мёртвого воздуха, кроп-планы из одной камеры, субтитры dynamic minimalism, звук без музыки, свет и лёгкий грейд, оригинальный фон
+- [[motion-v3]] (9.7 KB) [technique, system-v3, motion, easing, bounce, after-effects, rule] — Правила пользователя 2026-10-19: всё плавное, ничего не появляется сразу, много анимации везде, расширение блоков/квадратов чаще, красивый bounce; Apple-подача снова используется; рецепты AE (выражения overshoot/bounce, расширение из точки/линии, стаггер)
+- [[rhythm-v2]] (5.2 KB) [technique, system-v2, rhythm, pacing, editing] — Смена визуального состояния каждые 3–5 с, волна «6–10 с плотно → 3–6 с плато», паузы перед панчлайном, J/L-cut, 2–3 плана из одной камеры, ре-хуки на 15 и 30 с; новые плотности по уровням вместо 0.4–0.8 с
+- [[sharpness-guard]] (5.1 KB) [rule, system-v3, sharpness, after-effects, qa] — Пользователь трижды видел «мыло» (Ummah Link, «День 90», «Твоя минута» 2026-10-19). Два автоматических шлагбаума — ae_sharp_preflight.jsx до фреймов/рендера и sharpcheck.py после рендера; без двух «зелёных» отчётов ничего не показывать
+- [[sound-v2]] (6.2 KB) [technique, system-v2, audio, sfx, foley] — Без синтетического room tone, тихая атмосфера-подложка из ambience-library под голосом, 6–12 SFX (в промо больше) на 30 с вместо 60, фоли и записанные звуки вместо сгенерированных вушей, фирменный звук, тишина-акцент, уровни, без тональных звуков, библиотеки SFX
+- [[styles-pro]] (8.5 KB) [technique, system-v2, styles, menu] — 13 профессиональных стилей (Documentary, Clean head, Apple restraint, Screen demo, Swiss grid, Type-as-form, Paper collage, Flat vector, Cinematic 3D, Hand annotation, Depth layers, Lo-fi native, Data charts) с ритмом, кривыми, шрифтами, звуком, сборкой в AE и связками под наши продукты
+- [[talking-head-look]] (3.5 KB) [technique, system-v2, talking-head, color, depth] — Главное отличие pro-роликов — свет и грейд: фон темнее лица на 1–2 стопа, глубина, тёплые практики; подготовка футажа, кропы-планы, текст за спикером через маттинг, графика в пространстве комнаты; советы по съёмке пользователю
+
+## Правила (всегда действуют)
+
+- [[ask-before-edit]] (4.3 KB) [rule, workflow, system-v2] — Перед монтажом спросить кнопками (по одному вопросу на карточку) стиль-направление D1–D6, уровень, бренд, цвет; потом бриф и 3 стиль-фрейма; на открытый запрос сначала 3 идеи
+- [[fact-check]] (2.9 KB) [rule, facts, script, qa] — Цифры и утверждения — из первоисточника (код, сайт, исследование, Aladhan); живой сайт проверять перед записью экрана; честный эксперимент вместо постановки; непроверенное помечать в брифе и не усиливать
+- [[keep-original-background]] (0.8 KB) [rule, color, tier/standard] — Фон не заменять AI-фоном; только цветокор, если пользователь сам не попросил замену
+- [[no-delete-without-yes]] (2.2 KB) [rule, files, safety] — Удаление только после показа списка файлов и явного «да» на каждую папку; лучше переносить в _to_delete\; .tmp проекта не «черновики» — там озвучка и тайминги; исходники и голос хранить вне .tmp
+- [[no-music]] (0.6 KB) [rule, audio] — Никогда не добавлять музыкальную подложку, только SFX
+- [[no-negativity-about-others]] (2.2 KB) [rule, script, ethics] — Жёсткое правило: никогда не критиковать и не сравнивать в невыгодном свете другие приложения, бренды, особенно исламские, ни в одном сценарии
+- [[output-format]] (0.8 KB) [rule, workflow] — Рилсы 9:16 1080x1920 (если не просили 16:9); монтаж идёт на ПК через Remote Control
+- [[phone-clips]] (0.7 KB) [rule, source] — Проверять SAR/rotation, чтобы горизонтальное не растянулось; не глушить живую речь в клипах
+- [[qa-frame-by-frame]] (2.0 KB) [rule, qa] — Каждую версию проверять покадрово: графика, субтитры, SFX по таймингам слов, без глитчей
+- [[references-learning]] (2.0 KB) [rule, workflow, references] — Из референсов берём монтаж внутри экранов и в кадре (анимации, цвета текстов, грейд, моушн, ракурсы, идею ролика), упаковку автора не копируем; перед монтажом читать учебник 04-lessons/uchebnik-*
+- [[self-learning]] (0.9 KB) [rule, workflow, lessons] — После каждого ролика записать уроки в vault; перед монтажом читать только нужные заметки
+- [[use-everything]] (5.8 KB) [rule, workflow, assets, qa, system-v2] — Обязательная «карта арсенала» в брифе каждого ролика: по каждой категории (иконки, фото, 3D, инфографика, карты, Lottie, SFX, шрифты, техники vault) записать, что берём и зачем; квоты; ротация через журнал использования; проверка перед сдачей
+- [[variety]] (2.6 KB) [rule, motion, system-v2] — Не делать одинаково: каждый ролик = своя идея и свой основной стиль S01–S13; отличаться от прошлых 2 роликов по стилю, шрифтам, субтитрам, финалу и звуку; приёмы под идею, а не по счёту из списка
+- [[video-storage]] (1.2 KB) [rule, files] — 
+- [[voice-processing]] (0.9 KB) [rule, audio, voice] — Голос не де-эхо/де-реверб; только чёткость: EQ, лёгкая компрессия, де-эссер
+
+## Бренды
+
+- [[apple-style-signature]] (8.5 KB) [brand, brand/sabrmotion, signature, motion, default] — Стиль по умолчанию для SABRMOTION и монтажей без бренда: blur-in, слово-экран, 1 градиентное слово, push-in, ~0.5 SFX/с
+- [[client-branding]] (1.0 KB) [brand, workflow] — Брендбуки клиентов в claude-edit\branding\<Компания>\; шаблон _template; бренд важнее хаус-стиля
+- [[perset-voice-tone]] (1.3 KB) [brand/perset, voice, rule] — Формально на «вы», без сленга, без слогана «Мы там, где нужны деньги», ударение перСЕ́Т
+- [[perset]] (14.8 KB) [brand, brand/perset, client] — Обмен валют perset.de: светлая схема v2 (кремовый/navy/золото), Montserrat, тон на «вы», ударение перСЕ́Т
+- [[sabrmotion]] (8.1 KB) [brand, brand/sabrmotion] — Личный бренд пользователя: чёрный/красный/зелёный, шрифты Unbounded+Manrope, лого, тон, звук; §9 вынесен в apple-style-signature
+- [[ummah-link]] (6.3 KB) [brand, client, ummah-link, islamic-app] — Исламское веб-приложение пользователя (ummah-link.com): факты из кода, светлая тема с сайта (крем/тёмно-зелёный/золото, Montserrat+Pacifico+Amiri), отдельный Instagram, что можно и нельзя говорить
+
+## Техники
+
+- [[color-playbook]] (3.1 KB) [technique, color, ffmpeg] — Цепочки ffmpeg для грейда: определить источник (bt709/D-Log/HLG), замерить signalstats, базовый look, кожа
+- [[edit-types-catalog]] (9.4 KB) [technique, workflow, edit-types, menu] — 15 типов монтажа (Т01-Т15) с источниками и уровнем + 10 готовых сборок; пользователь выбирает несколько типов и смешивает их в одном ролике; правила уникальности
+- [[motion-camera]] (1.5 KB) [technique, motion, camera] — 14. Slow push-in постоянно (scale 1→1.06 за сцену) — даже на статике.
+- [[motion-checklist]] (1.5 KB) [technique, motion, checklist, qa] — 1. Лицо в кадре ≤ 40 % времени (кроме хука и финала).
+- [[motion-money-particles]] (1.9 KB) [technique, motion, particles] — 8. Денежный дождь — 20–40 PNG купюр, у каждой своя траектория (gravity), rotate 3D (rotateX/rotateY непрерывно — «трепещет»), лёгкий blur у дальних, п
+- [[motion-objects-icons]] (1.9 KB) [technique, motion, graphics] — 1. Icon pop — иконка scale 0→1.15→1 (back.out(2.5), 0.35 с) + rotate −12°→0 + тень. SFX - pop/bubble.
+- [[motion-principle]] (2.1 KB) [technique, motion, tier/ultra] — Лицо спикера НЕ обязано быть в кадре. Голос идёт фоном, а на переднем плане всё время происходит действие. Лицо — один из «слоёв», его можно закрыва
+- [[motion-rhythm]] (1.0 KB) [technique, motion, rhythm] — 0.0 переход (whip/mask) → 0.2 объект-герой pop → 0.6 лейбл/пилюля → 1.0 действие объекта (деньги летят/счётчик тикает/телефон звонит) → 2.0 ударное сл
+- [[motion-speaker-layer]] (1.3 KB) [technique, motion, speaker] — 33. PiP-круг / скруглённое окно в углу, двигается по кадру между сценами.
+- [[motion-text]] (1.5 KB) [technique, motion, text, subtitles] — 27. Kinetic word slam — одно слово на весь экран, буквы с stagger 0.03 с, y 60→0, scale 1.4→1, blur 10→0. SFX - hit на слово.
+- [[motion-texture-color]] (0.9 KB) [technique, motion, color] — 38. Зерно постоянно (opacity 6–10 %), виньетка, тёплые засветы, glassmorphism-карточки (backdrop-filter blur 20 px, белая обводка 1 px 20 %).
+- [[motion-transitions]] (1.5 KB) [technique, motion, transition] — 20. Whip pan — сдвиг 100 % кадра за 0.18 с + directional blur 40 px. SFX - whip.
+- [[sound-design]] (1.1 KB) [technique, audio, sfx] — Каждое визуальное событие = свой звук, но плотность 1.5–2.5 SFX/с, громкие только на главных (sub hit, impact), мелкие тики −18…−24 дБ относительно
+- [[motion-catalog]] (2.8 KB) [moc, motion] — Оглавление каталога: каждый раздел бывшего motion_library.md теперь отдельная заметка
+- [[motion-library]] (2.4 KB) [technique, motion, tier/ultra, tier/power] — Короткие правила вовлечения (объекты действуют, событие каждые 0.4-0.8 с); каталог разбит на заметки motion-*
+- [[motion-playbook]] (7.0 KB) [technique, motion] — Что уже использовали и что ещё не пробовали; правило разнообразия и приёмов брендов
+- [[motion-tiers]] (8.7 KB) [technique, tier, motion] — 4 уровня интенсивности Минимал/Стандарт/Мощный/Ультра и что разрешено на каждом
+- [[reference-style-guide]] (10.3 KB) [technique, style, tier/power, checklist] — Полный гайд: компоновка 9:16, цвет, типографика, анимация, звук, субтитры, чек-лист из 8 пунктов
+- [[reference-style]] (2.4 KB) [technique, style, tier/power] — Кратко про референсы IMG_6708/6709: HUD, UI-метафоры, аватар+цитата, слот-машина; полная версия в reference-style-guide
+
+## Исследования
+
+- [[ae-pipeline-research]] (53.9 KB) [research, system-v2] — Полный ресерч 2026-10-19 для системы монтажа v2 (источник для 07-system)
+- [[animation-techniques-2026-10-19]] (55.0 KB) [research, motion, animation, easing, after-effects, system-v3] — 64 приёма анимации (входы/выходы, вторичное движение, переходы без движения кадра, инфографика/UI, текст, Apple-стиль) с рецептами на штатных средствах AE 2026 — ключи, кадры при 30 fps, % влияния в Graph Editor, выражения; топ-10 для старта и принципы профи с цифрами.
+- [[audit-2026-10-19-ai-tells]] (9.4 KB) [research, audit, system-v2, anti-ai] — 20 роликов (PERSET 02–04, invest01, revolut; SABRMOTION adobe-free, openai, 81%, ai-edit, dm, 4 ошибки, localai, be-honest, День 90 v1/v2, визитка, планы 2–5) по 16 кадров: топ-13 признаков ИИ/шаблона, по каждому ролику — признаки и замены. Пользователь: «вообще не отходит от айфонского, иишный дизайн»
+- [[brand-apple]] (2.8 KB) [research, brand-move, apple] — Один кадр = одна мысль, много воздуха, чистый чёрный или белый фон, ОДИН яркий цвет на продукте/UI. Никогда яркое на ярком - цветное слово стоит на ч
+- [[brand-duolingo]] (1.2 KB) [research, brand-move, duolingo] — Не про графику, а про формат - персонаж-маскот как герой сериала, повторяющиеся сюжетные линии, тренд подгоняется под готовую идею, юмор важнее полир
+- [[brand-linear]] (1.4 KB) [research, brand-move, linear] — Тёмный/чёрный фон, тёмно-серый Inter, насыщенные акценты.
+- [[brand-moves-table]] (9.3 KB) [research, brand-move, tier, rule] — Какой приём бренда/референса брать на какой уровень; максимум 1 чужой приём на ролик, ротация между роликами; K10 = референсы 2026-10-18
+- [[brand-revolut]] (3.0 KB) [research, brand-move, revolut] — Форматы по частоте - запись экрана приложения (13 %), заголовок-хедлайн (10 %), демо (7 %), плюс монтаж-нарезка, статистика, отзыв, скетч, «яппер» (г
+- [[brand-spotify-wrapped]] (1.4 KB) [research, brand-move, spotify] — (наш разбор, источник fable.app закрыт для чтения) Огромная типографика, которая заполняет экран и ломает сетку; слова повторяются стопкой/эхом; жир
+- [[brand-stripe]] (1.6 KB) [research, brand-move, stripe] — Живой градиент «лава-лампа» (mesh gradient на WebGL/шейдере, библиотека minigl/whatamesh) - 4 цвета медленно перетекают на фоне, скорость очень низка
+- [[color-palettes-research]] (16.2 KB) [research, color, grade, palette, ffmpeg] — 12 палитр с hex для рилсов (тренды 2025-26, кино, инди-стили) + 9 «луков» цветокора с ffmpeg-цепочками; карта применения к PERSET/Sabrmotion/без бренда; ротация, чтобы цвет не повторялся
+- [[craft-research]] (39.6 KB) [research, system-v2] — Полный ресерч 2026-10-19 для системы монтажа v2 (источник для 07-system)
+- [[motion-balls]] (2.7 KB) [research, brand-move, 3d, blender] — 1. Metaballs / gooey-капли - несколько кругов сливаются как жидкость. Сборка в HTML - группа кругов → SVG-фильтр feGaussianBlur stdDeviation≈12 → feColo
+- [[pinterest-behance-2026-10-19]] (2.7 KB) [research, system-v2] — Полный ресерч 2026-10-19 для системы монтажа v2 (источник для 07-system)
+- [[practitioners-2026-10-19]] (9.1 KB) [research, practitioners, motion, anti-ai, system-v2] — 30+ студий и авторов (BUCK, ManvsMachine, Golden Wolf, Giant Ant, Ordinary Folk, Oddfellows, Animade, Studio Dumbar, DIA, Koto, DixonBaxi, Tendril, Gunner, Elastic, Kurzgesagt, Vox, Johnny Harris, Ben Marriott, Jake in Motion, Ariel Costa, Winston Hacking, Nicolas Ménard…): 18 ручных техник со штатными настройками AE, 10 признаков ИИ → как у людей, 4 направления. Скриншоты в refs/2026-10-19-practitioners
+- [[practitioners-web-2026-10-19]] (42.6 KB) [research, motion, editing, anti-ai, practitioners, reels, after-effects] — 30 реальных монтажёров, моушн-студий и авторов туториалов с «ручной» эстетикой, их техники и как повторить в стоковом AE + Python/ffmpeg/Blender; 18 рецептов, 10 признаков «ИИ-шаблона», 4 стилевых направления для вертикальных talking-head/продуктовых Reels без музыки
+- [[pro-styles-2026]] (46.1 KB) [research, system-v2] — Полный ресерч 2026-10-19 для системы монтажа v2 (источник для 07-system)
+- [[ref-fintech-promo-beforeafter]] (9.4 KB) [research, reference, ref-2026-10-18, fintech, ui-mockup, nested-screen, compare, talking-head] — Иконки-морф в логотип, текст-бабблы по одному, точечная карта мира, флаги на ленте, калькулятор дотикивает, карта 3D влетает в телефон; Revolut: клик по баннеру App Store, 3D-телефоны, глобус с орбитой валют; Before/After: два экрана, говорящая голова уходит в карточку-пункт и в облако иконок
+- [[ref-hud-explainer-dark]] (9.0 KB) [research, reference, ref-2026-10-18, hud, kinetic-text, nested-screen] — Монтаж внутри экрана ноутбука: тёмная сетка-чертёж, слова загораются оранжевым по речи, промпт печатается, оранжевая вспышка-акт, 3D-флип окна, лента кадров, вставки «бумажной анкеты»
+- [[ref-motion-reel-3d]] (5.4 KB) [research, reference, ref-2026-10-18, 3d, motion-balls, showreel] — Красный/синий/кремовый/чёрный, буква O = шар, зум в спираль, воксельное поле, глаголы-анимации STRETCH/SPIN/BOUNCE/SNAP, рой 3D-фигур, финальный логотип с точкой
+- [[ref-portfolio-kinetic-ru]] (5.3 KB) [research, reference, ref-2026-10-18, portfolio, kinetic-text, ru] — Белый фон + сверхплотный сжатый текст, слово в градиенте, смена на тёмный с синими фигурами, иконки-эмодзи 3D, веер профилей Instagram, карточка-список, вертикальные полосы-клипы, цифра «10» в лучах
+- [[ref-red-kinetic-poster]] (9.3 KB) [research, reference, ref-2026-10-18, kinetic-text, nested-screen, ru] — Монтаж внутри экрана монитора: красный/чёрный/белый, гигантский гротеск, фон меняется на фразу, слово делает то, что значит, пиксель-сборка, бомба-взрыв, туннель из фигур, таймер рендера
+- [[ref-saas-promo-pastel]] (7.2 KB) [research, reference, ref-2026-10-18, ui-mockup, product-promo, nested-screen] — Пастельный mesh-градиент, тонкий гротеск, слово превращается в иконку, кольцо карточек, iMac/телефон-мокап, курсор кликает сцену дальше, UI собирается по полям
+- [[ref-ui-morph-chain]] (5.7 KB) [research, reference, ref-2026-10-18, ui-mockup, morph, onetake, apple] — Монтаж внутри правого телефона: иконка растёт → морф в рамку Face ID → лицо-смайл → снизу стопка карт с дотикивающим балансом → смена фона белый→чёрный → товар в карточке с ценником и кнопками → карточка в Apple Cash с кольцами-волнами; всё одним непрерывным движением
+- [[ref-word-flip-tutorial]] (6.2 KB) [research, reference, ref-2026-10-18, kinetic-text, list, ru] — Одно слово на кадр с инверсией фона чёрный/белый; обучалка «7 шагов» с номером-кружком, белыми таблетками-ссылками, сменой красный/чёрный фон по пунктам
+- [[refs-2026-10-18-overview]] (4.7 KB) [research, reference, ref-2026-10-18] — Каталог 9 референсов (IMG_0577-0585): что в каждом, где вложенные экраны, какие заметки с техниками читать
+- [[talking-head-editing-2026]] (55.7 KB) [research, talking-head, editing, reels, captions, retention, system-v3] — Практическое руководство по монтажу live-action talking head в 2026 — съёмка, чистовой рез, punch-in, субтитры, графика поверх видео, хук, звук, цвет, ретеншн, рецепты AE/ffmpeg под ограничения автора (без музыки, без тряски, всё плавно, Apple-стиль).
+- [[tastyedits-2026-10-19]] (15.2 KB) [research, reference, motion, talking-head, tastyedits] — Покадровый разбор 34 роликов Tasty Edits (сделан на ПК): рост из точки/линии, «матрёшка» квадратов, шторка с кареткой, light leak на входах, схема строится вживую, ничего не появляется в 1 кадр; разобраны все 34 доступных ролика
+- [[trends-2026-motion-web]] (13.6 KB) [research, motion, trends-2026, variety] — 20 приёмов N01-N20, которых ещё не было в каталоге: рваная бумага, анимация «на двойках», бенто-сетка, кинетика с инерцией, стекло с дисперсией, каллиграфия штрихом, микро-петля, киноплёнка и др.; как собрать и на какой уровень
+
+## Уроки
+
+- [[backlog-open-items]] (4.2 KB) [lesson, backlog, content, open-items] — Невыбранные идеи рилсов, уже использованные факты (не повторять), контент-стратегия пользователя, ассеты на ПК и что ждёт ответа пользователя на 2026-10-19
+- [[edit-lessons-log]] (22.7 KB) [lesson, log] — Хронология роликов: что сработало, что исправили, цифры (LUFS, доля лица, SFX/с)
+- [[2026-10-18-localai-studio]] (6.5 KB) [lesson, reel, tier/power, brand/sabrmotion, blender, aftereffects, faceless] — Без исходников — 100 % графика + голос-клон; настоящие скрины UI из Vite; Blender macro-to-wide с match cut кольца; AE-кольцо установки
+- [[2026-10-18-perset-invest01]] (6.6 KB) [lesson, reel, tier/power, brand/perset, ae, invest] — 16:9 инвест-ролик 2:11, голос по сценам + AE-вставки (лого, card-flip, цикл); ElevenLabs alignment точнее whisper.cpp
+- [[2026-10-18-perset-reel04-revolut]] (7.7 KB) [lesson, reel, tier/power, brand/perset, blender, faceless, no-voice] — Продукт-промо по Revolut-референсу без голоса — Blender-телефоны и глобус с монетами, изгиб полотна clip-path, белые кадры + огненный акцент
+- [[2026-10-18-sabrmotion-4oshibki]] (6.7 KB) [lesson, reel, tier/standard, brand/sabrmotion, aftereffects, faceless, list] — Список из 4 пунктов — цифра-плитка в углу + круговой вайп из неё; AE для рассыпания слова и кривой easing; голос-клон, 0.84 SFX/с
+- [[2026-10-19-day90-v2-ae-test]] (7.4 KB) [lesson, reel, system-v2, after-effects, sabrmotion, ummah-link] — Переделка рилса plan-1 в AE по системе v2 (S01+S13+S06, мир «журнал сборки»): ~40 мин от брифа до мастера, AE-скриптинг работает через AfterFX -r, грабли локали ru_RU (matchName), шрифты, aerender; анти-ИИ 13/15
+- [[2026-10-19-plan4-honesty]] (4.5 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, graphics, news, test] — Новость + свой честный тест (5/5 = 5/5, разницы нет — сказали прямо); Neon Noir вместо красного/зелёного; Spotify цифра-герой 190; мини-счётчик морфится в бумажный лист
+- [[2026-10-19-sabrmotion-be-honest]] (5.8 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, graphics, news] — Новостной рилс без лица — сетка 200 документов, волна 190 зелёных со счётчиком, карточка-промпт с лучом по краю (Linear); голос-клон сгенерирован сам
+- [[2026-10-19-sabrmotion-offline-ai]] (5.3 KB) [lesson, reel, tier/ultra, brand/sabrmotion, faceless, graphics, ui-demo] — Графика без лица, Ультра, палитра B3 Midnight Teal; все UI реконструированы в HTML на реальных данных с ПК (ответ qwen3.5:9b офлайн, вывод ollama pull, лог GPU); Stripe mesh-градиент в iPhone и ЛОКАЛ
+- [[2026-10-19-sabrmotion-portfolio-intro]] (4.8 KB) [lesson, reel, tier/standard, brand/sabrmotion, faceless, portfolio, intro] — Копия структуры/ритма чужой визитки на своих данных — 10 сцен, стена из 8 своих рилсов, цифра 10+ в переменной, дуга текста, «лишь часть» = карточка становится плиткой сетки; 33 SFX, ±5 мс
+- [[2026-10-19-sabrmotion-ummah-day90]] (4.3 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, product, revolut] — Продукт-промо своего приложения без лица — записи живого сайта покадрово Playwright в CSS 3D-телефоне (Revolut), сплит «День 1 / День 90» с реальным первым коммитом, тепловая карта и сетка 557 коммитов из git, палитра Midnight Teal + золото
+- [[2026-10-19-ummahlink-infografika]] (7.5 KB) [lesson, reel, ummah-link, system-v2, after-effects, infographic, riso] — Первый ролик для Instagram сайта Ummah Link: направление «ризо-плакат + вырезки экранов» (выбор пользователя «make all recommended»), инфографика в каждом бите на реальных данных (114 сур = 6236 аятов, 30 джузов), 24 fps на двойках, видимый таймлайн AE с русскими именами слоёв; резкость и обрезка исправлены по отзыву
+- [[2026-10-19-ummahlink-plan5]] (6.2 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, ui-demo, ummah-link] — Проблема → решение — счётчик ПРОБЛЕМА/РЕШЕНИЕ 1/3, плохой экран морфится в настоящий экран Ummah Link; show() на t=0 ломал рендер
+- [[2026-10-20-stop-ayat-kursi-study-first]] (3.2 KB) [lesson, reel, ummah-link, process, design-choice] — Пользователь остановил ролик «Аят аль-Курси» и попросил удалить проект: «Мы не должны делать видео, не зная этого». Дизайн был выбран без изучения новых материалов проекта. Перед следующим роликом — прочитать всё новое и только потом предлагать дизайн.
+- [[2026-10-21-plan-2-mosque]] (6.0 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, experiment, blender, aftereffects, screen-recording] — Эксперимент «проверил сам» без дубля — сайт мечети собран Claude Code за 3:12 (лог + скриншоты = запись экрана), сквозной HUD-таймер с реальными минутами, зум на настоящую ошибку фаджра, 3D-телефон Blender, AE-циферблат; палитра Midnight Teal
+- [[threads-audit-2026-10-19]] (6.6 KB) [lesson, threads, audit, system-v2, system-v3, after-effects] — Хронология аудита: шаблон ИИ-монтажа, система v2, «День 90» v2 отвергнут (скучно), уход от Apple-стиля, 20 роликов разобраны, 4 ручных направления, Ummah Link ризо-плакат, настоящий таймлайн AE, причины мыла
+- [[threads-group-A]] (27.4 KB) [lesson, threads, archive] — Архив: что сделал и чему научился каждый тред (треды 07–13.10: первые рилсы, бренды, уровни моушна, Blender/AE, Apple-стиль) + что не было в vault на 2026-10-19
+- [[threads-group-B]] (39.0 KB) [lesson, threads, archive] — Архив: что сделал и чему научился каждый тред (треды 13–19.10: PERSET, скиллы, Obsidian, чистка, идеи, референсы, Revolut, палитры, копия видео, светлый Sabrmotion) + что не было в vault на 2026-10-19
+- [[threads-group-C]] (27.7 KB) [lesson, threads, archive] — Архив: что сделал и чему научился каждый тред (треды 19.10: рилсы плана-5 (Ummah Link), ресерч, хранение видео, SFX-атмосферы, ассеты) + что не было в vault на 2026-10-19
+- [[uchebnik-refs-2026-10-18]] (17.1 KB) [lesson, textbook, ref-2026-10-18, color, grade, motion, angles, typography] — Всё, что берём из 12 референсов: анимации с таймингами, цвета текстов и фонов (замеры hex), цветокор, моушн и темп, ракурсы съёмки, звук; читать перед каждым монтажом вместе с edit-types-catalog
+
+## Инструменты
+
+- [[assets-library]] (3.0 KB) [tool, assets, icons, photos, infographics, maps] — Опись паков: ~53 000 иконок (линейные, 3D, флэт, логотипы, тематические подборки islamic/tech/business), 314 фото CC0 по 24 темам, 26 шаблонов инфографики × 4 палитры, карта мира по странам, 270 флагов, исламский паттерн khatam; полный каталог в assets\КАТАЛОГ.md
+- [[obsidian-search-setup]] (2.0 KB) [tool, obsidian, search] — Как искать по vault - встроенный поиск, Smart Connections (локальные эмбеддинги), опционально MCP для Claude Code
+- [[pipeline-gotchas]] (6.4 KB) [tool, pipeline, ffmpeg, whisper, hyperframes, audio, remote-control] — Проверенные числа и ловушки: маска речи и рез говорящей головы, ошибки whisper, баги HyperFrames/GSAP, loudnorm, лимит 20 МБ, передача файлов облако↔ПК, RC-сессии и параллельная работа
+- [[skills-apple-design-onetake]] (4.4 KB) [tools, skill, apple, motion] — Два внешних скилла в claude-edit\.claude\skills. apple-design = ревью UI по Apple HIG (для UI-мокапов в рилсах). onetake = моушен-ролики про продукт из HTML (только некоммерческая лицензия).
+- [[tools-catalog]] (7.5 KB) [tool, pc, catalog] — Какой скилл/MCP брать под задачу монтажа (рилсы, субтитры, моушн, анализ, стоки, ffmpeg); 78 скиллов + 5 MCP с 2026-10-13
+- [[tools-installed]] (4.7 KB) [tool, pc] — Что стоит на ПК: HyperFrames, ffmpeg-master, video-toolkit, ElevenLabs, Blender MCP, After Effects MCP, Higgsfield

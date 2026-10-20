@@ -1,0 +1,419 @@
+<title>Пульт монтажа</title>
+<style>
+:root{
+  --bg:#F5F5F7;--panel:#FFFFFF;--ink:#1D1D1F;--muted:#6E6E73;--line:#E3E3E8;
+  --accent:#C8102E;--accent-ink:#FFFFFF;--soft:#FBE7EA;--ok:#1F7A3A;--chip:#F0F0F3;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B0B0C;--panel:#161618;--ink:#F5F5F7;--muted:#9A9AA0;--line:#2A2A2E;
+  --accent:#FF3B4E;--accent-ink:#FFFFFF;--soft:#3A1218;--ok:#3DD06B;--chip:#202023;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --bg:#0B0B0C;--panel:#161618;--ink:#F5F5F7;--muted:#9A9AA0;--line:#2A2A2E;
+  --accent:#FF3B4E;--accent-ink:#FFFFFF;--soft:#3A1218;--ok:#3DD06B;--chip:#202023;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 16px 160px}
+header h1{font-size:clamp(34px,6vw,56px);line-height:1.02;letter-spacing:-.03em;margin:0 0 10px;font-weight:700}
+header p{color:var(--muted);margin:0;max-width:640px;font-size:17px}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}
+.rule{font-size:13px;padding:6px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.rule b{color:var(--ink);font-weight:600}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 6px}
+.btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;padding:9px 14px;font:inherit;font-weight:500;cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),background .2s,border-color .2s}
+.btn:hover{border-color:var(--muted)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent}
+.q{background:var(--panel);border-radius:22px;padding:22px 22px 18px;margin:16px 0;box-shadow:var(--shadow);animation:rise .6s cubic-bezier(.16,1,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.q-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.q-num{font-size:13px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.q h2{font-size:21px;letter-spacing:-.015em;margin:0;font-weight:650}
+.q-mode{font-size:12px;color:var(--muted);margin-left:auto}
+.q-hint{color:var(--muted);font-size:14px;margin:6px 0 14px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.opt{position:relative;text-align:left;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:16px;padding:12px 14px 12px;cursor:pointer;font:inherit;transition:border-color .25s,background .25s,transform .25s cubic-bezier(.34,1.56,.64,1)}
+.opt:hover{border-color:var(--muted)}
+.opt:active{transform:scale(.97)}
+.opt .t{font-weight:600;display:block;padding-right:22px}
+.opt .d{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.opt .rec{display:inline-block;font-size:11px;font-weight:600;color:var(--ok);margin-top:6px}
+.opt .mark{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
+.opt[aria-pressed="true"] .mark{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--soft)}
+.opt.auto{border-style:dashed}
+textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:14px;background:transparent;color:var(--ink);font:inherit;padding:12px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+.hidden{display:none}
+.bar{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line);z-index:5}
+.bar-in{max-width:960px;margin:0 auto;padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.progress{flex:1 1 220px;min-width:0}
+.progress .lbl{font-size:13px;color:var(--muted)}
+.track{height:6px;border-radius:6px;background:var(--chip);overflow:hidden;margin-top:6px}
+.fill{height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.status{font-size:13px;color:var(--muted);width:100%}
+.status.ok{color:var(--ok)}
+.history{margin-top:28px}
+.history h3{font-size:17px;margin:0 0 10px}
+.hist{background:var(--panel);border-radius:16px;padding:12px 14px;margin:8px 0;box-shadow:var(--shadow);font-size:14px}
+.hist .when{color:var(--muted);font-size:12px}
+.summary{white-space:pre-wrap;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--chip);border-radius:14px;padding:14px;margin-top:10px;overflow-wrap:anywhere}
+@media (max-width:520px){.opts{grid-template-columns:1fr 1fr}.opt{padding:10px 12px}.opt .d{font-size:12px}.q{padding:18px 14px 14px;border-radius:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Пульт монтажа</h1>
+    <p>Выбери всё, что важно для этого ролика, и нажми «Сохранить для Claude». Где не хочешь решать, оставь «Реши сам»: я выберу свежую комбинацию, не повторяя прошлые ролики.</p>
+    <div class="rules">
+      <span class="rule"><b>Всегда:</b> без музыки</span>
+      <span class="rule"><b>Всегда:</b> без звуков природы на фоне</span>
+      <span class="rule"><b>Всегда:</b> оригинальный фон</span>
+      <span class="rule"><b>Камера:</b> можно, плавно и с motion blur</span>
+      <span class="rule"><b>Всегда:</b> лицо по центру кадра</span>
+      <span class="rule"><b>Всегда:</b> грейд не темнит исходник</span>
+      <span class="rule"><b>Всегда:</b> картинка под слово, не под тему</span>
+      <span class="rule"><b>Всегда:</b> ничего не появляется без анимации</span>
+      <span class="rule"><b>Всегда:</b> никого не критикуем</span>
+    </div>
+    <div class="presets" id="presets"></div>
+  </header>
+  <main id="qs"></main>
+  <section class="q" style="animation-delay:.05s">
+    <div class="q-head"><span class="q-num">Своими словами</span><h2>Что ещё важно?</h2></div>
+    <p class="q-hint">Тема, сценарий, ссылки, что точно должно быть или чего не должно быть.</p>
+    <textarea id="note" placeholder="Например: ролик про 99 имён Аллаха, хук на первой секунде, в финале логотип Ummah Link"></textarea>
+  </section>
+  <section class="q">
+    <div class="q-head"><span class="q-num">Итог</span><h2>Бриф текстом</h2></div>
+    <p class="q-hint">Это то, что получит Claude. Можно скопировать и вставить в чат.</p>
+    <div class="summary" id="summary"></div>
+  </section>
+  <section class="history" id="historyBox"><h3>Сохранённые брифы</h3><div id="history"><p class="q-hint">Пока пусто.</p></div></section>
+</div>
+
+<div class="bar"><div class="bar-in">
+  <div class="progress"><div class="lbl" id="plbl">Выбрано 0 из 0</div><div class="track"><div class="fill" id="pfill"></div></div></div>
+  <button class="btn ghost" id="copyBtn">Скопировать</button>
+  <button class="btn ghost" id="resetBtn">Сброс</button>
+  <button class="btn primary" id="saveBtn">Сохранить для Claude</button>
+  <div class="status" id="status"></div>
+</div></div>
+
+<script>
+const AUTO = "__auto";
+const Q = [
+ {id:"type",title:"Какой ролик?",hint:"От этого зависит, сколько будет живой съёмки и сколько графики.",mode:"single",opts:[
+  ["talking","Говорящая голова","живая съёмка тебя, монтаж как у топовых рилсов"],
+  ["voice","Озвучка с графикой","твой голос, на экране моушн и инфографика"],
+  ["demo","Демо продукта","реальный интерфейс приложения или сайта"],
+  ["beforeafter","До / после","сравнение, трансформация"],
+  ["promo","Промо / реклама","плотно, много SFX, продукт в центре"],
+  ["islamic","Исламское знание","аят, хадис, история; приложение только в финале"]]},
+ {id:"source",title:"Есть исходное видео?",hint:"От этого зависит весь монтаж: работаем с твоей съёмкой или собираем ролик с нуля. Можно несколько.",mode:"multi",opts:[
+  ["talking","Да, говорящая голова","ты или блогер в кадре, говорит на камеру",true],
+  ["broll","Да, съёмка без лица","b-roll: руки, предметы, места, процесс"],
+  ["screen","Да, запись экрана","приложение, сайт, телефон"],
+  ["photos","Есть фото / картинки","свои снимки, скриншоты, логотипы"],
+  ["audio","Есть только голос","аудио без видео, картинку собираю я"],
+  ["none","Нет, с нуля","графика, анимация, фото из библиотеки, 3D"]]},
+ {id:"srcwhere",title:"Где лежит исходник?",hint:"Папка на ПК, ссылка или «прикреплю в чат».",mode:"text",ph:"Например: claude-edit\\_inbox\\2026-10-20\\ или «скину в тред»",when:hasSrc},
+ {id:"srcstate",title:"Что за исходник",hint:"Чтобы понять, сколько чистить.",mode:"multi",when:hasVid,opts:[
+  ["onetake","Один дубль","сплошная запись, надо резать паузы",true],
+  ["takes","Много дублей","выбрать лучшие, собрать по сценарию"],
+  ["precut","Уже смонтирован","нужна только графика, звук и цвет"],
+  ["phone","С телефона","проверю поворот и пропорции"],
+  ["camera","С камеры","4K или 1080p, своя цветокоррекция"]]},
+ {id:"orient",title:"Как снято",hint:"Горизонталь в вертикальный ролик кадрирую, а не растягиваю.",mode:"single",when:hasVid,opts:[
+  ["vert","Вертикально","9:16, как ролик",true],
+  ["horiz","Горизонтально","16:9, кадрирую или делаю сплит"],
+  ["mixed","По-разному","разные клипы"]]},
+ {id:"build",title:"Из чего собрать картинку",hint:"Если исходника нет или его мало. Можно несколько.",mode:"multi",when:s=>has(s,"source","none")||has(s,"source","audio")||has(s,"source","photos"),opts:[
+  ["motion","Моушн-графика","типографика, формы, UI-карточки в After Effects",true],
+  ["infog","Инфографика","цифры, карты, флаги, графики на реальных данных",true],
+  ["library","Фото и иконки из библиотеки","314 CC0-фото, иконки, паттерны"],
+  ["3d","3D","объекты и сцены в Blender"],
+  ["ai","AI-видео","генерация клипов (когда подключим Higgsfield)"],
+  ["ui","Интерфейс приложения","экраны продукта, мокапы телефона"]]},
+ {id:"script",title:"Сценарий",hint:"",mode:"single",opts:[
+  ["ready","Готов","текст есть, монтирую по нему"],
+  ["theses","Есть тезисы","допишу текст сам, покажу перед монтажом",true],
+  ["frommedia","По исходнику","структура из того, что сказано в видео"],
+  ["write","Напиши с нуля","3 идеи на выбор, потом сценарий"]]},
+ {id:"brand",title:"Бренд",hint:"Правила бренда главнее общего стиля.",mode:"single",opts:[
+  ["sabrmotion","SABRMOTION","чёрный, красный, зелёный; твой личный бренд"],
+  ["perset","PERSET","деловой тон, перСЕ́Т"],
+  ["ummah","Ummah Link","крем, зелёный, золото; Montserrat + Amiri"],
+  ["none","Без бренда","нейтрально, под задачу"]]},
+ {id:"direction",title:"Направление стиля",hint:"Можно выбрать два: основное и «полировку» поверх. Apple снова в системе.",mode:"multi",max:2,opts:[
+  ["D0","D0 Apple","чистый фон, крупная типографика, один акцент, плавные кривые",true],
+  ["D1","D1 Коллаж","вырезанные экраны и фото, стол исследователя"],
+  ["D2","D2 Ризо-плакат","2–3 печатные краски, кинетическая типографика"],
+  ["D3","D3 Рисую поверх","живое видео, поверх нарисованные линии и пометки"],
+  ["D4","D4 Тактильный","один предмет, руки, плёночное зерно"],
+  ["D5","D5 Швейцарская сетка","видимая сетка, контраст кеглей, асимметрия"],
+  ["D6","D6 Данные как предмет","каждый факт становится физической инфографикой"]]},
+ {id:"blogstyle",title:"Стиль блога (из разбора профи)",hint:"4 стиля из твоих референсов «до/после». Можно смешать два.",mode:"multi",max:2,when:hasHead,opts:[
+  ["A","A Журнальный","огромное слово курсивом, синие экраны «no. 1», растущий список, ч/б карточки, 3D-телефон",true],
+  ["B","B Неоновый капс","две строки на груди, вторая светится цветом смысла, цифры за головой, тумблер под жестом"],
+  ["C","C Диорамы на столе","сцены сверху с предметами и тенью окна, жёлтое слово с glow, звук материала"],
+  ["D","D Кино-слово","голос поверх своих кадров, одно слово за силуэтом (без чужих фильмов)"]]},
+ {id:"textlevels",title:"Как текст живёт рядом с человеком",hint:"Уровни из гайда по говорящей голове. В ролике 2–3 уровня, в следующем другие.",mode:"multi",when:hasHead,opts:[
+  ["u1","Субтитры уступают голове","сами уходят, если голова приближается; лицо не закрывают",true],
+  ["u2","Подпись едет с головой","короткая подпись у плеча, перетекает при повороте",true],
+  ["u3","Слово за спиной","голова внутри огромного слова, 1–2 раза на ролик"],
+  ["u4","Текст на стене / столе","трекинг поверхности"],
+  ["u5","Текстом управляет жест","показал пальцем — подпись вылетает из пальца"]]},
+ {id:"recipes",title:"Приёмы профи",hint:"Из покадрового разбора референсов и 8 YouTube-шортсов. Возьму 3–5, в каждом ролике новые.",mode:"multi",when:hasHead,opts:[
+  ["R1","Слово-герой","одно слово в 3–6 раз крупнее другим шрифтом"],
+  ["R3","Цифры за головой","перещёлкиваются, тик на каждую смену",true],
+  ["R4","Растущий список","пункты по одному, текущий цветной, прошлые серые"],
+  ["R5","Экран-пауза «no. 1»","полный экран цвета бренда, караоке-заливка"],
+  ["R6","Слова над волной голоса","живая звуковая волна, слова сверху"],
+  ["R7","Перебивка карточкой-окном","кадр 75 % со скруглением на светлом фоне"],
+  ["R8","3D-телефон со спикером","телефон поворачивается, внутри ты"],
+  ["R9","UI-объект под жест","тумблер или кнопка щёлкает вместе со словом"],
+  ["R10","Iris в круг","кадр сжимается в круг, внутри новый экран"],
+  ["R11","Диорама на столе","3D-сцена сверху, тень окна"],
+  ["R13","Вспышка на смену раздела","световой шар или засвет 6–8 кадров"],
+  ["R14","Слово за силуэтом","слово между фоном и человеком в перебивке"],
+  ["Y1","Руки приносят перебивку","руки входят и держат фото-карточку",true],
+  ["Y2","Графика на футболке","белая линия, график, шестерёнки рисуются на теле"],
+  ["Y3","3D-предмет выезжает на слове","+ полоса прогресса до нужного числа",true],
+  ["Y4","Маркер по строке","кольцо или выделение в документе"],
+  ["Y5","Ч/б спикер-стикер","вырезанный ты на белой карточке"],
+  ["Y7","Число = экран инфографики","круговой таймер, падающий график со счётчиком",true],
+  ["Y8","Огромное слово + лучи","две строки за головой, свет за словом"],
+  ["Y9","Рамка-видоискатель","уголки камеры как виртуальная камера"],
+  ["Y10","Схема из «пилюль»","поток с изогнутыми связями"],
+  ["ST","Стаккато","один смысл = 3 кадра по 0.25 с"]]},
+ {id:"broll",title:"Откуда перебивки",hint:"Каждое ключевое слово получает свой кадр. Перед монтажом делаю список «слово → кадр → источник».",mode:"multi",when:hasVid,opts:[
+  ["reshoot","Досъёмка","пришлю список 15–25 коротких кадров: руки, предметы, экран, ты со спины",true],
+  ["photos","Фото из библиотеки","только если фото буквально = слово"],
+  ["stock","Стоковое видео","Pexels, для того, что не доснять"],
+  ["3d","3D-предметы","Blender, диорамы",true],
+  ["ai","Генерация","только с твоего одобрения"]]},
+ {id:"fonts",title:"Шрифты",hint:"Пары из теста блога.",mode:"single",opts:[
+  ["fA","A Segoe + Georgia Italic","субтитры гротеском, ключевые слова курсивом",true],
+  ["fB","B Montserrat ExtraBold + Georgia Italic","жирнее и плотнее"],
+  ["fC","C Только Segoe","спокойно, один шрифт"],
+  ["brand","Шрифты бренда","как в брендбуке"]]},
+ {id:"tier",title:"Сколько движения",hint:"Плотность событий на экране.",mode:"single",opts:[
+  ["min","Минимал","цвет и точечные субтитры"],
+  ["std","Стандарт","субтитры и графика без смены фона"],
+  ["power","Мощный","событие каждые ~1 с, графика всё время живёт",true],
+  ["ultra","Ультра","событие каждые 0.4–0.8 с, лицо можно закрывать"]]},
+ {id:"live",title:"Как монтировать живую съёмку",hint:"Как сейчас монтируют Reels, TikTok и YouTube Shorts. Можно несколько.",mode:"multi",when:s=>has(s,"type","talking")||has(s,"type","beforeafter")||has(s,"source","talking"),opts:[
+  ["cuts","Плотные резы","вырезать паузы и дубли, темп без «эээ»",true],
+  ["framings","Смена планов","общий / средний / крупный из одной камеры на смене мысли",true],
+  ["jl","J- и L-склейки","звук заходит раньше картинки, мягкие переходы"],
+  ["broll","B-roll","перебивки: предметы, руки, экран, места"],
+  ["behind","Графика за спиной","текст и объекты за тобой через маску человека"],
+  ["pointing","Графика к жестам","элементы появляются там, куда показываешь"],
+  ["split","Сплит-экран","ты и доказательство рядом"],
+  ["rehook","Ре-хуки","новый вопрос или поворот на 15 и 30 с"]]},
+ {id:"entrances",title:"Анимации появления",hint:"Из библиотеки 64 приёмов. В ролике будет минимум 3 разных входа.",mode:"multi",opts:[
+  ["expand","Расширение блока","точка → линия → плашка",true],
+  ["grow","Блок на весь экран","квадрат растёт и становится новой сценой",true],
+  ["blurrise","Apple Blur Rise","проявление из размытия, мягкий подъём"],
+  ["bounce","Bounce","мягкий отскок у главных цифр и карточек",true],
+  ["stagger","Каскад","элементы по очереди с шагом 3 кадра"],
+  ["chars","Побуквенно","буквы проявляются волной с размытием"],
+  ["bento","Bento-сетка","сетка карточек собирается из блоков"],
+  ["mask","Маска-шторка","текст открывается шторкой"],
+  ["corner","Из угла","карточка раскрывается от угла"],
+  ["counter","Счётчик","цифры бегут до значения, столбцы растут"],
+  ["draw","Обводка","линии и стрелки рисуются сами"],
+  ["rig","Риг / кости","персонажи и предметы на Puppet-пинах"]]},
+ {id:"transitions",title:"Переходы между сценами",hint:"Камера и ракурсы разрешены, но плавно и с motion blur.",mode:"multi",opts:[
+  ["morph","Бесшовный морф","объект одной сцены превращается в следующую"],
+  ["cut","Резкий рез в ритм","на ударе слова или SFX"],
+  ["square","Квадрат → сцена","блок вырастает в новый фон",true],
+  ["grid","Сетка квадратов","кадр уходит плитками 3×5"],
+  ["wipe","Шторка-фигура","многослойная цветная шторка"],
+  ["match","Совпадение по форме","круг в круг, линия в линию"],
+  ["mix","Смешанно","разные на разных битах"]]},
+ {id:"captions",title:"Субтитры",hint:"Обычный регистр, крупно (от 56 px), своя система на ролик.",mode:"single",opts:[
+  ["phrases","Фразами","спокойно читаются, по 3–6 слов",true],
+  ["wordswitch","По слову, шрифт меняется","смена каждые 0.25–0.4 с, курсив ↔ гротеск, как у профи"],
+  ["hero","Слово-герой на груди","одно слово крупно, остальные мелко у подбородка"],
+  ["neon2","Две строки, вторая светится","цвет по смыслу: красный проблема, зелёный решение"],
+  ["kinetic","Кинетика","ключевые слова крупно, набором на кадр"],
+  ["word","По одному слову","быстро, в ритм речи"],
+  ["accents","Только акценты","субтитры лишь на главных фразах"],
+  ["none","Без субтитров",""]]},
+ {id:"infographics",title:"Инфографика",hint:"Только на реальных цифрах и фактах.",mode:"single",opts:[
+  ["max","В каждом бите","число становится формой или предметом",true],
+  ["mid","Где есть цифры","графики, счётчики, сравнения"],
+  ["low","Минимум","одна-две вставки"]]},
+ {id:"sound",title:"Звук",hint:"Музыки и звуков природы нет никогда. SFX и, по желанию, тихий нашид.",mode:"multi",opts:[
+  ["sfx_many","Много SFX","звук на каждое значимое действие",true],
+  ["sfx_few","Мало SFX","только на главных моментах"],
+  ["sfx_human","Звуки на действия человека","жест, смена плана, наезд; звук в сторону руки"],
+  ["sfx_material","Звук от материала","бумага, стекло, стол, картон"],
+  ["nasheed","Тихий нашид на фоне","спокойный нашид без инструментов, тише голоса",true],
+  ["silence","Тишина под Коран","под чтением аятов ничего"],
+  ["voice_own","Мой голос из записи","обработка: чёткий, «остренький»"],
+  ["voice_clone","Мой клон ElevenLabs","озвучка твоим клонированным голосом"]]},
+ {id:"color",title:"Цвет",hint:"По умолчанию основные цвета бренда.",mode:"single",opts:[
+  ["main","Основные цвета","палитра бренда и обычный грейд",true],
+  ["B1","Cloud Dancer","воздушный белый, редакционно"],
+  ["B2","Mocha Cream","мокко, крем, эспрессо"],
+  ["B3","Midnight Teal","тёмная бирюза"],
+  ["B10","Moonrise Khaki","землистый, тёплый"],
+  ["B11","Darjeeling Saffron","шафран, бордо"],
+  ["light","Светлая тема бренда","белый фон вместо тёмного"]]},
+ {id:"grade",title:"Цветокор живого видео",hint:"Как будет выглядеть кожа и картинка.",mode:"single",when:s=>has(s,"type","talking")||has(s,"type","beforeafter")||has(s,"type","demo")||hasVid(s),opts:[
+  ["L1","Clean Apple","нейтрально, чистая кожа",true],
+  ["L2","Золото / бирюза","эксперт, бизнес"],
+  ["L3","Portra warm","тёплый плёночный"],
+  ["L4","Eterna muted","приглушённый, серьёзный"],
+  ["L9","Print-film","плотные тени, премиум"]]},
+ {id:"face",title:"Сколько лица в кадре",hint:"",mode:"single",opts:[
+  ["100","Почти всегда","графика рядом и за спиной"],
+  ["70","60–80 %","графика иногда перекрывает",true],
+  ["40","30–50 %","больше графики, чем лица"],
+  ["0","Только голос","лица нет"]]},
+ {id:"format",title:"Формат",hint:"Можно несколько.",mode:"multi",opts:[
+  ["v","9:16 вертикаль","1080×1920, Reels, TikTok, Shorts",true],
+  ["h","16:9 горизонталь","YouTube"],
+  ["s","1:1 квадрат",""],
+  ["p","4:5 пост","лента Instagram"]]},
+ {id:"length",title:"Длина",hint:"",mode:"single",opts:[
+  ["15","до 15 с",""],["30","20–35 с","",true],["60","45–60 с",""],["90","до 90 с",""]]},
+ {id:"finale",title:"Финал",hint:"Без «подпишись» и кнопок.",mode:"single",opts:[
+  ["loop","Луп с логотипом","затемнение, знак бренда, последнее слово тает за ним",true],
+  ["textlogo","Логотип текстом","надпись бренда, не похожа на кнопку ▶"],
+  ["loopstart","Закольцевать к началу","последний кадр переходит в первый"]]},
+ {id:"proof",title:"Что показать перед финалом",hint:"Как ты хочешь проверить ролик до сдачи.",mode:"multi",opts:[
+  ["frames","3 стиль-фрейма","сначала картинки направления, потом сборка",true],
+  ["animatic","Черновой аниматик","быстрый прогон без полировки"],
+  ["direct","Сразу финал","без промежуточных показов"]]}
+];
+const PRESETS = [
+ ["Живой рилс",{type:"talking",source:["talking"],direction:["D0"],tier:"power",live:["cuts","framings","jl","behind","rehook"],entrances:["expand","blurrise","bounce","stagger"],transitions:["cut","square"],captions:"phrases",sound:["sfx_many","nasheed","voice_own"],grade:"L1",face:"100"}],
+ ["Блог как у профи",{type:"talking",source:["talking"],blogstyle:["A"],textlevels:["u1","u2","u3"],recipes:["R3","R4","R5","Y1","Y7"],broll:["reshoot","3d"],captions:"wordswitch",sound:["sfx_many","sfx_human","sfx_material","voice_own"],fonts:"fA",tier:"power",face:"70",finale:"loop"}],
+ ["Apple-промо",{type:"promo",source:["none"],build:["motion","ui"],direction:["D0"],tier:"ultra",entrances:["expand","grow","bounce","bento","counter"],transitions:["square","morph","grid"],captions:"kinetic",infographics:"max",sound:["sfx_many"],face:"0"}],
+ ["Исламское знание",{type:"islamic",brand:"ummah",direction:["D0","D6"],tier:"power",entrances:["blurrise","chars","expand","draw"],transitions:["match","square"],captions:"phrases",sound:["nasheed","silence","voice_clone"],face:"0"}],
+ ["Данные и цифры",{type:"voice",source:["audio"],build:["infog","motion"],direction:["D6","D5"],tier:"power",entrances:["counter","expand","stagger","bento"],transitions:["grid","wipe"],infographics:"max",captions:"accents",sound:["sfx_many","nasheed"]}]
+];
+function has(s,k,v){const x=s[k];return Array.isArray(x)?x.includes(v):x===v}
+function hasVid(s){return ["talking","broll","screen"].some(v=>has(s,"source",v))}
+function hasHead(s){return has(s,"type","talking")||has(s,"type","beforeafter")||has(s,"source","talking")}
+function hasSrc(s){return hasVid(s)||has(s,"source","photos")||has(s,"source","audio")}
+let state={};
+const LS="pult-montazha-draft";
+try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(d&&d.state)state=d.state,document.addEventListener("DOMContentLoaded",()=>{});}catch(e){}
+
+const qs=document.getElementById("qs");
+function visible(){return Q.filter(q=>!q.when||q.when(state))}
+function render(){
+  qs.innerHTML="";
+  visible().forEach((q,i)=>{
+    const sec=document.createElement("section");sec.className="q";sec.style.animationDelay=(i*0.04)+"s";
+    const sel=state[q.id];
+    sec.innerHTML=`<div class="q-head"><span class="q-num">${String(i+1).padStart(2,"0")}</span><h2></h2><span class="q-mode">${q.mode==="text"?"своими словами":q.mode==="multi"?(q.max?"до "+q.max:"можно несколько"):"один вариант"}</span></div>${q.hint?'<p class="q-hint"></p>':'<div style="height:12px"></div>'}<div class="opts"></div>`;
+    sec.querySelector("h2").textContent=q.title;
+    if(q.hint)sec.querySelector(".q-hint").textContent=q.hint;
+    const box=sec.querySelector(".opts");
+    if(q.mode==="text"){const ta=document.createElement("textarea");ta.style.minHeight="56px";ta.placeholder=q.ph||"";ta.value=typeof sel==="string"?sel:"";ta.oninput=()=>{state[q.id]=ta.value.trim()||undefined;update();saveDraft()};box.style.display="block";box.appendChild(ta);qs.appendChild(sec);return}
+    const all=[...q.opts,[AUTO,"Реши сам","выберу свежую комбинацию"]];
+    all.forEach(([v,t,d,rec])=>{
+      const b=document.createElement("button");b.type="button";b.className="opt"+(v===AUTO?" auto":"");
+      const on=Array.isArray(sel)?sel.includes(v):sel===v;
+      b.setAttribute("aria-pressed",on?"true":"false");
+      b.innerHTML=`<span class="mark"></span><span class="t"></span>${d?'<span class="d"></span>':""}${rec?'<span class="rec">рекомендую</span>':""}`;
+      b.querySelector(".t").textContent=t;if(d)b.querySelector(".d").textContent=d;
+      b.onclick=()=>pick(q,v);
+      box.appendChild(b);
+    });
+    qs.appendChild(sec);
+  });
+  update();
+}
+function pick(q,v){
+  if(q.mode==="single"){state[q.id]=state[q.id]===v?undefined:v;}
+  else{
+    let a=Array.isArray(state[q.id])?[...state[q.id]]:[];
+    if(v===AUTO)a=a.includes(AUTO)?[]:[AUTO];
+    else{a=a.filter(x=>x!==AUTO);a=a.includes(v)?a.filter(x=>x!==v):[...a,v];if(q.max&&a.length>q.max)a=a.slice(-q.max);}
+    state[q.id]=a.length?a:undefined;
+  }
+  const before=visible().length;
+  if(q.id==="type"){render();}else{
+    // update only pressed marks to keep animations calm
+    render();
+  }
+  saveDraft();
+}
+function labelOf(q,v){if(v===AUTO)return"реши сам";if(q.mode==="text")return v;const o=q.opts.find(o=>o[0]===v);return o?o[1]:v}
+function summaryText(){
+  const lines=[];
+  visible().forEach(q=>{
+    const s=state[q.id];
+    const val=s===undefined||(Array.isArray(s)&&!s.length)?"реши сам (не выбрано)":Array.isArray(s)?s.map(v=>labelOf(q,v)).join(", "):labelOf(q,s);
+    lines.push(`${q.title}: ${val}`);
+  });
+  const n=document.getElementById("note").value.trim();
+  if(n)lines.push(`Своими словами: ${n}`);
+  lines.push("Всегда: без музыки, без звуков природы, оригинальный фон, всё появляется с анимацией, без зерна, лицо по центру, грейд не темнит, картинка под слово. Камера можно, плавно.");
+  return lines.join("\n");
+}
+function update(){
+  const vis=visible();const done=vis.filter(q=>{const s=state[q.id];return s!==undefined&&!(Array.isArray(s)&&!s.length)}).length;
+  document.getElementById("plbl").textContent=`Выбрано ${done} из ${vis.length}, остальное решу сам`;
+  document.getElementById("pfill").style.width=(vis.length?done/vis.length*100:0)+"%";
+  document.getElementById("summary").textContent=summaryText();
+}
+function saveDraft(){try{localStorage.setItem(LS,JSON.stringify({state,note:document.getElementById("note").value}))}catch(e){}}
+try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(d&&d.note)document.getElementById("note").value=d.note}catch(e){}
+document.getElementById("note").addEventListener("input",()=>{update();saveDraft()});
+
+const pr=document.getElementById("presets");
+const lab=document.createElement("span");lab.className="q-hint";lab.style.margin="8px 4px 0 0";lab.textContent="Быстрый старт:";pr.appendChild(lab);
+PRESETS.forEach(([name,p])=>{const b=document.createElement("button");b.className="btn";b.textContent=name;b.onclick=()=>{state=JSON.parse(JSON.stringify(p));render();saveDraft();setStatus("Загружен набор «"+name+"», можно менять")};pr.appendChild(b)});
+const lastBtn=document.createElement("button");lastBtn.className="btn hidden";lastBtn.textContent="Как в прошлый раз";pr.appendChild(lastBtn);
+
+function setStatus(t,ok){const s=document.getElementById("status");s.textContent=t;s.className="status"+(ok?" ok":"")}
+document.getElementById("resetBtn").onclick=()=>{state={};document.getElementById("note").value="";render();saveDraft();setStatus("Всё сброшено")};
+document.getElementById("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(summaryText());setStatus("Бриф скопирован, вставь его в чат",true)}catch(e){setStatus("Не получилось скопировать, выдели текст в блоке «Бриф текстом»")}};
+
+function clean(o){const r={};for(const k in o){const v=o[k];if(v!==undefined&&!(Array.isArray(v)&&!v.length))r[k]=v}return r}
+let db=null,me=null;
+const saveBtn=document.getElementById("saveBtn");
+saveBtn.onclick=async()=>{
+  if(!db){setStatus("Сохранение недоступно в этом просмотре. Нажми «Скопировать» и вставь бриф в чат.");return}
+  const rec={choices:clean(state),note:document.getElementById("note").value.trim(),summary:summaryText(),createdAt:Date.now(),by:me||""};
+  saveBtn.disabled=true;setStatus("Сохраняю…");
+  try{await db.doc("state/current").set(rec);await db.collection("briefs").add(rec);setStatus("Сохранено. Напиши в треде «бриф готов», и я начну с него.",true)}
+  catch(e){setStatus("Не сохранилось ("+(e&&e.code||"ошибка")+"). Скопируй бриф и вставь в чат.")}
+  finally{saveBtn.disabled=false}
+};
+function fmt(ts){try{return new Date(ts).toLocaleString("ru-RU",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
+(async()=>{
+  try{const u=await claude.use("user");if(u){try{me=await u.id()}catch(e){}}}catch(e){}
+  try{db=await claude.use("db")}catch(e){db=null}
+  if(!db)return;
+  try{
+    db.collection("briefs").orderBy("createdAt","desc").limit(5).onSnapshot(snap=>{
+      const h=document.getElementById("history");h.innerHTML="";
+      const docs=snap.docs||[];
+      if(!docs.length){h.innerHTML='<p class="q-hint">Пока пусто.</p>';return}
+      docs.forEach(d=>{const x=d.data()||{};const el=document.createElement("div");el.className="hist";
+        const w=document.createElement("div");w.className="when";w.textContent=fmt(x.createdAt);
+        const t=document.createElement("div");t.textContent=String(x.summary||"").split("\n").slice(0,4).join(" · ");
+        el.append(w,t);el.style.cursor="pointer";el.title="Загрузить этот бриф";
+        el.onclick=()=>{state=JSON.parse(JSON.stringify(x.choices||{}));document.getElementById("note").value=x.note||"";render();saveDraft();setStatus("Загружен бриф от "+fmt(x.createdAt))};
+        h.appendChild(el)});
+      const top=docs[0].data();if(top){lastBtn.classList.remove("hidden");lastBtn.onclick=()=>{state=JSON.parse(JSON.stringify(top.choices||{}));document.getElementById("note").value=top.note||"";render();saveDraft();setStatus("Загружен прошлый бриф")}}
+    },()=>{});
+  }catch(e){}
+})();
+render();
+</script>
