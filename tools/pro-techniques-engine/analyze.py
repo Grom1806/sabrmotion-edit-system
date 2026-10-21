@@ -28,12 +28,23 @@ while True:
         blink=float((ear(33,160,158,133,153,144)+ear(362,385,387,263,373,380))/2)
         d=dict(cx=float((x0+x1)/2),cy=float((y0+y1)/2),w=float(x1-x0),h=float(y1-y0),roll=roll,yaw=yaw,ear=blink,
                eyes=[float(mid[0]),float(mid[1])],chin=[float(p[152][0]),float(p[152][1])],top=[float(p[10][0]),float(p[10][1])])
-    track.append(d)
     x=(f.astype(np.float32)/255).transpose(2,0,1)[None]
     fgr,pha,*rec=sess.run(None,{'src':x,'r1i':rec[0],'r2i':rec[1],'r3i':rec[2],'r4i':rec[3],'downsample_ratio':ds})
-    enc.stdin.write((pha[0,0]*255+0.5).clip(0,255).astype(np.uint8).tobytes())
+    a8=(pha[0,0]*255+0.5).clip(0,255).astype(np.uint8)
+    enc.stdin.write(a8.tobytes())
+    if d:   # край человека по маске: левый край в полосе глаз (уши/волосы) и верх волос над лицом
+        ey=int(d['eyes'][1]); band=a8[max(0,ey-90):ey+40]
+        cols=np.where((band>128).any(0))[0]; d['lft']=float(cols.min()) if len(cols) else d['cx']-d['w']
+        x0,x1=int(d['cx']-.3*d['w']),int(d['cx']+.3*d['w'])
+        rows=np.where((a8[:,max(0,x0):x1]>128).any(1))[0]; d['ptop']=float(rows.min()) if len(rows) else d['top'][1]-60
+    track.append(d)
     i+=1
     if i%50==0: print(i, round(time.time()-t0,1), flush=True)
 enc.stdin.close(); enc.wait()
+# пропуски детекции: ближайший найденный кадр (рендер ждёт данные в каждом кадре)
+ok=[k for k,d in enumerate(track) if d]
+if not ok: sys.exit('лицо не найдено ни в одном кадре')
+for k in range(len(track)):
+    if not track[k]: track[k]=dict(track[min(ok,key=lambda j:abs(j-k))])
 json.dump(dict(W=W,H=H,fps=FPS,frames=track),open(out+'/face_track.json','w'))
 print('done',i)

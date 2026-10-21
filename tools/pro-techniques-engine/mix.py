@@ -1,9 +1,13 @@
 # Звук: голос (без de-reverb; HPF, ясность, компрессия, де-эссер, -14 LUFS) + SFX из sfx_events.json
 import json, subprocess, numpy as np, sys
 D = sys.argv[1]; SR = 48000; T_END = 24.82
-SFXDIR = '/mnt/user-data/uploads/claude-edit/assets/sfx'
+import os
+# папка SFX: 2-й аргумент или SFX_DIR, по умолчанию assets\sfx рядом с проектом
+SFXDIR = sys.argv[2] if len(sys.argv) > 2 else os.environ.get('SFX_DIR', os.path.join(D, 'assets', 'sfx'))
 def load(path):
-    b = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True).stdout
+    r = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True)
+    if r.returncode or not r.stdout: sys.exit(f'не прочитан звук: {path}\n{r.stderr.decode(errors="replace")}')
+    b = r.stdout
     return np.frombuffer(b, np.float32).reshape(-1, 2).copy()
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-t', str(T_END), '-i', f'{D}/src.mp4', '-vn', '-af',
                 'highpass=f=80,equalizer=f=250:t=q:w=1:g=-2,equalizer=f=3500:t=q:w=1.2:g=2.5,'
