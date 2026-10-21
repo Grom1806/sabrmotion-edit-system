@@ -12,7 +12,7 @@ summary: Карта всех заметок с одной строкой о ка
 ## Старт и система v2 (читать первым)
 
 - [[START]] (4.6 KB) [moc, workflow] — Протокол загрузки знаний перед монтажом (экономия токенов), правило синхронизации и как добавлять новое
-- [[SYSTEM]] (13.0 KB) [moc, workflow, system-v2, system-v3, rule] — Главный документ (v3 с 2026-10-19 вечер): бриф с Пульта монтажа → идея → направление D0–D6 стиль-фреймами → сборка в ОТКРЫТОМ таймлайне After Effects → плотность Мощный, инфографика на реальных данных, резкость, анти-ИИ проверка; Apple снова D0; анимация motion-v3; живая съёмка live-editing-v3
+- [[SYSTEM]] (16.8 KB) [moc, workflow, system-v2, system-v3, rule] — Главный документ (v3 с 2026-10-19 вечер): бриф с Пульта монтажа → идея → направление D0–D6 стиль-фреймами → сборка в ОТКРЫТОМ таймлайне After Effects → плотность Мощный, инфографика на реальных данных, резкость, анти-ИИ проверка; Apple снова D0; анимация motion-v3; живая съёмка live-editing-v3; с 2026-10-21 база «дорого» (pro-advanced-editing): карта человека, текст в пространстве человека, ракурсы, 4+ переходов, SFX от событий
 
 ## Система монтажа v2 (читать перед каждым роликом)
 
@@ -43,6 +43,7 @@ summary: Карта всех заметок с одной строкой о ка
 - [[no-negativity-about-others]] (2.2 KB) [rule, script, ethics] — Жёсткое правило: никогда не критиковать и не сравнивать в невыгодном свете другие приложения, бренды, особенно исламские, ни в одном сценарии
 - [[output-format]] (0.8 KB) [rule, workflow] — Рилсы 9:16 1080x1920 (если не просили 16:9); монтаж идёт на ПК через Remote Control
 - [[phone-clips]] (0.7 KB) [rule, source] — Проверять SAR/rotation, чтобы горизонтальное не растянулось; не глушить живую речь в клипах
+- [[pro-baseline]] (3.9 KB) [rule, system-v3, pro, talking-head, transitions, sfx, infographic] — С 2026-10-21 (пользователь одобрил демо сложного монтажа: «наш монтаж улучшился… намного лучше») уровень демо — новый минимум: карта человека, ≥2 приёма текста в пространстве человека, ≥3 ракурса, ≥4 разных перехода, сквозная инфографика, SFX от событий с аудитом
 - [[qa-frame-by-frame]] (2.0 KB) [rule, qa] — Каждую версию проверять покадрово: графика, субтитры, SFX по таймингам слов, без глитчей
 - [[reading-time]] (5.3 KB) [rule, typography, rhythm, qa, motion] — Каждый смысловой текст после ПОЛНОГО появления держится ≥ 1.2 с + 0.3 с/слово (+0.5 числа/UI, +1 главный тезис/CTA); анимации не замедлять — удлинять держание (камера может медленно дрейфовать); ролик может стать длиннее; в QA таблица «надпись → видна, с»
 - [[references-learning]] (2.0 KB) [rule, workflow, references] — Из референсов берём монтаж внутри экранов и в кадре (анимации, цвета текстов, грейд, моушн, ракурсы, идею ролика), упаковку автора не копируем; перед монтажом читать учебник 04-lessons/uchebnik-*
@@ -130,7 +131,7 @@ summary: Карта всех заметок с одной строкой о ка
 
 - [[2026-10-20-ae-montserrat-substitute]] (3.8 KB) [lesson, after-effects, fonts, perset] — В AE на этом ПК живой только Montserrat ExtraBold (Adobe Fonts); Black/Bold/SemiBold/Medium/Light/Regular молча становятся Times — проверять isSubstitute до сборки; G-Fill цвета из скрипта не задаются → Ramp + Set Matte
 - [[backlog-open-items]] (4.4 KB) [lesson, backlog, content, open-items] — Невыбранные идеи рилсов, уже использованные факты (не повторять), контент-стратегия пользователя, ассеты на ПК и что ждёт ответа пользователя на 2026-10-19
-- [[edit-lessons-log]] (22.7 KB) [lesson, log] — Хронология роликов: что сработало, что исправили, цифры (LUFS, доля лица, SFX/с)
+- [[edit-lessons-log]] (23.5 KB) [lesson, log] — Хронология роликов: что сработало, что исправили, цифры (LUFS, доля лица, SFX/с)
 - [[2026-10-18-localai-studio]] (6.5 KB) [lesson, reel, tier/power, brand/sabrmotion, blender, aftereffects, faceless] — Без исходников — 100 % графика + голос-клон; настоящие скрины UI из Vite; Blender macro-to-wide с match cut кольца; AE-кольцо установки
 - [[2026-10-18-perset-invest01]] (6.6 KB) [lesson, reel, tier/power, brand/perset, ae, invest] — 16:9 инвест-ролик 2:11, голос по сценам + AE-вставки (лого, card-flip, цикл); ElevenLabs alignment точнее whisper.cpp
 - [[2026-10-18-perset-reel04-revolut]] (7.7 KB) [lesson, reel, tier/power, brand/perset, blender, faceless, no-voice] — Продукт-промо по Revolut-референсу без голоса — Blender-телефоны и глобус с монетами, изгиб полотна clip-path, белые кадры + огненный акцент
@@ -154,7 +155,7 @@ summary: Карта всех заметок с одной строкой о ка
 - [[2026-10-20_practice-ebay-amazon]] (5.2 KB) [reel, practice, talking-head, style-c, blender, after-effects] — 
 - [[2026-10-20_test3-neon]] (5.8 KB) [lesson, talking-head, after-effects, matte, rembg, tracking] — 
 - [[2026-10-21-plan-2-mosque]] (6.0 KB) [lesson, reel, tier/power, brand/sabrmotion, faceless, experiment, blender, aftereffects, screen-recording] — Эксперимент «проверил сам» без дубля — сайт мечети собран Claude Code за 3:12 (лог + скриншоты = запись экрана), сквозной HUD-таймер с реальными минутами, зум на настоящую ошибку фаджра, 3D-телефон Blender, AE-циферблат; палитра Midnight Teal
-- [[2026-10-21-pro-techniques-demo]] (4.2 KB) [lesson, reel, talking-head, tracking, text-behind, transitions, sfx, pro] — Демо всех «дорогих» приёмов на 4K-исходнике пользователя: 7 сцен, 4 ракурса, 6 переходов, текст за/у/из-за головы, b-roll с текстом, сквозная шкала долга, 108 SFX от событий; что сломалось на стиль-кадрах и как починили
+- [[2026-10-21-pro-techniques-demo]] (5.6 KB) [lesson, reel, talking-head, tracking, text-behind, transitions, sfx, pro] — ОДОБРЕНО пользователем («намного лучше»). Демо всех «дорогих» приёмов на 4K-исходнике пользователя: 7 сцен, 4 ракурса, 6 переходов, текст за/у/из-за головы, b-roll с текстом, сквозная шкала долга, 108 SFX от событий; что сломалось на стиль-кадрах и как починили
 - [[talking-head-feedback-2026-10-20]] (4.8 KB) [lesson, talking-head, rule, feedback, system-v3] — 
 - [[open-tails-2026-10-20]] (6.0 KB) [lesson, backlog, open-items, threads] — Сводка недоделанного по всем тредам проекта на вечер 2026-10-20: ролики без «ок», заглушки, удаления без «да», устаревшие правила в старых тредах, новые возможности (Higgsfield), идеи, которые лежат без дела
 - [[threads-audit-2026-10-19]] (6.6 KB) [lesson, threads, audit, system-v2, system-v3, after-effects] — Хронология аудита: шаблон ИИ-монтажа, система v2, «День 90» v2 отвергнут (скучно), уход от Apple-стиля, 20 роликов разобраны, 4 ручных направления, Ummah Link ризо-плакат, настоящий таймлайн AE, причины мыла
