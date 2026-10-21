@@ -27,7 +27,7 @@ source: пользователь 2026-10-19 («сделай красивую н�
 | srcwhere | текст: папка на ПК / ссылка / «скину в тред»; показывается, если есть исходник |
 | srcstate | onetake, takes, precut, phone, camera; только если есть видео |
 | orient | vert, horiz, mixed; только если есть видео (горизонталь кадрируем, не растягиваем, см. проверку SAR) |
-| build | motion, infog, library, 3d, ai, ui; если исходника нет / только голос / только фото |
+| build | motion, infog, library, 3d, ai, ui, map (документальный моушен на карте, [[docu-map-motion]]); если исходника нет / только голос / только фото |
 | script | ready, theses, frommedia, write |
 | brand | sabrmotion, perset, ummah, none |
 | direction | D0–D6, до 2 |

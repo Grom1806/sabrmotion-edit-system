@@ -141,7 +141,8 @@ const Q = [
   ["library","Фото и иконки из библиотеки","314 CC0-фото, иконки, паттерны"],
   ["3d","3D","объекты и сцены в Blender"],
   ["ai","AI-видео","генерация клипов (когда подключим Higgsfield)"],
-  ["ui","Интерфейс приложения","экраны продукта, мокапы телефона"]]},
+  ["ui","Интерфейс приложения","экраны продукта, мокапы телефона"],
+  ["map","Документалка на карте","ночная спутниковая карта, камера летает между городами, маршруты и хроника (как «Путь аль-Бухари»)"]]},
  {id:"script",title:"Сценарий",hint:"",mode:"single",opts:[
   ["ready","Готов","текст есть, монтирую по нему"],
   ["theses","Есть тезисы","допишу текст сам, покажу перед монтажом",true],
@@ -326,6 +327,7 @@ const PRESETS = [
  ["Блог как у профи",{type:"talking",source:["talking"],blogstyle:["A"],textlevels:["u1","u2","u3"],recipes:["R3","R4","R5","Y1","Y7"],broll:["reshoot","3d"],captions:"wordswitch",sound:["sfx_many","sfx_human","sfx_material","voice_own"],fonts:"fA",tier:"power",face:"70",finale:"loop"}],
  ["Apple-промо",{type:"promo",source:["none"],build:["motion","ui"],direction:["D0"],tier:"ultra",entrances:["expand","grow","bounce","bento","counter"],transitions:["square","morph","grid"],captions:"kinetic",infographics:"max",sound:["sfx_many"],face:"0"}],
  ["Исламское знание",{type:"islamic",brand:"ummah",direction:["D0","D6"],tier:"power",entrances:["blurrise","chars","expand","draw"],transitions:["match","square"],captions:"phrases",sound:["nasheed","silence","voice_clone"],face:"0"}],
+ ["Документалка на карте",{type:"voice",source:["audio"],build:["map","infog"],tier:"power",sound:["sfx_many"],face:"0"}],
  ["Данные и цифры",{type:"voice",source:["audio"],build:["infog","motion"],direction:["D6","D5"],tier:"power",entrances:["counter","expand","stagger","bento"],transitions:["grid","wipe"],infographics:"max",captions:"accents",sound:["sfx_many","nasheed"]}]
 ];
 function has(s,k,v){const x=s[k];return Array.isArray(x)?x.includes(v):x===v}
