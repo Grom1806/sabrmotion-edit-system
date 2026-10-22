@@ -12,6 +12,6 @@ Repo (private, user creates it himself; Claude can't create repos): Grom1806/sab
 
 On 2026-10-20 PC vault and cloud mirror had diverged (82 PC-only, 10 cloud-only, 26 edited on both sides).
 
-Last sync: 2026-10-22 (commit 6645121+; 23 new, 19 changed files). Exclude project-memory/.memory-sync* (internal).
+Last sync: 2026-10-22 evening (main = 977fc8a: no-AE kits, vault PC+cloud, memory, Пульт v7). Push to main by fast-forwarding the thread branch. Exclude project-memory/.memory-sync* (internal).
 
 **How to apply:** on "обнови бэкап": tar PC claude-edit\vault (exclude .smart-env) into claude-edit\_github-backup\, stage it, merge with /mnt/project-files/vault/ (newer mtime wins), refresh project-memory/, commit, push. Links: [[knowledge-vault]], [[edit-system-v3]].
