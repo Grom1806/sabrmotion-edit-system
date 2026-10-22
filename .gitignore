@@ -6,3 +6,9 @@ vault/.smart-env/
 Thumbs.db
 dist/
 project-memory/.memory-sync*
+
+# рабочие файлы китов
+**/.tmp/
+**/out/
+**/__pycache__/
+**/node_modules/

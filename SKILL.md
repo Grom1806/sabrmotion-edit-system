@@ -10,7 +10,7 @@ description: Система монтажа SABRMOTION (рилсы 9:16, гово
 ## Перед любым монтажом (порядок обязателен)
 1. Прочитай `vault/00-start/START.md`, затем `vault/00-start/SYSTEM.md` (система v3) и `vault/00-start/INDEX.md` (одна строка на заметку).
 2. Прочитай ВСЕ заметки `vault/01-rules/` — они действуют всегда (без музыки, оригинальный фон, не критиковать других, обработка голоса, проверка фактов, ничего не удалять без «да», время чтения, камера разрешена и т. д.).
-3. Прочитай `vault/07-system/` (пульт вопросов, ритм, звук/SFX, моушн v3, резкость, анти-ИИ QA, AE-пайплайн).
+3. Прочитай `vault/07-system/` (пульт вопросов, ритм, звук/SFX, моушн v3, резкость, анти-ИИ QA, AE-пайплайн). Если After Effects нет или он занят — `vault/07-system/no-ae-pipeline.md`: тот же монтаж кодом (`tools/hyperframes-kit`, `tools/no-ae-engine`).
 4. Задай вопросы перед монтажом по `vault/01-rules/ask-before-edit.md` и `vault/07-system/control-panel.md` (кнопками, по одному).
 5. По ответам открой только нужное: бренд в `vault/02-brands/`, техники в `vault/03-techniques/`, ресерч в `vault/05-research/`, 2 последние заметки `vault/04-lessons/reels/`, грабли в `vault/06-tools/pipeline-gotchas.md`.
 6. Поиск по теме: `rg -il "<слово>" vault/` или по тегам `rg -l "tags:.*<тег>" vault/`.

@@ -1,0 +1,21 @@
+{
+  "_comment": "Вид события из S(t, вид, дБ) → файлы из claude-edit\\assets\\sfx (без .wav). anch: o = старт по началу звука, p = по пику (+сдвиг, с). trim — обрезка, с. Только нетональные звуки, без музыки (no-music).",
+  "root": "../../assets/sfx/",
+  "map": {
+    "tick":      {"f": ["tick/kenney_tick_002"]},
+    "tickS":     {"f": ["tick/kenney_ui_click1"]},
+    "pop":       {"f": ["notification/mixkit_dry_pop", "ui/kenney_click_003"]},
+    "card":      {"f": ["ui/kenney_click_002", "ui/mixkit_bubble_click"]},
+    "grow":      {"f": ["ui/kenney_toggle_001"]},
+    "stroke":    {"f": ["whoosh/mixkit_small_sweep"], "anch": ["p", 0.3], "trim": 0.9},
+    "whoosh":    {"f": ["whoosh/mixkit_fast_transition"], "anch": ["p", 0.0]},
+    "whooshBig": {"f": ["whoosh/mixkit_windy_swoosh"], "anch": ["p", 0.0], "trim": 1.2},
+    "impact":    {"f": ["stamp/kenney_impactSoft_heavy_000"], "anch": ["p", 0]},
+    "roll":      {"f": ["tick/el_slot_ticks"], "trim": 1.1},
+    "stamp":     {"f": ["stamp/el_stamp_thump_2"], "anch": ["p", 0]},
+    "click":     {"f": ["ui/mixkit_device_click"]},
+    "type":      {"f": ["typing/mixkit_fast_laptop"], "trim": 0.55},
+    "err":       {"f": ["glitch/kenney_glitch_002"]},
+    "ok":        {"f": ["ui/mixkit_box_check"]}
+  }
+}

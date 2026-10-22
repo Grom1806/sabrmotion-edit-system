@@ -1,0 +1,16 @@
+{
+  "_comment": "Тип события → файлы из claude-edit\\assets\\sfx (пути как в движке Бухари). Только нетональные звуки, без музыки. db — уровень по умолчанию, событие может переопределить.",
+  "tick":       {"files": ["tick/kenney_tick_001.wav"], "db": -24},
+  "pop":        {"files": ["notification/mixkit_dry_pop.wav", "ui/kenney_select_001.wav"], "db": -23, "rotate": true},
+  "click":      {"files": ["ui/kenney_select_001.wav"], "db": -24},
+  "card":       {"files": ["desk/card_drop.mp3", "desk/card_slide.mp3"], "db": -22, "rotate": true},
+  "swish":      {"files": ["desk/card_slide.mp3"], "db": -24},
+  "grow":       {"files": ["desk/card_slide.mp3"], "db": -25},
+  "stroke":     {"files": ["desk/marker_stroke.mp3"], "db": -26},
+  "whoosh":     {"files": ["whoosh/mixkit_short_sweep.wav"], "db": -24, "align": "peak"},
+  "whoosh_big": {"files": ["whoosh/el_whoosh_long.wav"], "db": -20, "align": "peak"},
+  "impact":     {"files": ["stamp/kenney_impactSoft_heavy_000.wav"], "db": -16},
+  "counter":    {"files": ["tick/el_slot_ticks.wav"], "db": -24},
+  "page":       {"files": ["paper/mixkit_page_turn.wav"], "db": -21},
+  "default":    {"files": ["ui/kenney_select_001.wav"], "db": -26}
+}

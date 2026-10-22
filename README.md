@@ -17,6 +17,8 @@
 | `vault/07-system` | Пульт вопросов, ритм, звук/SFX, моушн v3, резкость, анти-ИИ QA |
 | `vault/_tools`, `_scripts`, `_templates` | Пульт монтажа (HTML), скрипты проверки резкости, сборка индекса, шаблоны заметок |
 | `project-memory/` | Снимок памяти проекта Claude (короткие факты и предпочтения) |
+| `tools/hyperframes-kit/` | Монтаж без After Effects: шаблон HyperFrames + GSAP, помощники по нормам, сборка и QA одной командой |
+| `tools/no-ae-engine/` | Монтаж без After Effects на Python (nae): документальный моушен, камера с motion blur, авто-SFX, QA |
 | `tools/make_skill_zip.py` | Собирает лёгкий zip для загрузки skill в claude.ai |
 
 ## Как поставить в другом аккаунте
