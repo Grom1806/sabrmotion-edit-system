@@ -11,3 +11,5 @@ metadata:
 - ElevenLabs cost ≈0.4 credits per character with eleven_v4 (777 chars → 310). After this reel ~8 credits remain: next voice-over needs a top-up or the user's own recording. tts.js writes to the reel root, words.js reads work/vo/ — copy files there.
 - 2026-10-21 19:16 user: «возьми всё, чему ты научился отсюда» → folded into the system: recipe vault/03-techniques/docu-map-motion.md, SYSTEM.md item 12, edit type Т16, main panel build option «Документалка на карте» + preset, sfx-expressive (whoosh by camera-speed peaks, typewriter 0.042 s/char), engine in repo tools/docu-map-engine. Delivered v1: PC VIDEOS\ummah\2026-10-21_bukhari-path\bukhari30_v1.mp4, awaiting feedback.
 Related: [[ummah-ideas-panel]], [[techniques-by-situation]], [[pro-advanced-editing]].
+
+- 2026-10-22: user stored a BACKUP ElevenLabs API key on PC in claude-edit\.env as ELEVENLABS_API_KEY_BACKUP (value never in memory/repo/chat). Use it when the main key runs out.
