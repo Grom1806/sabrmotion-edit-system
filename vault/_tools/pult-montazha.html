@@ -77,6 +77,7 @@ textarea:focus{outline:none;border-color:var(--accent)}
       <span class="rule"><b>Всегда:</b> оригинальный фон</span>
       <span class="rule"><b>Камера:</b> можно, плавно и с motion blur</span>
       <span class="rule"><b>Техники:</b> по ситуации, не в каждом ролике</span>
+      <span class="rule"><b>Нет AE:</b> собираю кодом, не жду</span>
       <span class="rule"><b>Всегда:</b> лицо по центру кадра</span>
       <span class="rule"><b>Всегда:</b> грейд не темнит исходник</span>
       <span class="rule"><b>Всегда:</b> картинка под слово, не под тему</span>
@@ -136,7 +137,7 @@ const Q = [
   ["horiz","Горизонтально","16:9, кадрирую или делаю сплит"],
   ["mixed","По-разному","разные клипы"]]},
  {id:"build",title:"Из чего собрать картинку",hint:"Если исходника нет или его мало. Можно несколько.",mode:"multi",when:s=>has(s,"source","none")||has(s,"source","audio")||has(s,"source","photos"),opts:[
-  ["motion","Моушн-графика","типографика, формы, UI-карточки в After Effects",true],
+  ["motion","Моушн-графика","типографика, формы, UI-карточки (в AE или кодом)",true],
   ["infog","Инфографика","цифры, карты, флаги, графики на реальных данных",true],
   ["library","Фото и иконки из библиотеки","314 CC0-фото, иконки, паттерны"],
   ["3d","3D","объекты и сцены в Blender"],
@@ -226,6 +227,15 @@ const Q = [
   ["fB","B Montserrat ExtraBold + Georgia Italic","жирнее и плотнее"],
   ["fC","C Только Segoe","спокойно, один шрифт"],
   ["brand","Шрифты бренда","как в брендбуке"]]},
+ {id:"engine",title:"Чем собирать",hint:"After Effects даёт точный таймлайн; без AE тот же монтаж собирается кодом (HyperFrames + GSAP или Python) с теми же свойствами графики и той же проверкой. Если AE занят другим монтажом или не отвечает, ролик не ждёт.",mode:"single",opts:[
+  ["ae","С After Effects","всё в открытом окне AE, человеческий таймлайн, скриншот таймлайна"],
+  ["code","Без After Effects","кодом: HyperFrames + GSAP (моушн, текст, UI) или Python (карта, камера с motion blur)"],
+  ["both","Оба","ключевые сцены в AE, остальное кодом; если AE занят — всё кодом",true]]},
+ {id:"blender",title:"Blender (3D)",hint:"3D-объекты, сцены и свет в Blender на RTX 5080, рендер вставляется в ролик (в AE или в код).",mode:"single",opts:[
+  ["hero","3D-герой ролика","один главный предмет или сцена в 3D через весь ролик"],
+  ["accents","3D-акценты","1–2 вставки: предмет выезжает на слове, диорама",true],
+  ["intro","3D в хуке или финале","объёмный логотип, открывающая сцена"],
+  ["no","Без 3D","только 2D-графика и съёмка"]]},
  {id:"tier",title:"Сколько движения",hint:"Плотность событий на экране.",mode:"single",opts:[
   ["min","Минимал","цвет и точечные субтитры"],
   ["std","Стандарт","субтитры и графика без смены фона"],
@@ -325,9 +335,9 @@ const Q = [
 const PRESETS = [
  ["Живой рилс",{type:"talking",source:["talking"],direction:["D0"],tier:"power",live:["cuts","framings","jl","behind","rehook"],entrances:["expand","blurrise","bounce","stagger"],transitions:["cut","square"],captions:"phrases",sound:["sfx_many","nasheed","voice_own"],grade:"L1",face:"100"}],
  ["Блог как у профи",{type:"talking",source:["talking"],blogstyle:["A"],textlevels:["u1","u2","u3"],recipes:["R3","R4","R5","Y1","Y7"],broll:["reshoot","3d"],captions:"wordswitch",sound:["sfx_many","sfx_human","sfx_material","voice_own"],fonts:"fA",tier:"power",face:"70",finale:"loop"}],
- ["Apple-промо",{type:"promo",source:["none"],build:["motion","ui"],direction:["D0"],tier:"ultra",entrances:["expand","grow","bounce","bento","counter"],transitions:["square","morph","grid"],captions:"kinetic",infographics:"max",sound:["sfx_many"],face:"0"}],
+ ["Apple-промо",{type:"promo",source:["none"],build:["motion","ui"],engine:"both",direction:["D0"],tier:"ultra",entrances:["expand","grow","bounce","bento","counter"],transitions:["square","morph","grid"],captions:"kinetic",infographics:"max",sound:["sfx_many"],face:"0"}],
  ["Исламское знание",{type:"islamic",brand:"ummah",direction:["D0","D6"],tier:"power",entrances:["blurrise","chars","expand","draw"],transitions:["match","square"],captions:"phrases",sound:["nasheed","silence","voice_clone"],face:"0"}],
- ["Документалка на карте",{type:"voice",source:["audio"],build:["map","infog"],tier:"power",sound:["sfx_many"],face:"0"}],
+ ["Документалка на карте",{type:"voice",source:["audio"],build:["map","infog"],engine:"code",tier:"power",sound:["sfx_many"],face:"0"}],
  ["Данные и цифры",{type:"voice",source:["audio"],build:["infog","motion"],direction:["D6","D5"],tier:"power",entrances:["counter","expand","stagger","bento"],transitions:["grid","wipe"],infographics:"max",captions:"accents",sound:["sfx_many","nasheed"]}]
 ];
 function has(s,k,v){const x=s[k];return Array.isArray(x)?x.includes(v):x===v}

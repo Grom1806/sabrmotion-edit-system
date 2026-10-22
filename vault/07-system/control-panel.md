@@ -3,7 +3,7 @@ title: Пульт монтажа — бриф кнопками перед каж
 type: workflow
 tags: [workflow, system-v3, questions, rule]
 summary: Артефакт «Пульт монтажа» (https://claude.ai/artifact/9KKFp4QoCgF5JJLVcrLSA3) — пользователь выбирает тип, есть ли исходное видео (и какое, где лежит), сценарий, бренд, направление D0–D6, уровень, живой монтаж, анимации, переходы, субтитры, инфографику, звук, цвет, грейд, лицо, формат, длину, показы; Claude читает сохранённый бриф через ArtifactData
-updated: 2026-10-20
+updated: 2026-10-22
 source: пользователь 2026-10-19 («сделай красивую нормальную систему монтажей, в которой можно выбирать и полностью контролировать монтаж и стили вопросами»)
 ---
 # Пульт монтажа
@@ -39,6 +39,8 @@ source: пользователь 2026-10-19 («сделай красивую н�
 | recipes | R1,R3–R11,R13,R14 из [[ref-blog-beforeafter-2026-10-20]]; Y1–Y5,Y7–Y10 и ST (стаккато) из [[ref-blog-shot-by-shot-2026-10-20]] |
 | broll | reshoot, photos, stock, 3d, ai — источники перебивок; перед монтажом шот-лист «слово → кадр → источник» |
 | fonts | fA Segoe+Georgia Italic, fB Montserrat ExtraBold+Georgia Italic, fC Segoe, brand |
+| engine | ae (всё в AE, видимый таймлайн), code (без AE: HyperFrames-кит или Python nae, [[no-ae-pipeline]]), both (ключевые сцены в AE, остальное кодом; рекоменд.) — с 2026-10-22. Если выбрано ae, а AE занят (AE_LOCK) или не отвечает — сказать пользователю и собирать кодом |
+| blender | hero (3D-герой через весь ролик), accents (1–2 вставки, рекоменд.), intro (3D в хуке/финале), no (без 3D) — с 2026-10-22; Blender MCP на RTX 5080, рендер вставляется в AE или в код |
 | tier | min, std, power, ultra |
 | live | cuts, framings, jl, broll, behind, pointing, split, rehook ([[live-editing-v3]]); для talking/beforeafter или source=talking |
 | entrances | expand, grow, blurrise, bounce, stagger, chars, bento, mask, corner, counter, draw, rig ([[motion-v3]], [[animation-techniques-2026-10-19]]) |
