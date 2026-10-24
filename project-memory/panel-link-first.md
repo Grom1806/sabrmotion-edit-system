@@ -15,3 +15,5 @@ metadata:
 - Apply anything he sets on the panel in the next version.
 
 Related: [[ask-before-edit]], [[control-panel]], [[pro-default-quality]].
+
+2026-10-24 22:48: the user repeated after approving v2: «в следующий раз не забывай спрашивать, давать мне пульт». This is a hard rule.
