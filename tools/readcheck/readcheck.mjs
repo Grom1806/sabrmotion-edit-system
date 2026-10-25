@@ -7,7 +7,8 @@
 //   надпись: 0.6 с + 0.2 с/слово (+0.3 если есть цифры), CTA (data-read="cta") +0.6;
 //   субтитр (.cap): от первого слова до ухода ≥ 0.15 + 0.2 с/слово;
 //   видео-вставка (<video data-start>, кроме #head): на экране ≥1.0 с.
-// Надписи = самые глубокие элементы с id и текстом + .cap + [data-read].
+// Надписи = самые глубокие элементы с id и текстом + .cap + [data-read]; aria-hidden (декор, призраки) не считаются.
+// Видимость меряется по рамке букв (Range), а не по блоку.
 // Видимость честная: прозрачность всех предков, обрезка overflow:hidden и clip-path inset, край кадра.
 //
 // Запуск: node readcheck.mjs путь/к/композиции [--fps 30] [--out readcheck.tsv]
@@ -34,22 +35,32 @@ const fps = +opt("--fps", 30), out = opt("--out", "readcheck.tsv");
 const JS_UNITS = () => {
   const all = [...document.querySelectorAll('#root [id], #root .cap, #root [data-read]')];
   const hasText = e => (e.textContent || '').trim().length > 0;
-  const units = all.filter(e => e.tagName !== 'VIDEO' && e.tagName !== 'svg' && hasText(e) && e.id !== 'root' &&
+  // декоративные копии (aria-hidden: призраки slice/rgb из SABR-kit, подписи окон) — не надписи
+  const deco = e => !!e.closest('[aria-hidden="true"]');
+  const units = all.filter(e => !deco(e) && e.tagName !== 'VIDEO' && e.tagName !== 'svg' && hasText(e) && e.id !== 'root' &&
     !([...e.querySelectorAll('[id], .cap, [data-read]')].some(c => hasText(c))) );
   units.forEach((e, i) => e.dataset.rc = i);
   return units.map(e => ({ i: +e.dataset.rc, id: e.id || ('cap' + e.dataset.rc),
     cls: e.className && e.className.baseVal === undefined ? e.className : '',
     kind: e.dataset.read || (e.classList.contains('cap') ? 'cap' : 'text'),
-    text: (() => { const w = document.createTreeWalker(e, NodeFilter.SHOW_TEXT); const p = [];
-      while (w.nextNode()) if (w.currentNode.textContent.trim()) p.push(w.currentNode.textContent.trim());
-      return p.join(' ').replace(/\s+/g, ' '); })() }));
+    // текст без призраков; data-text = исходное слово, разбитое на буквы (SK.letters)
+    text: (() => { const p = [];
+      const walk = n => { if (n.nodeType === 3) { if (n.textContent.trim()) p.push(n.textContent.trim()); return; }
+        if (n.nodeType !== 1 || n.getAttribute('aria-hidden') === 'true') return;
+        if (n.dataset && n.dataset.text) { p.push(n.dataset.text); return; }
+        n.childNodes.forEach(walk); };
+      walk(e); return p.join(' ').replace(/\s+/g, ' '); })() }));
 };
 
 const JS_SAMPLE = (t) => {
   const tl = window.__timelines.root; tl.pause(); tl.seek(t, false);
   const W = 1080, H = 1920, out = [];
+  const glyphs = el => {            // рамка самих букв, а не блока (блок на всю ширину кадра не считается «обрезанным»)
+    const g = document.createRange(); g.selectNodeContents(el); const q = g.getBoundingClientRect();
+    return q.width > 0 && q.height > 0 ? q : el.getBoundingClientRect();
+  };
   const vis = el => {               // эффективная видимость одного элемента
-    let op = 1, r = el.getBoundingClientRect();
+    let op = 1, r = glyphs(el);
     let L = r.left, T = r.top, R = r.right, B = r.bottom;
     for (let a = el; a && a !== document.body; a = a.parentElement) {
       const cs = getComputedStyle(a);
@@ -73,7 +84,7 @@ const JS_SAMPLE = (t) => {
   };
   document.querySelectorAll('[data-rc]').forEach(e => {
     // самый «невидимый» кусок текста внутри (пословные субтитры, маски)
-    const leaves = [...e.querySelectorAll('*')].filter(c => [...c.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
+    const leaves = [...e.querySelectorAll('*')].filter(c => !c.closest('[aria-hidden="true"]') && [...c.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
     if (![...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()) && leaves.length === 0) leaves.push(e);
     if ([...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) leaves.push(e);
     const vs = leaves.map(vis), v = Math.min(...vs), vmax = Math.max(...vs);

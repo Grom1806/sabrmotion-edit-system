@@ -1,0 +1,39 @@
+/* SABRMOTION style kit v1 — fonts, type roles, windows. Pair with sabr-kit.js */
+@font-face { font-family: "SKCond"; src: url("fonts/Oswald.ttf"); font-weight: 200 700; }
+@font-face { font-family: "SKScript"; src: url("fonts/PlayfairItalic.ttf"); font-weight: 400 900; font-style: italic; }
+@font-face { font-family: "SKSans"; src: url("fonts/Montserrat.ttf"); font-weight: 100 900; }
+@font-face { font-family: "SKUI"; src: url("fonts/Inter.ttf"); font-weight: 100 900; }
+
+.sk { position: absolute; white-space: nowrap; will-change: transform; }
+/* type roles */
+.sk-cond   { font-family: "SKCond", sans-serif; font-weight: 700; text-transform: uppercase; line-height: .9; letter-spacing: -.005em; }
+.sk-script { font-family: "SKScript", serif; font-style: italic; font-weight: 600; line-height: 1; letter-spacing: -.01em; }
+.sk-sans   { font-family: "SKSans", sans-serif; font-weight: 900; line-height: .95; letter-spacing: -.02em; }
+.sk-ui     { font-family: "SKUI", sans-serif; font-weight: 600; line-height: 1.1; }
+/* colour roles */
+.sk-y { color: #EAD43A; } .sk-w { color: #fff; } .sk-k { color: #0E0E10; } .sk-r { color: #E5162B; }
+/* legibility on a live wall: soft contact shadow, not a glow */
+.sk-lift { text-shadow: 0 3px 0 rgba(0,0,0,.18), 0 8px 34px rgba(0,0,0,.42); }
+/* bloom keyword (multi-layer, with a hot core) */
+.sk-bloom { text-shadow: 0 0 1px #fff7c2, 0 0 14px rgba(255,222,60,.75), 0 0 42px rgba(255,200,0,.45), 0 6px 30px rgba(0,0,0,.35); }
+
+/* windows */
+.sk-win { position: absolute; border-radius: 26px; overflow: hidden; }
+.sk-win .sk-bar { position: absolute; left: 0; right: 0; top: 0; height: 50px; display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+.sk-win .sk-bar i { width: 14px; height: 14px; border-radius: 50%; display: block; }
+.sk-win .sk-bar b { font-family: "SKUI", sans-serif; font-weight: 600; font-size: 22px; margin-left: 10px; letter-spacing: .01em; }
+.sk-win .sk-body { position: absolute; left: 0; right: 0; top: 50px; bottom: 0; overflow: hidden; }
+.sk-win .sk-body video, .sk-win .sk-body img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+/* glass: futuristic dark glass with a thin lit edge */
+.sk-win-glass { background: rgba(14,14,16,.78); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22), 0 30px 80px rgba(0,0,0,.45); backdrop-filter: blur(18px); }
+.sk-win-glass .sk-bar { background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02)); }
+.sk-win-glass .sk-bar i:nth-child(1) { background: #E5162B; } .sk-win-glass .sk-bar i:nth-child(2) { background: #EAD43A; } .sk-win-glass .sk-bar i:nth-child(3) { background: #19C46B; }
+.sk-win-glass .sk-bar b { color: rgba(255,255,255,.82); }
+/* retro: classic OS window (bevel + blue title) */
+.sk-win-retro { border-radius: 4px; background: #C9C9C9; box-shadow: inset -3px -3px 0 #6d6d6d, inset 3px 3px 0 #fff, 0 24px 60px rgba(0,0,0,.4); }
+.sk-win-retro .sk-bar { left: 6px; right: 6px; top: 6px; height: 40px; background: linear-gradient(90deg, #0A2A8A, #2F6BDB); }
+.sk-win-retro .sk-bar i { display: none; } .sk-win-retro .sk-bar b { color: #fff; margin: 0; }
+.sk-win-retro .sk-body { left: 8px; right: 8px; top: 52px; bottom: 8px; }
+
+.sk-cursor { position: absolute; left: 0; top: 0; filter: drop-shadow(0 6px 10px rgba(0,0,0,.45)); z-index: 50; }
+.sk-scanline { position: absolute; width: 6px; border-radius: 3px; box-shadow: 0 0 18px 4px rgba(255,255,255,.75); }
