@@ -12,8 +12,9 @@
 // Видимость честная: прозрачность всех предков, обрезка overflow:hidden и clip-path inset, край кадра.
 //
 // Запуск: node readcheck.mjs путь/к/композиции [--fps 30] [--out readcheck.tsv]
+// SAFE = надпись или окно/чип/стикер стоит под интерфейсом Reels/TikTok (шапка <210, низ >1480, колонка кнопок x>910 при y 640–1480).
 // OVERLAP = две надписи видны одновременно и наезжают друг на друга (>10 % площади меньшей).
-// Код возврата 1, если есть FAIL или OVERLAP. NEVER = ни разу не видна целиком (проверить глазами).
+// Код возврата 1, если есть FAIL, OVERLAP или SAFE. NEVER = ни разу не видна целиком (проверить глазами).
 import { createRequire } from "node:module";
 import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
@@ -91,7 +92,18 @@ const JS_SAMPLE = (t) => {
     const r = e.getBoundingClientRect();
     out.push([+e.dataset.rc, Math.round(v * 100) / 100, Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(vmax * 100) / 100, Math.round(r.height),
       ...(() => { const g = document.createRange(); g.selectNodeContents(e); const q = g.getBoundingClientRect();  // рамка самих букв
-        return [Math.round(q.left), Math.round(q.top + q.height * .2), Math.round(q.width), Math.round(q.height * .6)]; })()]);  // без межстрочных полей
+        return [Math.round(q.left), Math.round(q.top + q.height * .2), Math.round(q.width), Math.round(q.height * .6)]; })(),
+      ...(() => {  // для SAFE: только видимые буквы (текстовые узлы видимых слов, без призраков), ядро 60 % высоты
+        const rs = [];
+        const w = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+        while (w.nextNode()) {
+          const n = w.currentNode; if (!n.textContent.trim() || n.parentElement.closest('[aria-hidden="true"]')) continue;
+          let op = 1; for (let a = n.parentElement; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (cs.visibility === 'hidden' || cs.display === 'none') { op = 0; break; } op *= parseFloat(cs.opacity); }
+          if (op < 0.5) continue;
+          const g = document.createRange(); g.selectNodeContents(n);
+          for (const q of g.getClientRects()) if (q.width) rs.push([Math.round(q.left), Math.round(q.top + q.height * .2), Math.round(q.width), Math.round(q.height * .6)]);
+        }
+        return [rs]; })()]);  // без межстрочных полей
   });
   return out;
 };
@@ -118,9 +130,35 @@ const step = 1 / fps, T = [];
 for (let i = 0; i <= Math.floor(dur * fps); i++) T.push(+(i * step).toFixed(4));
 const series = Object.fromEntries(units.map(u => [u.i, []]));
 const overlaps = new Map();  // две надписи видны одновременно и наезжают друг на друга
+// Безопасная зона Reels + TikTok (1080×1920): сверху шапка, снизу ник/подпись, справа колонка лайк/коммент/репост
+const SAFE = { top: 210, bottom: 1480, left: 40, right: 1040, btnX: 910, btnY0: 640, btnY1: 1480 };
+const outSafe = (x, y, w, h, obj) => {
+  const z = [];
+  if (!obj && y < SAFE.top) z.push("верх");
+  if (y + h > SAFE.bottom) z.push("низ");
+  if (!obj && (x < SAFE.left || x + w > SAFE.right)) z.push("край");
+  if (x + w > SAFE.btnX && y + h > SAFE.btnY0 && y < SAFE.btnY1) z.push("кнопки справа");
+  return z;
+};
+const safeHits = new Map(), prevR = new Map();
+const JS_OBJ = () => [...document.querySelectorAll('#root .sk-win, #root .chip, #root .stop, #root .tile, #root [data-safe]')].map((e, k) => {
+  let op = 1; for (let a = e; a && a !== document.body; a = a.parentElement) { const cs = getComputedStyle(a); if (cs.display === 'none' || cs.visibility === 'hidden') { op = 0; break; } op *= parseFloat(cs.opacity); }
+  const r = e.getBoundingClientRect(); return ['obj' + k + (e.id ? ':' + e.id : ':' + e.className.split(' ').pop()), op, Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)];
+});
+const hit = (key, t, z) => { const o = safeHits.get(key) || [t, t, new Set()]; o[1] = t; z.forEach(v => o[2].add(v)); safeHits.set(key, o); };
 for (const t of T) {
   const smp = await pg.evaluate(JS_SAMPLE, t);
   for (const [i, v, x, y, w, vmax] of smp) series[i].push([t, v, x, y, w, vmax]);
+  for (const r of smp) {               // надпись стоит (не летит) и видна → должна быть в безопасной зоне
+    const i = r[0], vmax = r[5], rs = r[11], key = JSON.stringify(rs), p = prevR.get(i); prevR.set(i, rs);
+    if (vmax < 0.9 || !rs.length || !p || p.length !== rs.length || rs.some((q, k) => Math.abs(q[0] - p[k][0]) > 5 || Math.abs(q[1] - p[k][1]) > 5)) continue;
+    const z = [...new Set(rs.flatMap(q => outSafe(q[0], q[1], q[2], q[3], false)))]; if (z.length) hit('u' + i, t, z);
+  }
+  for (const [k, op, x, y, w, h] of await pg.evaluate(JS_OBJ)) {
+    if (op < 0.9) continue; const p = prevR.get(k); prevR.set(k, [x, y, w]);
+    if (!p || Math.abs(p[0] - x) > 5 || Math.abs(p[1] - y) > 5) continue;
+    const z = outSafe(x, y, w, h, true); if (z.length) hit(k, t, z);
+  }
   const on = smp.filter(r => r[5] >= 0.2 && r[9] > 0 && r[10] > 0).map(r => [r[0], 0, r[7], r[8], r[9], 0, r[10]]);
   for (let p = 0; p < on.length; p++) for (let q = p + 1; q < on.length; q++) {
     const [i, , x1, y1, w1, , h1] = on[p], [j, , x2, y2, w2, , h2] = on[q];
@@ -157,6 +195,11 @@ const byI = Object.fromEntries(units.map(u => [u.i, u]));
 for (const [k, [a, b]] of overlaps) {
   const [i, j] = k.split("|").map(Number); fails++;
   rows.push(["OVERLAP", `${byI[i].id}+${byI[j].id}`, "both", a.toFixed(2), (b + step).toFixed(2), 0, 0, `${byI[i].text.slice(0, 25)} / ${byI[j].text.slice(0, 25)}`]);
+}
+for (const [k, [a, b2, z]] of safeHits) {
+  if (b2 - a < 2 * step) continue;   // 1 кадр на вылете не считаем
+  fails++; const u = k[0] === 'u' ? byI[+k.slice(1)] : null;
+  rows.push(["SAFE", u ? u.id : k, u ? u.kind : "object", a.toFixed(2), (b2 + step).toFixed(2), 0, 0, `${[...z].join("+")}: ${u ? u.text.slice(0, 40) : k}`]);
 }
 rows.sort((a, b) => a[3] - b[3]);
 writeFileSync(out, "status\tid\tkind\tfull_from\tleaves_at\thold_s\tneed_s\ttext\n" + rows.map(r => r.join("\t")).join("\n") + "\n");

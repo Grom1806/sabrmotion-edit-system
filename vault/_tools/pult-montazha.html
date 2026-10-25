@@ -1,4 +1,6 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Пульт монтажа</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;1,500&family=Sofia+Sans+Extra+Condensed:wght@800&family=Sofia+Sans:wght@500;700&family=Jost:wght@500;700&family=Prata&family=Geologica:wght@400;700&family=Tenor+Sans&family=Forum&family=Golos+Text:wght@500;700&display=swap">
 <style>
 :root{
   --bg:#F5F5F7;--panel:#FFFFFF;--ink:#1D1D1F;--muted:#6E6E73;--line:#E3E3E8;
@@ -47,6 +49,10 @@ header p{color:var(--muted);margin:0;max-width:640px;font-size:17px}
 .opt[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}
 .opt[aria-pressed="true"] .mark{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--soft)}
 .opt.auto{border-style:dashed}
+.opt .spec{display:block;margin-top:8px;font-size:22px;line-height:1.1;color:var(--ink)}
+.opt .spec small{display:block;font-size:14px;margin-top:4px;color:var(--muted)}
+.opt .sw{display:flex;gap:4px;margin-top:8px}.opt .sw i{flex:1;height:22px;border-radius:5px;border:1px solid var(--line)}
+.rule.new{background:var(--soft);color:var(--ink)}
 textarea{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:14px;background:transparent;color:var(--ink);font:inherit;padding:12px;resize:vertical}
 textarea:focus{outline:none;border-color:var(--accent)}
 .hidden{display:none}
@@ -83,6 +89,16 @@ textarea:focus{outline:none;border-color:var(--accent)}
       <span class="rule"><b>Всегда:</b> картинка под слово, не под тему</span>
       <span class="rule"><b>Всегда:</b> ничего не появляется без анимации</span>
       <span class="rule"><b>Всегда:</b> никого не критикуем</span>
+      <span class="rule new"><b>Аудит 25.10:</b> без неона и свечения на тексте</span>
+      <span class="rule new"><b>Аудит 25.10:</b> цветом максимум 3 слова на ролик</span>
+      <span class="rule new"><b>Аудит 25.10:</b> максимум 2 шрифта, без случайного курсива</span>
+      <span class="rule new"><b>Аудит 25.10:</b> про продукт — настоящие кадры продукта, не рисованные</span>
+      <span class="rule new"><b>Аудит 25.10:</b> не уходить с человека на пустые тёмные слайды</span>
+      <span class="rule new"><b>Аудит 25.10:</b> голос всегда громче SFX, ~1.5 звука/с</span>
+      <span class="rule new"><b>Аудит 25.10:</b> тики по буквам — только в одном моменте</span>
+      <span class="rule new"><b>Аудит 25.10:</b> склейки голоса с кроссфейдом, без провалов в тишину</span>
+      <span class="rule new"><b>Аудит 25.10:</b> ритм волной: 3 пика и паузы 1–1.5 с</span>
+      <span class="rule new"><b>Аудит 25.10:</b> один приём не повторяется подряд</span>
     </div>
     <div class="presets" id="presets"></div>
   </header>
@@ -164,8 +180,8 @@ const Q = [
   ["D6","D6 Данные как предмет","каждый факт становится физической инфографикой"]]},
  {id:"blogstyle",title:"Стиль блога (из разбора профи)",hint:"4 стиля из твоих референсов «до/после». Можно смешать два.",mode:"multi",max:2,when:hasHead,opts:[
   ["A","A Журнальный","огромное слово курсивом, синие экраны «no. 1», растущий список, ч/б карточки, 3D-телефон",true],
-  ["B","B Неоновый капс","две строки на груди, вторая светится цветом смысла, цифры за головой, тумблер под жестом"],
-  ["C","C Диорамы на столе","сцены сверху с предметами и тенью окна, жёлтое слово с glow, звук материала"],
+  ["B","B Капс без свечения","две строки на груди, цвет только на 3 словах за ролик, цифры у головы"],
+  ["C","C Диорамы на столе","сцены сверху с предметами и тенью окна, жёлтое слово без свечения, звук материала"],
   ["D","D Кино-слово","голос поверх своих кадров, одно слово за силуэтом (без чужих фильмов)"]]},
  {id:"textlevels",title:"Как текст живёт рядом с человеком",hint:"Уровни из гайда по говорящей голове. В ролике 2–3 уровня, в следующем другие.",mode:"multi",when:hasHead,opts:[
   ["u1","Субтитры уступают голове","сами уходят, если голова приближается; лицо не закрывают",true],
@@ -222,11 +238,20 @@ const Q = [
   ["stock","Стоковое видео","Pexels, для того, что не доснять"],
   ["3d","3D-предметы","Blender, диорамы",true],
   ["ai","Генерация","только с твоего одобрения"]]},
- {id:"fonts",title:"Шрифты",hint:"Пары из теста блога.",mode:"single",opts:[
-  ["fA","A Segoe + Georgia Italic","субтитры гротеском, ключевые слова курсивом",true],
-  ["fB","B Montserrat ExtraBold + Georgia Italic","жирнее и плотнее"],
-  ["fC","C Только Segoe","спокойно, один шрифт"],
-  ["brand","Шрифты бренда","как в брендбуке"]]},
+ {id:"fonts",title:"Шрифты",hint:"Новые пары после аудита: нестандартные, с кириллицей, бесплатные для коммерции (OFL). Unbounded, Montserrat, Inter больше не по умолчанию. Образец внизу каждой карточки.",mode:"single",opts:[
+  ["f1","Журнал: Noto Serif Display + Golos","крупное — тонкая контрастная антиква (как обложка журнала), субтитры — спокойный гротеск",true,["'Noto Serif Display',serif","'Golos Text',sans-serif"]],
+  ["f2","Плакат: Sofia Sans Extra Condensed","узкий жирный капс как у Druk для цифр и хука, субтитры Sofia Sans",false,["'Sofia Sans Extra Condensed',sans-serif","'Sofia Sans',sans-serif"]],
+  ["f3","Мода: Jost + Prata","геометрия в духе Futura с разрядкой, акцент — классическая антиква Prata",false,["'Prata',serif","'Jost',sans-serif"]],
+  ["f4","Часы и ювелирка: Forum + Tenor Sans","римские капители и тонкий гротеск, тихо и дорого",false,["'Forum',serif","'Tenor Sans',sans-serif"]],
+  ["f5","Тех-швейцарский: Geologica","один шрифт двумя весами, строгая сетка",false,["'Geologica',sans-serif","'Geologica',sans-serif"]],
+  ["paid","Куплю платный","Druk Cyr, TT Hoves / TT Norms Pro, Suisse Int'l — скажу, где купить, и подключу файлы"],
+  ["brand","Старые шрифты бренда","Unbounded + Manrope (как было)"]]},
+ {id:"product",title:"Продукт в кадре",hint:"Если ролик про конкретную вещь, она должна быть настоящей. Можно несколько.",mode:"multi",opts:[
+  ["official","Официальное промо","трейлер или кадры с презентации, без звука, кроп 9:16",true],
+  ["reviews","Обзоры и распаковки","если официального нет"],
+  ["own","Сниму сам","пришлю 5–10 коротких кадров с вещью в руках"],
+  ["3d","3D-модель в Blender","точная модель вместо нарисованной плашки"],
+  ["none","Продукта нет","ролик не про вещь"]]},
  {id:"engine",title:"Чем собирать",hint:"After Effects даёт точный таймлайн; без AE тот же монтаж собирается кодом (HyperFrames + GSAP или Python) с теми же свойствами графики и той же проверкой. Если AE занят другим монтажом или не отвечает, ролик не ждёт.",mode:"single",opts:[
   ["ae","С After Effects","всё в открытом окне AE, человеческий таймлайн, скриншот таймлайна"],
   ["code","Без After Effects","кодом: HyperFrames + GSAP (моушн, текст, UI) или Python (карта, камера с motion blur)"],
@@ -239,8 +264,8 @@ const Q = [
  {id:"tier",title:"Сколько движения",hint:"Плотность событий на экране.",mode:"single",opts:[
   ["min","Минимал","цвет и точечные субтитры"],
   ["std","Стандарт","субтитры и графика без смены фона"],
-  ["power","Мощный","событие каждые ~1 с, графика всё время живёт",true],
-  ["ultra","Ультра","событие каждые 0.4–0.8 с, лицо можно закрывать"]]},
+  ["power","Мощный","3–4 пика на ролик, между ними события ~1 с и паузы-вдохи 1–1.5 с",true],
+  ["ultra","Ультра","событие каждые 0.4–0.8 с; после аудита — только для промо без лица"]]},
  {id:"live",title:"Как монтировать живую съёмку",hint:"Как сейчас монтируют Reels, TikTok и YouTube Shorts. Можно несколько.",mode:"multi",when:s=>has(s,"type","talking")||has(s,"type","beforeafter")||has(s,"source","talking"),opts:[
   ["cuts","Плотные резы","вырезать паузы и дубли, темп без «эээ»",true],
   ["framings","Смена планов","общий / средний / крупный из одной камеры на смене мысли",true],
@@ -275,36 +300,35 @@ const Q = [
   ["vtext","Сквозь букву","пролёт внутрь слова в новую сцену"],
   ["push","Push / слайд","кадр выталкивается следующим вверх или вбок"],
   ["mix","Смешанно","разные на разных битах"]]},
- {id:"captions",title:"Субтитры",hint:"Обычный регистр, крупно (от 56 px), своя система на ролик.",mode:"single",opts:[
-  ["phrases","Фразами","спокойно читаются, по 3–6 слов",true],
-  ["wordswitch","По слову, шрифт меняется","смена каждые 0.25–0.4 с, курсив ↔ гротеск, как у профи"],
-  ["hero","Слово-герой на груди","одно слово крупно, остальные мелко у подбородка"],
-  ["neon2","Две строки, вторая светится","цвет по смыслу: красный проблема, зелёный решение"],
-  ["kinetic","Кинетика","ключевые слова крупно, набором на кадр"],
-  ["word","По одному слову","быстро, в ритм речи"],
-  ["accents","Только акценты","субтитры лишь на главных фразах"],
+ {id:"captions",title:"Субтитры",hint:"Только Реф-про (SABR-kit) — модули из твоих рефов + футур. Старые S/T и N1–N12 убраны. Текст вокруг и за головой, всегда в безопасной зоне от кнопок.",mode:"single",opts:[
+  ["kit-poster","Реф-про: Постер (L1)","жёлтый узкий капс + курсив за и вокруг головы, bounce/pop, рывок вниз, окна с роликами",true],
+  ["kit-stack","Реф-про: Слайд-стек (L2)","белый гротеск стопкой сбоку, ключевое слово с блумом, влёт с размытием движения"],
+  ["kit-karaoke","Реф-про: Тёмное караоке (L3)","будущие слова тусклые, активное горит; стикеры, красная вспышка"],
+  ["kit-future","Реф-про: Футур (L4)","slice, scan, RGB-сведение, из глубины, окна-стекло"],
+  ["kit-mix","Реф-про: смешать / новый на их основе","основа + акцент из L1–L4 или новый стиль F1–F8"],
   ["none","Без субтитров",""]]},
  {id:"infographics",title:"Инфографика",hint:"Только на реальных цифрах и фактах.",mode:"single",opts:[
   ["max","В каждом бите","число становится формой или предметом",true],
   ["mid","Где есть цифры","графики, счётчики, сравнения"],
   ["low","Минимум","одна-две вставки"]]},
  {id:"sound",title:"Звук",hint:"Музыки и звуков природы нет никогда. SFX и, по желанию, тихий нашид.",mode:"multi",opts:[
-  ["sfx_many","Много SFX","звук на каждое значимое действие",true],
+  ["sfx_many","Выразительные SFX","громкие удары на 3 пиках, остальное ~1.5 звука/с, голос всегда громче",true],
   ["sfx_few","Мало SFX","только на главных моментах"],
+  ["letters","Тики по буквам","один момент на ролик (было: на каждую букву)"],
   ["sfx_human","Звуки на действия человека","жест, смена плана, наезд; звук в сторону руки"],
   ["sfx_material","Звук от материала","бумага, стекло, стол, картон"],
   ["nasheed","Тихий нашид на фоне","спокойный нашид без инструментов, тише голоса",true],
   ["silence","Тишина под Коран","под чтением аятов ничего"],
   ["voice_own","Мой голос из записи","обработка: чёткий, «остренький»"],
   ["voice_clone","Мой клон ElevenLabs","озвучка твоим клонированным голосом"]]},
- {id:"color",title:"Цвет",hint:"По умолчанию основные цвета бренда.",mode:"single",opts:[
-  ["main","Основные цвета","палитра бренда и обычный грейд",true],
-  ["B1","Cloud Dancer","воздушный белый, редакционно"],
-  ["B2","Mocha Cream","мокко, крем, эспрессо"],
-  ["B3","Midnight Teal","тёмная бирюза"],
-  ["B10","Moonrise Khaki","землистый, тёплый"],
-  ["B11","Darjeeling Saffron","шафран, бордо"],
-  ["light","Светлая тема бренда","белый фон вместо тёмного"]]},
+ {id:"color",title:"Цвет",hint:"После аудита: палитра под ролик, а не всегда чёрный-красный-зелёный. Светлые основы читаются дороже и чище. Плашка показывает фон, текст и акцент.",mode:"single",opts:[
+  ["W1","Белая студия","белый фон, графитовый текст, один синий акцент",true,null,["#FFFFFF","#111114","#1F4BFF","#E9E9EE"]],
+  ["W2","Титан","светлый титан, графит, глубокий синий — цвета самой техники",false,null,["#E8E6E1","#2B2B2E","#1C3B6E","#B9B6AE"]],
+  ["W3","Галерея","тёплый серый, чёрный, приглушённый оранжевый",false,null,["#EDEBE7","#0E0E0E","#E4572E","#C9C5BD"]],
+  ["W4","Холодная бумага","бледно-голубой, тёмно-синий, лаймовый акцент",false,null,["#EEF2F6","#0F1B2D","#C6F432","#C9D3DE"]],
+  ["P","Цвета продукта","палитра с официального промо (корпус, обои), акцент оттуда же",false,null,["#F2F2F2","#1D1D1F","#8A6BD1","#D8D3CA"]],
+  ["D","Тёмная","чёрный фон, белый текст, один акцент; только если тема ночная",false,null,["#0B0B0C","#F4F4F1","#F2283B","#2A2A30"]],
+  ["main","Старая палитра SABRMOTION","чёрный, красный, зелёный",false,null,["#0B0B0C","#F2283B","#20DD78","#F4F4F1"]]]},
  {id:"grade",title:"Цветокор живого видео",hint:"Как будет выглядеть кожа и картинка.",mode:"single",when:s=>has(s,"type","talking")||has(s,"type","beforeafter")||has(s,"type","demo")||hasVid(s),opts:[
   ["L1","Clean Apple","нейтрально, чистая кожа",true],
   ["L2","Золото / бирюза","эксперт, бизнес"],
@@ -334,7 +358,7 @@ const Q = [
 ];
 const PRESETS = [
  ["Живой рилс",{type:"talking",source:["talking"],direction:["D0"],tier:"power",live:["cuts","framings","jl","behind","rehook"],entrances:["expand","blurrise","bounce","stagger"],transitions:["cut","square"],captions:"phrases",sound:["sfx_many","nasheed","voice_own"],grade:"L1",face:"100"}],
- ["Блог как у профи",{type:"talking",source:["talking"],blogstyle:["A"],textlevels:["u1","u2","u3"],recipes:["R3","R4","R5","Y1","Y7"],broll:["reshoot","3d"],captions:"wordswitch",sound:["sfx_many","sfx_human","sfx_material","voice_own"],fonts:"fA",tier:"power",face:"70",finale:"loop"}],
+ ["Блог как у профи",{type:"talking",source:["talking"],blogstyle:["A"],textlevels:["u1","u2","u3"],recipes:["R3","R4","R5","Y1","Y7"],broll:["reshoot","3d"],captions:"phrases",sound:["sfx_many","sfx_human","sfx_material","voice_own"],fonts:"f1",color:"W1",product:["official"],tier:"power",face:"70",finale:"loop"}],
  ["Apple-промо",{type:"promo",source:["none"],build:["motion","ui"],engine:"both",direction:["D0"],tier:"ultra",entrances:["expand","grow","bounce","bento","counter"],transitions:["square","morph","grid"],captions:"kinetic",infographics:"max",sound:["sfx_many"],face:"0"}],
  ["Исламское знание",{type:"islamic",brand:"ummah",direction:["D0","D6"],tier:"power",entrances:["blurrise","chars","expand","draw"],transitions:["match","square"],captions:"phrases",sound:["nasheed","silence","voice_clone"],face:"0"}],
  ["Документалка на карте",{type:"voice",source:["audio"],build:["map","infog"],engine:"code",tier:"power",sound:["sfx_many"],face:"0"}],
@@ -366,6 +390,9 @@ function render(){
       const on=Array.isArray(sel)?sel.includes(v):sel===v;
       b.setAttribute("aria-pressed",on?"true":"false");
       b.innerHTML=`<span class="mark"></span><span class="t"></span>${d?'<span class="d"></span>':""}${rec?'<span class="rec">рекомендую</span>':""}`;
+      const extra=q.opts.find(o=>o[0]===v);
+      if(extra&&extra[4]){const sp=document.createElement("span");sp.className="spec";const h=document.createElement("span");h.textContent="Лучше купить iPad";h.style.fontFamily=extra[4][0];const sm=document.createElement("small");sm.textContent="$2 000 — и всего 256 ГБ";sm.style.fontFamily=extra[4][1];sp.append(h,sm);b.appendChild(sp)}
+      if(extra&&extra[5]){const sw=document.createElement("span");sw.className="sw";extra[5].forEach(c=>{const i=document.createElement("i");i.style.background=c;sw.appendChild(i)});b.appendChild(sw)}
       b.querySelector(".t").textContent=t;if(d)b.querySelector(".d").textContent=d;
       b.onclick=()=>pick(q,v);
       box.appendChild(b);
@@ -455,3 +482,5 @@ function fmt(ts){try{return new Date(ts).toLocaleString("ru-RU",{day:"numeric",m
 })();
 render();
 </script>
+
+</body></html>

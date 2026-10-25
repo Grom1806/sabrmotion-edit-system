@@ -19,7 +19,7 @@ source: пользователь 2026-10-25 03:01 и 03:04 («сохрани э�
 <link rel="stylesheet" href="assets/sabr-kit.css"><script src="assets/sabr-kit.js"></script>
 <script> const tl = gsap.timeline({paused:true}); SK.use(tl);
   const w = SK.mk('#front','sk sk-cond sk-y sk-lift','дорогой',{left:'0',right:'0',textAlign:'center',top:'600px',fontSize:'250px'});
-  SK.bounce(w, 0.72);  SK.whip(w, 1.76, 'up');  SK.punch('#cam', 3.10, 1.12); </script>
+  SK.bounce(w, 0.72);  SK.whip(w, 1.76, 'up');  CAM(3.10, 1.8, { blur: 12, rot: 1.2, drift: 1.03, until: 4.3 }); </script>
 ```
 **Позиция только инлайн-стилем** (left/top/fontSize), не через `#id {}`: копии для slice/rgb теряют id и должны встать точно на место.
 
@@ -56,7 +56,7 @@ source: пользователь 2026-10-25 03:01 и 03:04 («сохрани э�
 - `SK.shrink`: схлопывание стикеров.
 
 ### Камера (K) и переходы
-- `SK.punch('#cam', t, 1.12)`: панч-ин или панч-аут резом с зум-блюром 7 px за 0.16 с. **Держим ≤1.12** ([[sharpness-guard]]).
+- `CAM(t, S, {blur, rot, drift, until})` (в примере v4): смена крупности резом — общий 1.0 / средний 1.3–1.45 / крупный 1.8–1.9, зум-блюр, докрутка, дрейф; `#behind` контр-масштабируется. Подробно [[camera-zoom-pro]]. `SK.punch` — простой вариант без контр-масштаба.
 - `SK.push('#cam', a, b, 1.06)`: медленный наезд внутри сцены.
 - Открытие из окошка: кадр `#win0` scale 0.58 → 1 с радиусом. Закрытие наоборот (рифма «начало = конец»).
 - `SK.flash(el, t, цвет)`: вспышка 2–3 кадра. Белая на резе в продукт, красная на вердикте.
@@ -138,7 +138,7 @@ source: пользователь 2026-10-25 03:01 и 03:04 («сохрани э�
 
 ## 6. Чек перед показом
 - `node tools/readcheck/readcheck.mjs <comp>` → 0 FAIL / 0 OVERLAP. Призраки slice/rgb помечены `aria-hidden`, readcheck их пропускает.
-- Кадры 1:1 на каждом переходе: ничего не обрезано краем (широкие слова ≤ 960 px при панч-ине 1.12).
+- Кадры 1:1 на каждом переходе и крупности: ничего не обрезано краем, не залезает на лицо, `readcheck` SAFE чист (кнопки справа x>910 при y 640–1480, низ >1480, верх <210).
 - Контраст жёлтого на светлой стене: `sk-lift` обязателен.
 
 Связано: [[ref-captions-pro-2026-10-25]], [[caption-styles-catalog]], [[text-in-space]], [[uchebnik-anti-ai]], [[reading-time]], [[sfx-expressive]].

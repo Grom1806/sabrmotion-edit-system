@@ -20,18 +20,20 @@
   #win0bar { position:absolute; left:0; right:0; top:0; height:70px; background:rgba(14,14,16,.92); display:flex; align-items:center; gap:14px; padding:0 26px; z-index:30; }
   #win0bar i { width:20px; height:20px; border-radius:50%; display:block; }
   #win0bar b { font-family:"SKUI"; font-weight:600; font-size:28px; color:rgba(255,255,255,.8); margin-left:12px; }
-  #cam { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:445px 950px; }
+  #cam { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:445px 940px; }
+  #behind { transform-origin:445px 940px; }  /* контр-масштаб: тексты и окна стоят на экране, комната и человек приближаются */
   .layer { position:absolute; left:0; top:0; width:1080px; height:1920px; }
-  .c { left:0; right:0; text-align:center; }
+  .c { left:40px; right:170px; text-align:center; }  /* центр 475: колонка кнопок Reels/TikTok справа (x>910) */
+  .cw { left:40px; right:40px; text-align:center; }   /* только для y<640, где кнопок нет */
   /* сцены-перебивки */
   #scY { background:
       linear-gradient(rgba(0,0,0,.07) 2px, transparent 2px) 0 0/90px 90px,
       linear-gradient(90deg, rgba(0,0,0,.07) 2px, transparent 2px) 0 0/90px 90px,
       radial-gradient(circle at 50% 45%, #FFF3A8 0%, #EAD43A 55%, #D9BE1E 100%); overflow:hidden; }
-  #dev { position:absolute; left:250px; top:520px; width:580px; height:840px; border-radius:58px; overflow:hidden; background:#0E0E10;
+  #dev { position:absolute; left:300px; top:540px; width:480px; height:700px; border-radius:58px; overflow:hidden; background:#0E0E10;
          box-shadow: inset 0 0 0 10px #0E0E10, 0 40px 90px rgba(0,0,0,.35); }
-  #dev video { position:absolute; left:10px; top:10px; width:560px; height:820px; border-radius:48px; object-fit:cover; }
-  #pip { position:absolute; left:40px; top:1690px; width:200px; height:200px; border-radius:36px; overflow:hidden; box-shadow:0 0 0 5px #0E0E10, 0 20px 50px rgba(0,0,0,.35); }
+  #dev video { position:absolute; left:10px; top:10px; width:460px; height:680px; border-radius:48px; object-fit:cover; }
+  #pip { position:absolute; left:50px; top:560px; width:200px; height:200px; border-radius:36px; overflow:hidden; box-shadow:0 0 0 5px #0E0E10, 0 20px 50px rgba(0,0,0,.35); }
   #pip video { position:absolute; left:-131px; top:-392px; width:560px; height:996px; object-fit:cover; }
   #scW { background:#F6F5F1; }
   #leak { background: radial-gradient(ellipse 60% 45% at 40% 45%, rgba(255,170,60,.95), rgba(255,110,20,.55) 45%, rgba(255,80,0,0) 75%); mix-blend-mode:screen; }
@@ -48,9 +50,9 @@
   .band { position:absolute; left:-60px; width:1200px; height:270px; background:#E5162B; box-shadow:0 30px 70px rgba(0,0,0,.35); }
   .ipad { position:absolute; left:50%; top:50%; width:300px; height:220px; margin:-110px 0 0 -150px; border-radius:22px; background:#0E0E10; }
   .ipad::after { content:""; position:absolute; inset:12px; border-radius:12px; background:linear-gradient(150deg,#9AD5FF,#3F6BFF 50%,#B03CFF); }
-  .iph { position:absolute; left:50%; top:50%; width:170px; height:330px; margin:-165px 0 0 -85px; border-radius:36px; background:#0E0E10; }
+  .iph { position:absolute; left:50%; top:50%; width:140px; height:270px; margin:-135px 0 0 -70px; border-radius:36px; background:#0E0E10; }
   .iph::after { content:""; position:absolute; inset:9px; border-radius:28px; background:linear-gradient(160deg,#FFE15A,#FF7A1A 50%,#E5162B); }
-  .iph::before { content:""; position:absolute; left:58px; top:18px; width:54px; height:16px; border-radius:8px; background:#0E0E10; z-index:2; }
+  .iph::before { content:""; position:absolute; left:45px; top:16px; width:54px; height:16px; border-radius:8px; background:#0E0E10; z-index:2; }
 </style>
 </head>
 <body>
@@ -60,9 +62,9 @@
   <!-- окно-кадр: открытие из окошка и возврат в окошко в финале -->
   <div id="win0">
     <div id="cam">
-      <video id="head" class="full clip" src="assets/head.mp4" data-start="0" data-duration="25.62" data-media-start="0" muted playsinline></video>
+      <video id="head" class="full clip" src="assets/head_hi.mp4" data-start="0" data-duration="25.62" data-media-start="0" muted playsinline></video>
       <div id="behind" class="layer"></div>
-      <video id="person" class="full clip" src="assets/person.webm" data-start="0" data-duration="25.62" data-media-start="0" muted playsinline></video>
+      <video id="person" class="full clip" src="assets/person_hi.webm" data-start="0" data-duration="25.62" data-media-start="0" muted playsinline></video>
     </div>
     <div id="win0bar" aria-hidden="true"><i style="background:#E5162B"></i><i style="background:#EAD43A"></i><i style="background:#19C46B"></i><b>iPhone_Duo.mov</b></div>
   </div>
@@ -96,8 +98,26 @@ const B = document.getElementById("behind"), F = document.getElementById("front"
 const Y = document.getElementById("scY"), W = document.getElementById("scW");
 // T(родитель, классы, текст, x|'c', y, размер, доп.стили) — позиция только инлайн, чтобы копии (slice/rgb) вставали точно
 function T(p, cls, txt, x, y, size, css = {}) {
-  const el = SK.mk(p, "sk " + cls + (x === "c" ? " c" : ""), txt, Object.assign({ top: y + "px", fontSize: size + "px" }, x === "c" ? {} : { left: x + "px" }, css));
+  const ctr = x === "c" || x === "cw";
+  const el = SK.mk(p, "sk " + cls + (ctr ? " " + x : ""), txt, Object.assign({ top: y + "px", fontSize: size + "px" }, ctr ? {} : { left: x + "px" }, css));
   return el;
+}
+// ═══ Камера как в рефах: общий 1.0 / средний 1.3–1.45 / крупный 1.8–1.9.
+// Смена крупности = рез с зум-блюром (+ лёгкая докрутка), дальше медленный дрейф 3–7 %. #behind контр-масштабируется.
+function CAM(t, S, o = {}) {
+  const d = o.dur ?? 0.18, ease = o.ease ?? "expo.out";
+  tl.to("#cam", { scale: S, duration: d, ease }, t);
+  tl.to("#behind", { scale: 1 / S, duration: d, ease }, t);
+  if (o.cut !== false) {
+    tl.fromTo("#cam", { filter: `blur(${o.blur ?? 9}px)` }, { filter: "blur(0px)", duration: d + .08, ease: "power2.out", immediateRender: false }, t);
+    tl.set("#cam", { filter: "none" }, t + d + .09);
+  }
+  if (o.rot) tl.fromTo("#cam", { rotation: o.rot }, { rotation: 0, duration: d + .22, ease: "back.out(2)", immediateRender: false }, t);
+  if (o.drift) DRIFT(t + d, o.until, S, S * o.drift, o.dease);
+}
+function DRIFT(a, b, S0, S1, ease = "none") {
+  tl.fromTo("#cam", { scale: S0 }, { scale: S1, duration: b - a, ease, immediateRender: false }, a);
+  tl.fromTo("#behind", { scale: 1 / S0 }, { scale: 1 / S1, duration: b - a, ease, immediateRender: false }, a);
 }
 // фраза-субтитр = один .cap (единица проверки чтения), слова внутри — отдельные блоки
 function CAP(p) { const d = SK.mk(p, "cap layer"); return d; }
@@ -111,50 +131,52 @@ tl.to("#win0bar", { autoAlpha: 0, duration: 0.15 }, 0.45);
 
 const A1 = CAP(B);
 const a1 = T(A1, "sk-script sk-y sk-lift", "Самый", 110, 430, 120);
-const a2 = T(A1, "sk-cond sk-y sk-lift", "дорогой", "c", 590, 250);
+const a2 = T(A1, "sk-cond sk-y sk-lift", "дорогой", "c", 640, 210);
 const A1f = CAP(F);
-const a3 = T(A1f, "sk-script sk-w sk-lift", "iPhone", 600, 930, 130);
+const a3 = T(A1, "sk-script sk-w sk-lift", "iPhone", 640, 440, 120);
 SK.pop(a1, 0.02, { from: 0.7 });
 SK.bounce(a2, 0.72);
 SK.slide(a3, 1.50, { dir: 1 });
+// наезд-«свинг» на ДОРОГОЙ: средний план, голова заходит на буквы
+CAM(0.70, 1.35, { dur: .5, ease: "power3.out", cut: false, drift: 1.04, until: 1.78 });
 SK.whip([a1, a2], 1.76, "up", { dist: 700 });
 SK.whip(a3, 1.76, "right", { dist: 700 });
+CAM(1.80, 1.0, { blur: 8, drift: 1.04, until: 3.08 });
 
 // окно с официальным роликом + курсор
-const wA = SK.win(B, { x: 610, y: 260, w: 410, h: 560, title: "Apple · iPhone Duo", style: "glass",
+const wA = SK.win(B, { x: 640, y: 230, w: 360, h: 380, title: "Apple · iPhone Duo", style: "glass",
   html: '<video id="v1" class="clip" src="assets/c1_hook.mp4" data-start="1.80" data-duration="1.30" data-media-start="0" muted playsinline></video>' });
 SK.open(wA, 1.80, { rot: 8, endRot: 3 });
 const cur = SK.cursor(F); gsap.set(cur, { x: 980, y: 1500 });
-SK.glide(cur, 2.05, 800, 640, 0.5); SK.click(cur, 2.62);
+SK.glide(cur, 2.05, 800, 480, 0.5); SK.click(cur, 2.62);
 tl.to(wA, { scale: 1.06, duration: 0.08, yoyo: true, repeat: 1 }, 2.62);
 const A2 = CAP(F);
-const a4 = T(A2, "sk-script sk-w sk-lift", "только что", 120, 1180, 96);
-const a5 = T(A2, "sk-cond sk-y sk-lift", "поступил", "c", 1280, 230);
-const a6 = T(A2, "sk-script sk-w sk-lift", "в продажу", 470, 1510, 104);
+const a4 = T(A2, "sk-script sk-w sk-lift", "только что", 110, 1110, 92);
+const a5 = T(A2, "sk-cond sk-y sk-lift", "поступил", "c", 1200, 175);
+const a6 = T(A2, "sk-script sk-w sk-lift", "в продажу", 420, 1365, 92);
 SK.pop(a4, 1.80); SK.slice(a5, 2.14); SK.pop(a6, 2.62);
 SK.whip([a4, a5, a6], 3.04, "down");
 SK.whip(wA, 3.04, "right", { dist: 600 });
 tl.set(cur, { autoAlpha: 0 }, 3.04);
 
 /* ═══ B · «стоит ли она своих денег?» — панч-ин, слова за головой и на груди ═══ */
-SK.punch("#cam", 3.10, 1.12);
+CAM(3.10, 1.8, { blur: 12, rot: 1.2, drift: 1.03, until: 4.30 });
 const B1 = CAP(B);
-const b1 = T(B1, "sk-cond sk-y sk-lift", "стоит ли", "c", 610, 225);
+const b1 = T(B1, "sk-cond sk-y sk-lift", "стоит ли", "c", 470, 190);
 const B2 = CAP(F);
-const b2 = T(B2, "sk-script sk-w sk-lift", "она своих", 110, 1220, 104);
-const b3 = T(B2, "sk-cond sk-y sk-lift", "денег?", "c", 1320, 260, { transform: "rotate(-3deg)" });
+const b2 = T(B2, "sk-script sk-w sk-lift", "она своих", 100, 1225, 92);
+const b3 = T(B2, "sk-cond sk-y sk-lift", "денег?", "c", 1300, 170, { transform: "rotate(-3deg)" });
 SK.pop(b1, 3.10); SK.pop(b2, 3.60); SK.pop(b3, 3.96, { from: 1.6, back: 1.8 });
 SK.whip([b1], 4.10, "up", { dist: 700 }); SK.whip([b2, b3], 4.28, "left", { dist: 900 });
 
 /* ═══ C · «я думаю — нет» — слайд-стек справа + красная кнопка «стоп» ═══ */
-SK.punch("#cam", 4.32, 1.0);
-SK.push("#cam", 4.48, 5.26, 1.05);
+CAM(4.32, 1.0, { blur: 10, drift: 1.05, until: 5.28 });
 const C1 = CAP(F);
-const c1 = T(C1, "sk-sans sk-w sk-lift", "я", 600, 620, 100);
-const c2 = T(C1, "sk-sans sk-w sk-lift", "думаю", 600, 715, 104);
-const c3 = T(C1, "sk-sans sk-y sk-bloom", "нет", 592, 815, 200);
-const stop = SK.mk(F, "stop", '<svg viewBox="0 0 100 100" width="190" height="190"><rect x="22" y="44" width="56" height="12" rx="6" fill="#fff"/></svg>', { left: "840px", top: "1110px" });
-SK.slide(c1, 4.32); SK.slide(c2, 4.70);
+const c1 = T(C1, "sk-sans sk-w sk-lift", "я", 110, 300, 96);
+const c2 = T(C1, "sk-sans sk-w sk-lift", "думаю", 110, 395, 116);
+const c3 = T(C1, "sk-sans sk-y sk-bloom", "нет", 100, 505, 230);
+const stop = SK.mk(F, "stop", '<svg viewBox="0 0 100 100" width="190" height="190"><rect x="22" y="44" width="56" height="12" rx="6" fill="#fff"/></svg>', { left: "690px", top: "540px" });
+SK.slide(c1, 4.32, { dir: -1 }); SK.slide(c2, 4.70, { dir: -1 });
 SK.rgb(c3, 4.96); SK.spring(stop, 5.00, { rot: -30 });
 tl.to(c3, { scale: 1.06, duration: .5, ease: "sine.inOut" }, 5.2);
 
@@ -168,36 +190,35 @@ SK.open("#dev", 5.36, { rot: -6, endRot: 0, dur: 0.6 });
 tl.to("#dev", { y: -18, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 3 }, 5.96);
 gsap.set("#pip", { autoAlpha: 0 }); SK.spring("#pip", 5.50, { rot: 10 });
 const D1 = CAP(Y);
-const d1 = T(D1, "sk-ui sk-k", "когда она", "c", 120, 60);
-const d2 = T(D1, "sk-cond sk-k", "сложена", "c", 190, 235);
-const d3 = T(D1, "sk-script sk-k", "простой", 350, 1400, 104);
-const d4 = T(D1, "sk-cond sk-r", "iPhone", 380, 1500, 200, { textTransform: "none" });
+const d1 = T(D1, "sk-ui sk-k", "когда она", "cw", 235, 56);
+const d2 = T(D1, "sk-cond sk-k", "сложена", "cw", 300, 215);
+const d3 = T(D1, "sk-script sk-k", "простой", 100, 1268, 72);
+const d4 = T(D1, "sk-cond sk-r", "iPhone", 100, 1330, 150, { textTransform: "none" });
 SK.scan(d1, 5.30, { color: "#0E0E10" }); SK.slice(d2, 6.10); SK.pop(d3, 6.62); SK.bounce(d4, 7.12, { y: -140 });
 SK.whip([d1, d2], 7.26, "up", { dist: 600 }); SK.whip([d3, d4], 7.26, "down", { dist: 600 });
 // поворот устройства: сложена → раскрыта
 tl.to("#dev", { rotationY: 344, duration: 0.42, ease: "power3.inOut" }, 7.30);
 gsap.set("#v3", { autoAlpha: 0 }); tl.set("#v3", { autoAlpha: 1 }, 7.48); tl.set("#v2", { autoAlpha: 0 }, 7.48);
 const D2 = CAP(Y);
-const d5 = T(D2, "sk-ui sk-k", "когда", "c", 120, 60);
-const d6 = T(D2, "sk-cond sk-k", "раскрыта", "c", 190, 235);
-const d7 = T(D2, "sk-script sk-k", "просто", 330, 1400, 104);
-const d8 = T(D2, "sk-cond sk-r", "iPad mini", "c", 1500, 200, { textTransform: "none" });
+const d5 = T(D2, "sk-ui sk-k", "когда", "cw", 235, 56);
+const d6 = T(D2, "sk-cond sk-k", "раскрыта", "cw", 300, 215);
+const d7 = T(D2, "sk-script sk-k", "просто", 100, 1268, 72);
+const d8 = T(D2, "sk-cond sk-r", "iPad mini", 100, 1330, 150, { textTransform: "none" });
 SK.scan(d5, 7.50, { color: "#0E0E10" }); SK.slice(d6, 7.68); SK.pop(d7, 8.22); SK.letters(d8, 8.60, { stagger: 0.045 });
 tl.to("#scY", { yPercent: -100, duration: 0.22, ease: "power3.in" }, 9.10);
 tl.set([D2], { autoAlpha: 0 }, 9.32);
 tl.set("#scY", { autoAlpha: 0 }, 9.32);
 
 /* ═══ E · «и она стоит как MacBook или три айпада» — окна вокруг головы, караоке на груди ═══ */
-SK.push("#cam", 9.20, 11.82, 1.06);
-tl.set("#cam", { scale: 1.0 }, 9.18);
-const wM = SK.win(B, { x: 600, y: 300, w: 430, h: 340, title: "MacBook Pro", style: "glass", html: '<img src="assets/macbook.jpg">' });
+CAM(9.14, 1.3, { cut: false, dur: .02, drift: 1.05, until: 10.78 });
+const wM = SK.win(B, { x: 600, y: 270, w: 430, h: 340, title: "MacBook Pro", style: "glass", html: '<img src="assets/macbook.jpg">' });
 SK.open(wM, 10.30, { rot: 7, endRot: 3 });
 const eq = T(B, "sk-cond sk-y sk-lift", "=", 500, 380, 170); SK.spring(eq, 10.80, { rot: 0 });
 const tiles = [0, 1, 2].map(i => SK.mk(B, "tile", null, { left: 70 + i * 140 + "px", top: 400 + (i % 2) * 40 + "px", transform: `rotate(${[-8, 3, 9][i]}deg)` }));
 tiles.forEach((t, i) => SK.spring(t, 11.16 + i * 0.14, { rot: [-30, 20, 35][i] }));
 const E1 = CAP(F);
-const e1 = T(E1, "sk-sans sk-w", "и она стоит как", "c", 1270, 74);
-const e2 = T(E1, "sk-cond", "MacBook", "c", 1350, 190, { textTransform: "none", color: "#fff" });
+const e1 = T(E1, "sk-sans sk-w", "и она стоит как", "c", 1200, 66);
+const e2 = T(E1, "sk-cond", "MacBook", "c", 1280, 170, { textTransform: "none", color: "#fff" });
 const ew = ["и", "она", "стоит", "как"].map(w => `<span>${w}</span>`).join(" ");
 e1.innerHTML = ew;
 gsap.set(E1, { autoAlpha: 0 }); tl.set(E1, { autoAlpha: 1 }, 9.32);
@@ -207,9 +228,10 @@ SK.karaoke([[es[0], 9.32], [es[1], 9.52], [es[2], 9.80], [es[3], 10.10], [e2, 10
 tl.to(e2, { color: "#EAD43A", textShadow: "0 0 1px #fff7c2, 0 0 14px rgba(255,222,60,.75), 0 0 42px rgba(255,200,0,.45)", duration: .08 }, 10.34);
 SK.whip(E1, 10.58, "down", { dist: 500 });
 const E2 = CAP(F);
-const e3 = T(E2, "sk-script sk-w sk-lift", "или", "c", 1240, 110);
-const e4 = T(E2, "sk-cond sk-y sk-bloom", "три айпада", "c", 1360, 200);
+const e3 = T(E2, "sk-script sk-w sk-lift", "или", "c", 1185, 100);
+const e4 = T(E2, "sk-cond sk-y sk-bloom", "три айпада", "c", 1290, 150);
 SK.pop(e3, 10.80); SK.slide(e4, 11.16, { dir: -1 });
+CAM(10.80, 1.6, { blur: 10, drift: 1.03, until: 11.82 });
 SK.whip(E2, 11.80, "down");
 SK.whip([wM, eq, ...tiles], 11.80, "up", { dist: 900 });
 
@@ -227,33 +249,34 @@ tl.to(sw, { strokeDashoffset: 0, duration: .22, ease: "power2.out" }, 12.56);
 tl.set("#scW", { autoAlpha: 0 }, 12.86);
 
 /* ═══ G · шарнир крупно ═══ */
-tl.set("#v4", { autoAlpha: 1 }, 12.80); tl.set("#v4", { autoAlpha: 0 }, 13.82);
+tl.set("#v4", { autoAlpha: 1 }, 12.80);
+tl.fromTo("#v4", { scale: 1 }, { scale: 1.22, duration: 1.02, ease: "sine.inOut", immediateRender: false }, 12.80); tl.set("#v4", { autoAlpha: 0 }, 13.82);
 SK.flash("#flash", 12.78, "#fff", .1);
 const G1 = CAP(TOP);
-const g1 = T(G1, "sk-cond sk-y sk-bloom", "iPhone Duo", "c", 1500, 210, { textTransform: "none" });
+const g1 = T(G1, "sk-cond sk-y sk-bloom", "iPhone Duo", "c", 1260, 170, { textTransform: "none" });
 SK.rgb(g1, 12.84);
 tl.set(G1, { autoAlpha: 0 }, 13.82);
 
 /* ═══ H · цены вокруг головы: карточка сверху (за головой), чип справа, субтитры на груди ═══ */
-tl.set("#cam", { scale: 1.12 }, 13.80);
-SK.punch("#cam", 13.82, 1.0, { dur: .22 });
+tl.set("#cam", { scale: 1.3 }, 13.79); tl.set("#behind", { scale: 1 / 1.3 }, 13.79);
+CAM(13.82, 1.0, { dur: .24, blur: 10, drift: 1.05, until: 18.04 });
 SK.leak("#leak", 13.74, 0.55);
-const pc = SK.mk(B, "chip", null, { left: "150px", top: "300px", width: "760px", height: "400px" });
-const pZa = T(pc, "sk-script sk-y", "за", 46, 34, 84);
-const price = T(pc, "sk-cond sk-w", "$0", "c", 110, 250, { fontVariantNumeric: "tabular-nums" });
+const pc = SK.mk(B, "chip", null, { left: "40px", top: "260px", width: "560px", height: "300px" });
+const pZa = T(pc, "sk-script sk-y", "за", 36, 18, 70);
+const price = T(pc, "sk-cond sk-w", "$0", "cw", 70, 170, { fontVariantNumeric: "tabular-nums" });
 price.id = "price"; price.dataset.read = "text";
-const pUsd = T(pc, "sk-ui", "долларов", "c", 336, 34, { color: "rgba(255,255,255,.6)" });
+const pUsd = T(pc, "sk-ui", "долларов", "cw", 246, 30, { color: "rgba(255,255,255,.6)" });
 gsap.set(pc, { autoAlpha: 0 });
 SK.open(pc, 13.84, { rot: -5, endRot: -2 });
 SK.count(price, 14.08, 0, 2000, .5, v => "$" + Math.round(v).toLocaleString("ru-RU"));
-const st = SK.mk(B, "chip", null, { left: "625px", top: "830px", width: "390px", height: "250px" });
-const stN = T(st, "sk-cond sk-y", "256 ГБ", 34, 40, 120); stN.id = "stN";
-const stB = SK.mk(st, "bar", "<i></i>", { left: "34px", top: "190px", width: "322px" });
+const st = SK.mk(B, "chip", null, { left: "640px", top: "260px", width: "360px", height: "210px" });
+const stN = T(st, "sk-cond sk-y", "256 ГБ", 28, 30, 100); stN.id = "stN";
+const stB = SK.mk(st, "bar", "<i></i>", { left: "28px", top: "160px", width: "300px" });
 SK.spring(st, 15.78, { rot: 8 });
 gsap.set(stB.firstChild, { scaleX: 0 });
 tl.to(stB.firstChild, { scaleX: 0.12, duration: .4, ease: "back.out(2)" }, 16.0);
 const H1 = CAP(F);
-const h1 = T(H1, "sk-sans sk-w", "<span>и</span> <span>получаете</span> <span>только</span>", "c", 1300, 78);
+const h1 = T(H1, "sk-sans sk-w", "<span>и</span> <span>получаете</span> <span>только</span>", "c", 1300, 64);
 gsap.set(H1, { autoAlpha: 0 }); tl.set(H1, { autoAlpha: 1 }, 14.90);
 tl.fromTo(H1, { y: 50 }, { y: 0, duration: .3, ease: "back.out(2)", immediateRender: false }, 14.90);
 const hs = h1.querySelectorAll("span");
@@ -262,24 +285,25 @@ tl.to(hs[2], { color: "#EAD43A", duration: .08 }, 15.56);
 SK.whip(H1, 16.90, "down");
 // вторая цена: панч-ин, счётчик 2000 → 3000, чип → 2 ТБ
 const H2 = CAP(F);
-const h2 = T(H2, "sk-script sk-y sk-lift", "а за", "c", 1250, 110);
-const h3 = T(H2, "sk-sans sk-w", "<span>и</span> <span>получаете</span>", "c", 1390, 78);
+const h2 = T(H2, "sk-script sk-y sk-lift", "а за", "c", 1230, 110);
+const h3 = T(H2, "sk-sans sk-w", "<span>и</span> <span>получаете</span>", "c", 1370, 74);
 SK.pop(h2, 17.20);
 gsap.set(h3, { autoAlpha: 0 }); tl.set(h3, { autoAlpha: 1 }, 18.88);
 const h3s = h3.querySelectorAll("span"); SK.karaoke([[h3s[0], 18.88], [h3s[1], 19.08]]);
-SK.punch("#cam", 18.04, 1.09);
+CAM(18.04, 1.45, { blur: 10, rot: -1.2, drift: 1.04, until: 20.30 });
 SK.count(price, 18.04, 2000, 3000, .5, v => "$" + Math.round(v).toLocaleString("ru-RU"));
 tl.fromTo(pc, { scale: 1 }, { scale: 1.07, duration: .1, yoyo: true, repeat: 1, immediateRender: false }, 18.04);
-const stN2 = T(st, "sk-cond sk-y", "2 ТБ", 34, 40, 120); stN2.id = "stN2"; gsap.set(stN2, { autoAlpha: 0 });
+const stN2 = T(st, "sk-cond sk-y", "2 ТБ", 28, 30, 100); stN2.id = "stN2"; gsap.set(stN2, { autoAlpha: 0 });
 SK.fade(stN, 19.76, .06); SK.slice(stN2, 19.80, { dist: 200 });
 tl.to(stB.firstChild, { scaleX: 1, duration: .5, ease: "back.out(1.6)" }, 20.0);
 SK.whip(H2, 20.30, "down");
 // «которая очень медленная»: полоса ползёт, буквы растягиваются
-SK.punch("#cam", 20.56, 1.0);
+CAM(20.30, 1.0, { blur: 8 });
+DRIFT(20.56, 21.84, 1.0, 1.15, "sine.in");  // «очень медленная» — камера ползёт
 const H3 = CAP(F);
-const h4 = T(H3, "sk-script sk-w sk-lift", "которая", 120, 1220, 100);
-const h5 = T(H3, "sk-cond sk-y sk-lift", "очень", 120, 1330, 200);
-const h6 = T(H3, "sk-cond sk-y sk-lift", "медленная", "c", 1520, 200);
+const h4 = T(H3, "sk-script sk-w sk-lift", "которая", 110, 1150, 92);
+const h5 = T(H3, "sk-cond sk-y sk-lift", "очень", 110, 1235, 130);
+const h6 = T(H3, "sk-cond sk-y sk-lift", "медленная", 110, 1350, 130);
 SK.pop(h4, 20.56); SK.bounce(h5, 20.90, { y: -150 }); SK.slide(h6, 21.18, { dir: -1, dur: .5 });
 tl.fromTo(h6, { letterSpacing: "-0.005em" }, { letterSpacing: "0.06em", duration: .7, ease: "sine.out", immediateRender: false }, 21.25);
 tl.to(stB.firstChild, { background: "#E5162B", duration: .15 }, 20.60);
@@ -289,28 +313,28 @@ SK.whip([pc, st], 21.84, "up", { dist: 900 });
 
 /* ═══ I · «и не советую» — красная вспышка, панч-ин, красная лента ЗА головой ═══ */
 SK.flash("#flash", 21.96, "#E5162B", .12);
-SK.punch("#cam", 21.98, 1.12);
-const band = SK.mk(B, "band", null, { top: "560px", transform: "rotate(-4deg)" });
+CAM(21.98, 1.9, { blur: 14, rot: 1.5, drift: 1.03, until: 23.20 });
+const band = SK.mk(B, "band", null, { top: "470px", height: "230px", transform: "rotate(-4deg)" });
 const I1 = CAP(band);
-const i1 = T(I1, "sk-cond sk-w", "не", 130, 52, 165);
-const i2 = T(I1, "sk-cond sk-w", "советую", 320, 52, 165);
+const i1 = T(I1, "sk-cond sk-w", "не", 130, 40, 150);
+const i2 = T(I1, "sk-cond sk-w", "советую", 300, 40, 150);
 gsap.set(band, { autoAlpha: 0 }); tl.set(band, { autoAlpha: 1 }, 21.98);
 tl.fromTo(band, { xPercent: -110 }, { xPercent: 0, duration: .26, ease: "expo.out", immediateRender: false }, 21.98);
 SK.pop(i1, 22.00, { from: 0.4 }); SK.slice(i2, 22.44, { dist: 300 });
 SK.whip(band, 23.16, "right", { dist: 1300 });
 
 /* ═══ J · «лучше купить айпад или iPhone» — два окна, «или» между ними ═══ */
-SK.punch("#cam", 23.24, 1.0);
+CAM(23.24, 1.0, { blur: 10, drift: 1.07, until: 25.10 });
 const wP = SK.win(B, { x: 40, y: 300, w: 400, h: 400, title: "iPad", style: "glass", html: '<div class="ipad"></div>' });
-const wI = SK.win(B, { x: 640, y: 270, w: 400, h: 460, title: "iPhone", style: "glass", html: '<div class="iph"></div>' });
+const wI = SK.win(B, { x: 600, y: 270, w: 400, h: 360, title: "iPhone", style: "glass", html: '<div class="iph"></div>' });
 SK.open(wP, 24.24, { rot: -9, endRot: -3 });
 SK.open(wI, 24.96, { rot: 9, endRot: 3 });
 const J0 = CAP(B);
-const j0 = T(J0, "sk-script sk-y sk-lift", "или", "c", 430, 120);
+const j0 = T(J0, "sk-script sk-y sk-lift", "или", 470, 400, 110);
 SK.pop(j0, 24.70);
 const J1 = CAP(F);
-const j1 = T(J1, "sk-script sk-w sk-lift", "лучше", 140, 1220, 110);
-const j2 = T(J1, "sk-cond sk-y sk-lift", "купить", "c", 1320, 240);
+const j1 = T(J1, "sk-script sk-w sk-lift", "лучше", 110, 1140, 104);
+const j2 = T(J1, "sk-cond sk-y sk-lift", "купить", "c", 1230, 200);
 SK.pop(j1, 23.28); SK.bounce(j2, 23.72);
 // финал: всё уходит вниз, кадр снова сжимается в окошко (рифма с открытием)
 SK.whip([J1], 25.24, "down");
